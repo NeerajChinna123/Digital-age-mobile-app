@@ -16,11 +16,14 @@ export default function StackNavigator() {
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
             <>
-                <Stack.Screen name="Login" component={LoginScreen} />
-                <Stack.Screen name="Home" component={HomeScreen} />
-
-                {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
-                <Stack.Screen name="Chat" component={ChatScreen} />
+                <Stack.Group>
+                    <Stack.Screen name="Login" component={LoginScreen} />
+                    <Stack.Screen name="Home" component={HomeScreen} />
+                </Stack.Group>
+                <Stack.Group screenOptions={{presentation:'modal'}}>
+                    {/* <Stack.Screen name="Home" component={HomeScreen} /> */}
+                    <Stack.Screen name="Chat" component={ChatScreen} />
+                </Stack.Group>
             </>
         </Stack.Navigator>
 

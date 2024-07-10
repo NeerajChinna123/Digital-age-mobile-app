@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, SafeAreaView, TouchableOpacity, Image } from 'react-native';
-import { useLayoutEffect } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import Swiper from "react-native-deck-swiper";
 
 import { AntDesign, Entypo, Ionicons } from "@expo/vector-icons";
@@ -64,6 +64,8 @@ export default function HomeScreen() {
 
     ]
 
+    const swiperRef = useRef(null);
+
     return (
         <SafeAreaView>
 
@@ -73,7 +75,7 @@ export default function HomeScreen() {
                 </TouchableOpacity>
 
 
-                <TouchableOpacity >
+                <TouchableOpacity  onPress={() => navigation.navigate("Chat")} >
                     <Image className="h-12 w-12 rounded-full" source={require('../tind-1.png')} />
                 </TouchableOpacity>
 
@@ -83,19 +85,85 @@ export default function HomeScreen() {
 
             </View>
 
-            <View className="mt-[-10] flex-1">
-                <Swiper containerStyle={{ backgroundColor: "transparent" }} cards={data} stackSize={5} cardIndex={0} animateCardOpacity renderCard={(card) => (
-                    <View key={card.id} className="relative bg-white h-3/4 rounded-xl">
+            <View className="mt-[-32] ">
+                <Swiper
+                    ref={swiperRef}
+                    onSwipedLeft={() => { console.log('Swiped Pass') }}
+                    onSwipedRight={() => { console.log('Swiped Match') }}
+                    overlayLabels={{
+                        left: {
+                            title: "NOPE",
+                            style: {
+                                label: {
+                                    textAlign: "right",
+                                    color: "red"
+                                }
+                            }
+                        },
+                        right: {
+                            title: "MATCH",
+                            style: {
+                                label: {
+                                    textAlign: "LEFT",
+                                    color: "#4DED30"
+                                }
+                            }
+                        }
+                    }}
 
-                        <Image className="h-full w-full absolute top-0 rounded-xl" source={{ uri: card.photoUrl }} />
+                    containerStyle={{ backgroundColor: "transparent" }} cards={data} stackSize={3} cardIndex={0} animateCardOpacity renderCard={(card) => (
+                        <View key={card.id} className="relative bg-white h-3/4 rounded-xl ">
 
-                    </View>
-                )}   >
+                            <Image className="h-full w-full absolute top-0 rounded-xl" source={{ uri: card.photoUrl }} />
+                            <View style={[styles.cardShadow]} className="bg-white absolute bottom-0 w-full h-20 rounded-b-xl">
+                                <View className="flex-row justify-between px-4 py-6 ">
+                                    <View>
+                                        <Text className="font-bold text-xl">{card?.name}</Text>
+                                    </View>
+
+                                    <View>
+                                        <Text className="font-semibold text-xl">{card?.age}</Text>
+                                    </View>
+                                </View>
+                            </View>
+                        </View>
+                    )}   >
+
+
+
 
                 </Swiper>
+
+
+            </View>
+
+
+            <View className="flex-row justify-evenly mt-[163%]">
+                <View>
+                    <TouchableOpacity onPress={() => swiperRef?.current.swipeRight()} className="p-4 rounded-full bg-red-200 ">
+
+                        <Entypo name="cross" size={24} color="red" />
+                    </TouchableOpacity>
+                </View>
+
+                <View>
+                    <TouchableOpacity onPress={() => swiperRef?.current.swipeLeft()} className="p-4 rounded-full bg-green-200 ">
+                        <AntDesign name="heart" size={24} color="green" />
+                    </TouchableOpacity>
+                </View>
             </View>
         </SafeAreaView>
 
     );
 }
 
+const styles = StyleSheet.create({
+    cardShadow: {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0, height: 1,
+        },
+        shadowOpacity: 0.2, shadowRadius: 1.41,
+        elevation: 2,
+    },
+});
