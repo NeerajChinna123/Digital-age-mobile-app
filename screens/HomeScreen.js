@@ -1,8 +1,11 @@
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, SafeAreaView, TouchableOpacity, Image, ImageBackground } from 'react-native';
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState, useEffect } from 'react';
 import Swiper from "react-native-deck-swiper";
+import { Video } from 'expo-av';
+import * as Progress from 'react-native-progress';
+
 
 
 import { AntDesign, Entypo, Ionicons } from "@expo/vector-icons";
@@ -17,17 +20,19 @@ export default function HomeScreen() {
         category: "GENERAL",
         feed: "FOR_YOU",
         photoUrl: "https://media.licdn.com/dms/image/D4D03AQHr31DtXUh9GA/profile-displayphoto-shrink_400_400/0/1719036984229?e=1726099200&v=beta&t=6RhKkyLrJ7OF2iEiiRFwNFOtRgDyA-7mIZpBn2PE8uY",
-        post: "",
-        video: "../d1.mp4"
+        post: require('../d-p-p.png'),
+        video: "",
     },
     {
         id: 2,
         name: "User 2",
         userName: "@user2",
-        category: "SENSITIVE",
+        category: "EXPLICIT",
         feed: "FOR_YOU",
         photoUrl: "https://media.licdn.com/dms/image/D4D03AQHr31DtXUh9GA/profile-displayphoto-shrink_400_400/0/1719036984229?e=1726099200&v=beta&t=6RhKkyLrJ7OF2iEiiRFwNFOtRgDyA-7mIZpBn2PE8uY",
-        video: ""
+
+        video: require("../d1.mp4"),
+        post: "",
     },
     {
         id: 3,
@@ -55,7 +60,7 @@ export default function HomeScreen() {
         category: "GENERAL",
         feed: "FOLLOW",
         photoUrl: "https://media.licdn.com/dms/image/D4D03AQHr31DtXUh9GA/profile-displayphoto-shrink_400_400/0/1719036984229?e=1726099200&v=beta&t=6RhKkyLrJ7OF2iEiiRFwNFOtRgDyA-7mIZpBn2PE8uY",
-        video: "../d2.mp4"
+        video: require("../d2.mp4")
     },
     {
         id: 6,
@@ -70,7 +75,7 @@ export default function HomeScreen() {
         id: 7,
         name: "User 7",
         userName: "@user7",
-        category: "SENSITIVE",
+        category: "EXPLICIT",
         feed: "FOLLOW",
         photoUrl: "https://media.licdn.com/dms/image/D4D03AQHr31DtXUh9GA/profile-displayphoto-shrink_400_400/0/1719036984229?e=1726099200&v=beta&t=6RhKkyLrJ7OF2iEiiRFwNFOtRgDyA-7mIZpBn2PE8uY",
         video: ""
@@ -124,7 +129,7 @@ export default function HomeScreen() {
         id: 13,
         name: "User 13",
         userName: "@user13",
-        category: "SENSITIVE",
+        category: "EXPLICIT",
         feed: "RECENT",
         photoUrl: "https://media.licdn.com/dms/image/D4D03AQHr31DtXUh9GA/profile-displayphoto-shrink_400_400/0/1719036984229?e=1726099200&v=beta&t=6RhKkyLrJ7OF2iEiiRFwNFOtRgDyA-7mIZpBn2PE8uY",
         video: ""
@@ -146,7 +151,7 @@ export default function HomeScreen() {
         category: "GENERAL",
         feed: "RECENT",
         photoUrl: "https://media.licdn.com/dms/image/D4D03AQHr31DtXUh9GA/profile-displayphoto-shrink_400_400/0/1719036984229?e=1726099200&v=beta&t=6RhKkyLrJ7OF2iEiiRFwNFOtRgDyA-7mIZpBn2PE8uY",
-        video: "../d1.mp4"
+        video: require("../d1.mp4")
     },
     {
         id: 16,
@@ -155,7 +160,7 @@ export default function HomeScreen() {
         category: "GENERAL",
         feed: "RECENT",
         photoUrl: "https://media.licdn.com/dms/image/D4D03AQHr31DtXUh9GA/profile-displayphoto-shrink_400_400/0/1719036984229?e=1726099200&v=beta&t=6RhKkyLrJ7OF2iEiiRFwNFOtRgDyA-7mIZpBn2PE8uY",
-        video: "../d2.mp4"
+        video: require("../d2.mp4")
     }
 
     ]
@@ -164,13 +169,41 @@ export default function HomeScreen() {
 
     const [currentNav, setCurrentNav] = useState("FOR_YOU");
 
+    const forYouData = data.filter(item => item.feed === "FOR_YOU");
+
+    const [dataState, setDataState] = useState(forYouData);
+    const [progress, setProgress] = useState(0);
+
+    const onPlaybackStatusUpdate = (status) => {
+        if (status.isLoaded && status.isPlaying) {
+            setProgress(status.positionMillis / status.durationMillis);
+        }
+    };
+
+
+    // useEffect(() => {
+
+    //     videoRef.current.playAsync();
+
+    // }, []);
+
+
+    const filterData = (feed) => {
+        const filtered = data.filter(item => item.feed === feed);
+        setCurrentNav(feed)
+        setDataState(filtered);
+    }
+
+    const videoRef = useRef(null);
+
+
     return (
         <SafeAreaView className="flex-1" >
 
             <ImageBackground source={require('../bg-8.jpg')} className="flex-1" // Ensure the image file is in the correct path
             >
 
-                <SafeAreaView className="bg-black/50 bg-opacity-10 p-2">
+                <SafeAreaView className="bg-black/50 bg-opacity-10 flex-1 p-2">
                     <View className="flex flex-row justify-between items-center p-4">
                         <TouchableOpacity >
                             <Image className="h-10 w-10 rounded-full object-cover" source={{ uri: "https://media.licdn.com/dms/image/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/0/1681764031887?e=1726099200&v=beta&t=xj9Lxl6yRL2Wcb5imP_zspIqb1ZpIb5vm6Sbw6DQLow" }} />
@@ -189,7 +222,7 @@ export default function HomeScreen() {
 
                     <View className="flex flex-row justify-between px-4">
                         <View>
-                            <TouchableOpacity onPress={()=>setCurrentNav("FOR_YOU")} className={
+                            <TouchableOpacity onPress={() => filterData("FOR_YOU")} className={
                                 currentNav == "FOR_YOU" ? "font-semibold text-lg text-white bg-white/20 p-2 rounded-3xl transition transform duration-200 ease-in-out" :
                                     " p-2"}><Text className="font-semibold text-lg text-white"
                                     >
@@ -198,7 +231,7 @@ export default function HomeScreen() {
                         </View>
 
                         <View>
-                            <TouchableOpacity onPress={()=>setCurrentNav("FOLLOW")} className={
+                            <TouchableOpacity onPress={() => filterData("FOLLOW")} className={
                                 currentNav == "FOLLOW" ? "font-semibold text-lg text-white bg-white/20 p-2 rounded-3xl transition transform duration-200 ease-in-out" :
                                     " p-2"}><Text className="font-semibold text-lg text-white"
                                     >
@@ -207,7 +240,7 @@ export default function HomeScreen() {
                         </View>
 
                         <View>
-                            <TouchableOpacity onPress={()=>setCurrentNav("TRENDING")} className={
+                            <TouchableOpacity onPress={() => filterData("TRENDING")} className={
                                 currentNav == "TRENDING" ? "font-semibold text-lg text-white bg-white/20 p-2 rounded-3xl transition transform duration-200 ease-in-out" :
                                     " p-2"}><Text className="font-semibold text-lg text-white"
                                     >
@@ -217,7 +250,7 @@ export default function HomeScreen() {
 
 
                         <View>
-                            <TouchableOpacity onPress={()=>setCurrentNav("RECENT")} className={
+                            <TouchableOpacity onPress={() => filterData("RECENT")} className={
                                 currentNav == "RECENT" ? "font-semibold text-lg text-white bg-white/20 p-2 rounded-3xl transition transform duration-200 ease-in-out" :
                                     " p-2"}><Text className="font-semibold text-lg text-white"
                                     >
@@ -229,7 +262,7 @@ export default function HomeScreen() {
                     </View>
 
                     <View className="mt-[-32] ">
-                        {/* <Swiper
+                        <Swiper
                             ref={swiperRef}
                             onSwipedLeft={() => { console.log('Swiped Pass') }}
                             onSwipedRight={() => { console.log('Swiped Match') }}
@@ -254,20 +287,83 @@ export default function HomeScreen() {
                                 }
                             }}
 
-                            containerStyle={{ backgroundColor: "transparent" }} cards={data} stackSize={3} cardIndex={0} animateCardOpacity renderCard={(card) => (
-                                <View key={card.id} className="relative bg-white/20  h-[65%] rounded-xl ">
+                            containerStyle={{ backgroundColor: "transparent" }} cards={dataState} stackSize={1} cardIndex={0} animateCardOpacity renderCard={(card) => (
+                                <View key={card.id} className={card?.category == "GENERAL" ? "relative bg-black/40  h-[67%] rounded-xl border border-green-500 border-1" : "relative bg-black/40  h-[65%] rounded-xl border border-red-500 border-1"}>
+                                    <View className="flex flex-col space-y-2">
+                                        <View className="flex flex-row  p-4">
+                                            <Image className="h-14 w-14 rounded-full object-cover" source={{ uri: card?.photoUrl }} >
 
-                                  
+                                            </Image>
+
+                                            <View className="flex flex-col space-y-1 pl-4">
+                                                <Text className="font-semibold text-white text-lg">
+                                                    {card?.name}
+                                                </Text>
+                                                <Text className=" text-white opacity-80 text-[15%]">
+                                                    {card?.userName}
+                                                </Text>
+                                            </View>
+                                            <View className={card?.category == "GENERAL" ? "font-semibold ml-4  bg-green-500/20 bg-opacity-20  py-1 px-3 flex justify-center rounded-full text-lg" : "font-semibold  bg-red-500/20 bg-opacity-20 py-1 ml-4 px-3 flex justify-center rounded-full text-lg"}>
+                                                <Text className={card?.category == "GENERAL" ? "font-semibold text-green-600  text-center text-[15%]" : "font-semibold text-red-600 text-[15%]"}>
+                                                    {card?.category}
+                                                </Text>
+                                            </View>
+                                            <View className="ml-9">
+                                                <TouchableOpacity className="mt-1 bg-white/20 rounded-full p-3 self-end ">
+                                                    <Ionicons size={26} color="white" name="ellipsis-horizontal-outline"></Ionicons>
+                                                </TouchableOpacity>
+                                            </View>
+
+
+                                        </View>
+
+
+
+                                    </View>
+
+                                    {
+                                        card?.post &&
+                                        <Image className="h-[78%] w-[88%] absolute top-[18%] rounded-md object-cover  ml-5" source={card?.post} >
+
+                                        </Image>
+                                    }
+
+
+                                    {
+                                        card?.video &&
+                                        <>
+                                            <Video
+                                                ref={videoRef}
+                                                source={card?.video}
+                                                className="h-[78%] w-[88%] absolute top-[14%] rounded-md object-cover  ml-5"
+                                                // useNativeControls
+                                                shouldPlay
+                                                resizeMode="contain"
+                                                onPlaybackStatusUpdate={onPlaybackStatusUpdate}
+                                            />
+                                            {/* <Progress.Bar progress={progress} width={300} /> */}
+                                        </>
+
+
+
+                                    }
+
+
+
+
+
+
+
                                 </View>
                             )}   >
 
-                        </Swiper> */}
+                        </Swiper>
 
 
                     </View>
 
-                      {/* <Image className="h-full w-full absolute top-0 rounded-xl" source={{ uri: card.photoUrl }} /> */}
-                                    {/* <View style={[styles.cardShadow]} className="bg-white absolute bottom-0 w-full h-20 rounded-b-xl">
+                    {/* <Image className="h-full w-full absolute top-0 rounded-xl" source={{ uri: card.photoUrl }} /> */}
+                    {/* <View style={[styles.cardShadow]} className="bg-white absolute bottom-0 w-full h-20 rounded-b-xl">
                                         <View className="flex-row justify-between px-4 py-6 ">
                                             <View>
                                                 <Text className="font-bold text-xl">{card?.name}</Text>
