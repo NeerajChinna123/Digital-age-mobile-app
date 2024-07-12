@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, SafeAreaView, TouchableOpacity, Image, ImageBackground } from 'react-native';
 import { useLayoutEffect, useRef, useState, useEffect } from 'react';
 import Swiper from "react-native-deck-swiper";
-import { Video } from 'expo-av';
+import { Video, Audio } from 'expo-av';
 import * as Progress from 'react-native-progress';
 
 
@@ -165,6 +165,8 @@ export default function HomeScreen() {
 
     ]
 
+    const [indices, setIndices] = useState({ FOR_YOU: 0, FOLLOW: 0, TRENDING: 0, RECENT: 0 });
+
     const swiperRef = useRef(null);
 
     const [currentNav, setCurrentNav] = useState("FOR_YOU");
@@ -174,6 +176,12 @@ export default function HomeScreen() {
     const [dataState, setDataState] = useState(forYouData);
     const [progress, setProgress] = useState(0);
 
+    useEffect(() => {
+        // if (swiperRef.current && swiperRef.current.jumpToCardIndex) {
+        swiperRef.current.jumpToCardIndex(indices?.currentNav);
+        // }
+    }, [currentNav, indices]);
+
     const onPlaybackStatusUpdate = (status) => {
         if (status.isLoaded && status.isPlaying) {
             setProgress(status.positionMillis / status.durationMillis);
@@ -181,20 +189,53 @@ export default function HomeScreen() {
     };
 
 
-    // useEffect(() => {
-
-    //     videoRef.current.playAsync();
-
-    // }, []);
+    const [followData, setFollowData] = useState([]);
+    const [trendData, setTrendData] = useState([])
+    const [recentData, setRecentData] = useState([])
 
 
     const filterData = (feed) => {
         const filtered = data.filter(item => item.feed === feed);
         setCurrentNav(feed)
         setDataState(filtered);
+        // swiperRef.jumpToCardIndex(indices?.feed);
+
+        // useEffect(() => {
+        //     if (swiperRef.current && swiperRef.current.jumpToCardIndex) {
+        //       swiperRef.current.jumpToCardIndex(indices?.feed);
+        //     }
+        //   }, [indices, feed]);
     }
 
+    // const filterDataTrending = (feed) => {
+
+    //     const filtered = data.filter(item => item.feed === feed);
+    //     setCurrentNav(feed)
+    //     setTrendData(filtered);
+    // }
+
+
+    // const filterDataRecent = (feed) => {
+
+    //     const filtered = data.filter(item => item.feed === feed);
+    //     setCurrentNav(feed)
+    //     setRecentData(filtered);
+    // }
+
+
+
     const videoRef = useRef(null);
+
+
+    const onSwiped = (cardIndex) => {
+        // Update index in state when card is swiped
+        setIndices(prevIndices => ({
+            ...prevIndices,
+            [currentNav]: cardIndex + 1
+        }));
+    };
+
+    console.log('swiperref', swiperRef)
 
 
     return (
@@ -267,27 +308,36 @@ export default function HomeScreen() {
                             onSwipedLeft={() => { console.log('Swiped Pass') }}
                             onSwipedRight={() => { console.log('Swiped Match') }}
                             overlayLabels={{
-                                left: {
-                                    title: "NOPE",
-                                    style: {
-                                        label: {
-                                            textAlign: "right",
-                                            color: "red"
-                                        }
-                                    }
-                                },
                                 right: {
-                                    title: "MATCH",
+                                    title: "Repost",
                                     style: {
                                         label: {
                                             textAlign: "LEFT",
+                                            color: "#38bdf8"
+                                        }
+                                    }
+                                },
+                                left: {
+                                    title: "Like",
+                                    style: {
+                                        label: {
+                                            textAlign: "RIGHT",
+                                            color: "#4DED30"
+                                        }
+                                    }
+                                },
+                                top: {
+                                    title: "Like",
+                                    style: {
+                                        label: {
+                                            textAlign: "BOTTOM",
                                             color: "#4DED30"
                                         }
                                     }
                                 }
                             }}
 
-                            containerStyle={{ backgroundColor: "transparent" }} cards={dataState} stackSize={1} cardIndex={0} animateCardOpacity renderCard={(card) => (
+                            containerStyle={{ backgroundColor: "transparent" }} cards={dataState} stackSize={1} cardIndex={indices?.currentNav} animateCardOpacity renderCard={(card) => (
                                 <View key={card.id} className={card?.category == "GENERAL" ? "relative bg-black/40  h-[67%] rounded-xl border border-green-500 border-1" : "relative bg-black/40  h-[65%] rounded-xl border border-red-500 border-1"}>
                                     <View className="flex flex-col space-y-2">
                                         <View className="flex flex-row  p-4">
@@ -303,7 +353,7 @@ export default function HomeScreen() {
                                                     {card?.userName}
                                                 </Text>
                                             </View>
-                                            <View className={card?.category == "GENERAL" ? "font-semibold ml-4  bg-green-500/20 bg-opacity-20  py-1 px-3 flex justify-center rounded-full text-lg" : "font-semibold  bg-red-500/20 bg-opacity-20 py-1 ml-4 px-3 flex justify-center rounded-full text-lg"}>
+                                            <View className={card?.category == "GENERAL" ? "font-semibold ml-4  bg-green-500/20 bg-opacity-20  py-0 px-3 flex justify-center rounded-full text-lg" : "font-semibold  bg-red-500/20 bg-opacity-20 py-0 ml-4 px-3 flex justify-center rounded-full text-lg"}>
                                                 <Text className={card?.category == "GENERAL" ? "font-semibold text-green-600  text-center text-[15%]" : "font-semibold text-red-600 text-[15%]"}>
                                                     {card?.category}
                                                 </Text>
@@ -338,58 +388,21 @@ export default function HomeScreen() {
                                                 className="h-[78%] w-[88%] absolute top-[14%] rounded-md object-cover  ml-5"
                                                 // useNativeControls
                                                 shouldPlay
+                                                cardIndex={0}
                                                 resizeMode="contain"
+                                                onSwiped={onSwiped}
+                                                isMuted={false} // Ensure the video is not muted
+                                                isLooping={true} // Ensure the video loops
                                                 onPlaybackStatusUpdate={onPlaybackStatusUpdate}
                                             />
                                             {/* <Progress.Bar progress={progress} width={300} /> */}
                                         </>
 
-
-
                                     }
-
-
-
-
-
-
-
                                 </View>
-                            )}   >
-
+                            )}>
                         </Swiper>
-
-
                     </View>
-
-                    {/* <Image className="h-full w-full absolute top-0 rounded-xl" source={{ uri: card.photoUrl }} /> */}
-                    {/* <View style={[styles.cardShadow]} className="bg-white absolute bottom-0 w-full h-20 rounded-b-xl">
-                                        <View className="flex-row justify-between px-4 py-6 ">
-                                            <View>
-                                                <Text className="font-bold text-xl">{card?.name}</Text>
-                                            </View>
-
-                                            <View>
-                                                <Text className="font-semibold text-xl">{card?.age}</Text>
-                                            </View>
-                                        </View>
-                                    </View> */}
-
-
-                    {/* <View className="flex-row justify-evenly mt-[163%]">
-                        <View>
-                            <TouchableOpacity onPress={() => swiperRef?.current.swipeRight()} className="p-4 rounded-full bg-red-200 ">
-
-                                <Entypo name="cross" size={24} color="red" />
-                            </TouchableOpacity>
-                        </View>
-
-                        <View>
-                            <TouchableOpacity onPress={() => swiperRef?.current.swipeLeft()} className="p-4 rounded-full bg-green-200 ">
-                                <AntDesign name="heart" size={24} color="green" />
-                            </TouchableOpacity>
-                        </View>
-                    </View> */}
 
                 </SafeAreaView>
 
