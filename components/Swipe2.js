@@ -1,9 +1,13 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native';
 import Swiper from 'react-native-deck-swiper';
 import { Video, Audio } from 'expo-av';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import LottieView from 'lottie-react-native';
+
+
+const { width, height } = Dimensions.get('window');
 
 export default function Swipe2({ data }) {
     const navigation = useNavigation();
@@ -13,23 +17,12 @@ export default function Swipe2({ data }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isMuted, setIsMuted] = useState(false);
 
-    //   useEffect(() => {
-    //     (async () => {
-    //       await Audio.setAudioModeAsync({
-    //         allowsRecordingIOS: false,
-    //         interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
-    //         playsInSilentModeIOS: true,
-    //         shouldDuckAndroid: true,
-    //         interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-    //         playThroughEarpieceAndroid: false,
-    //       });
-    //     })();
-    //   }, []);
 
     const toggleMute = () => {
         setIsMuted(!isMuted);
         videoRef.current.setIsMutedAsync(!isMuted);
     };
+
 
     return (
         <Swiper
@@ -40,31 +33,52 @@ export default function Swipe2({ data }) {
             onSwipedRight={() => console.log('Swiped Match')}
             overlayLabels={{
                 right: {
-                    title: 'Repost',
-                    style: {
-                        label: {
-                            textAlign: 'LEFT',
-                            color: '#38bdf8',
-                        },
-                    },
+                    element: (
+                        <View className="ml-[-65%] mt-[35%]">
+                            <LottieView
+                                source={require('../Animation - 1720995753431.json')} // Replace with your right swipe animation
+                                autoPlay
+                                // loop={false}
+                                style={styles.lottieAnimation1}
+                            />
+                        </View>
+                    ),
                 },
                 left: {
-                    title: 'Like',
-                    style: {
-                        label: {
-                            textAlign: 'RIGHT',
-                            color: '#4DED30',
-                        },
-                    },
+                    element: (
+                        <View className="ml-[105%] mt-[39%]">
+                            <LottieView
+                                source={require('../repost.json')} // Replace with your left swipe animation
+                                autoPlay
+                                // loop={false}
+                                style={styles.lottieAnimation2}
+                            />
+                        </View>
+                    ),
                 },
                 top: {
-                    title: 'Like',
-                    style: {
-                        label: {
-                            textAlign: 'BOTTOM',
-                            color: '#4DED30',
-                        },
-                    },
+                    element: (
+                        <View className="mt-[124%] ml-[2%]">
+                            <LottieView
+                                source={require('../Share.json')} // Replace with your top swipe animation
+                                autoPlay
+                                // loop={false}
+                                style={styles.lottieAnimation3}
+                            />
+                        </View>
+                    ),
+                },
+                bottom: {
+                    element: (
+                        <View className="mt-[-60%] ml-[22%]">
+                            <LottieView
+                                source={require('../Animation - 1720995626995.json')} // Replace with your top swipe animation
+                                autoPlay
+                                loop={false}
+                                style={styles.lottieAnimation4}
+                            />
+                        </View>
+                    ),
                 },
             }}
             containerStyle={{ backgroundColor: 'transparent' }}
@@ -164,5 +178,27 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
         padding: 10,
         borderRadius: 50,
+    },
+    // overlayLabel: {
+    //     justifyContent: 'center',
+    //     alignItems: 'center',
+    //     width: width,
+    //     height: height,
+    // },
+    lottieAnimation1: {
+        height: 240,
+        width: 240
+    },
+    lottieAnimation2: {
+        height: 170,
+        width: 170
+    },
+    lottieAnimation3: {
+        height: 350,
+        width: 350
+    },
+    lottieAnimation4: {
+        height: 190,
+        width: 190
     },
 });
