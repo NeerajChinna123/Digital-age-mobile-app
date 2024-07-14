@@ -5,8 +5,10 @@ import { useLayoutEffect, useRef, useState, useEffect } from 'react';
 import Swiper from "react-native-deck-swiper";
 import { Video, Audio } from 'expo-av';
 import * as Progress from 'react-native-progress';
-
-
+import Swipe from '../components/Swipe';
+import Swipe2 from '../components/Swipe2';
+import Swipe3 from '../components/Swipe3';
+import Swipe4 from '../components/Swipe4';
 
 import { AntDesign, Entypo, Ionicons } from "@expo/vector-icons";
 
@@ -41,7 +43,8 @@ export default function HomeScreen() {
         category: "GENERAL",
         feed: "FOR_YOU",
         photoUrl: "https://media.licdn.com/dms/image/D4D03AQHr31DtXUh9GA/profile-displayphoto-shrink_400_400/0/1719036984229?e=1726099200&v=beta&t=6RhKkyLrJ7OF2iEiiRFwNFOtRgDyA-7mIZpBn2PE8uY",
-        video: ""
+        video: "",
+        post: require('../d-p-p.png'),
     },
     {
         id: 4,
@@ -50,7 +53,8 @@ export default function HomeScreen() {
         category: "GENERAL",
         feed: "FOR_YOU",
         photoUrl: "https://media.licdn.com/dms/image/D4D03AQHr31DtXUh9GA/profile-displayphoto-shrink_400_400/0/1719036984229?e=1726099200&v=beta&t=6RhKkyLrJ7OF2iEiiRFwNFOtRgDyA-7mIZpBn2PE8uY",
-        video: ""
+        video: "",
+        post: require('../d-p-p.png'),
     },
 
     {
@@ -60,7 +64,8 @@ export default function HomeScreen() {
         category: "GENERAL",
         feed: "FOLLOW",
         photoUrl: "https://media.licdn.com/dms/image/D4D03AQHr31DtXUh9GA/profile-displayphoto-shrink_400_400/0/1719036984229?e=1726099200&v=beta&t=6RhKkyLrJ7OF2iEiiRFwNFOtRgDyA-7mIZpBn2PE8uY",
-        video: require("../d2.mp4")
+        video: require("../d2.mp4"),
+        post: "",
     },
     {
         id: 6,
@@ -69,7 +74,8 @@ export default function HomeScreen() {
         category: "GENERAL",
         feed: "FOLLOW",
         photoUrl: "https://media.licdn.com/dms/image/D4D03AQHr31DtXUh9GA/profile-displayphoto-shrink_400_400/0/1719036984229?e=1726099200&v=beta&t=6RhKkyLrJ7OF2iEiiRFwNFOtRgDyA-7mIZpBn2PE8uY",
-        video: ""
+        video: "",
+        post: require('../d-p-p.png'),
     },
     {
         id: 7,
@@ -78,7 +84,8 @@ export default function HomeScreen() {
         category: "EXPLICIT",
         feed: "FOLLOW",
         photoUrl: "https://media.licdn.com/dms/image/D4D03AQHr31DtXUh9GA/profile-displayphoto-shrink_400_400/0/1719036984229?e=1726099200&v=beta&t=6RhKkyLrJ7OF2iEiiRFwNFOtRgDyA-7mIZpBn2PE8uY",
-        video: ""
+        video: "",
+        post: require('../d-p-p.png'),
     },
     {
         id: 8,
@@ -87,7 +94,8 @@ export default function HomeScreen() {
         category: "GENERAL",
         feed: "FOLLOW",
         photoUrl: "https://media.licdn.com/dms/image/D4D03AQHr31DtXUh9GA/profile-displayphoto-shrink_400_400/0/1719036984229?e=1726099200&v=beta&t=6RhKkyLrJ7OF2iEiiRFwNFOtRgDyA-7mIZpBn2PE8uY",
-        video: ""
+        video: "",
+        post: require('../d-p-p.png'),
     },
     {
         id: 9,
@@ -96,7 +104,8 @@ export default function HomeScreen() {
         category: "GENERAL",
         feed: "TRENDING",
         photoUrl: "https://media.licdn.com/dms/image/D4D03AQHr31DtXUh9GA/profile-displayphoto-shrink_400_400/0/1719036984229?e=1726099200&v=beta&t=6RhKkyLrJ7OF2iEiiRFwNFOtRgDyA-7mIZpBn2PE8uY",
-        video: ""
+        video: "",
+        post: require('../d-p-p.png'),
     },
     {
         id: 10,
@@ -105,7 +114,8 @@ export default function HomeScreen() {
         category: "GENERAL",
         feed: "TRENDING",
         photoUrl: "https://media.licdn.com/dms/image/D4D03AQHr31DtXUh9GA/profile-displayphoto-shrink_400_400/0/1719036984229?e=1726099200&v=beta&t=6RhKkyLrJ7OF2iEiiRFwNFOtRgDyA-7mIZpBn2PE8uY",
-        video: "../d3.mp4"
+        video: require("../d3.mp4"),
+        post: "",
     },
     {
         id: 11,
@@ -114,7 +124,8 @@ export default function HomeScreen() {
         category: "GENERAL",
         feed: "TRENDING",
         photoUrl: "https://media.licdn.com/dms/image/D4D03AQHr31DtXUh9GA/profile-displayphoto-shrink_400_400/0/1719036984229?e=1726099200&v=beta&t=6RhKkyLrJ7OF2iEiiRFwNFOtRgDyA-7mIZpBn2PE8uY",
-        video: ""
+        video: "",
+        post: require('../d-p-p.png'),
     },
     {
         id: 12,
@@ -123,7 +134,8 @@ export default function HomeScreen() {
         category: "GENERAL",
         feed: "TRENDING",
         photoUrl: "https://media.licdn.com/dms/image/D4D03AQHr31DtXUh9GA/profile-displayphoto-shrink_400_400/0/1719036984229?e=1726099200&v=beta&t=6RhKkyLrJ7OF2iEiiRFwNFOtRgDyA-7mIZpBn2PE8uY",
-        video: ""
+        video: "",
+        post: require('../d-p-p.png'),
     },
     {
         id: 13,
@@ -132,7 +144,8 @@ export default function HomeScreen() {
         category: "EXPLICIT",
         feed: "RECENT",
         photoUrl: "https://media.licdn.com/dms/image/D4D03AQHr31DtXUh9GA/profile-displayphoto-shrink_400_400/0/1719036984229?e=1726099200&v=beta&t=6RhKkyLrJ7OF2iEiiRFwNFOtRgDyA-7mIZpBn2PE8uY",
-        video: ""
+        video: "",
+        post: require('../d-p-p.png'),
     },
     {
         id: 14,
@@ -141,7 +154,8 @@ export default function HomeScreen() {
         category: "GENERAL",
         feed: "RECENT",
         photoUrl: "https://media.licdn.com/dms/image/D4D03AQHr31DtXUh9GA/profile-displayphoto-shrink_400_400/0/1719036984229?e=1726099200&v=beta&t=6RhKkyLrJ7OF2iEiiRFwNFOtRgDyA-7mIZpBn2PE8uY",
-        video: ""
+        video: "",
+        post: require('../d-p-p.png'),
     },
 
     {
@@ -151,7 +165,8 @@ export default function HomeScreen() {
         category: "GENERAL",
         feed: "RECENT",
         photoUrl: "https://media.licdn.com/dms/image/D4D03AQHr31DtXUh9GA/profile-displayphoto-shrink_400_400/0/1719036984229?e=1726099200&v=beta&t=6RhKkyLrJ7OF2iEiiRFwNFOtRgDyA-7mIZpBn2PE8uY",
-        video: require("../d1.mp4")
+        video: require("../d1.mp4"),
+        post: "",
     },
     {
         id: 16,
@@ -160,82 +175,43 @@ export default function HomeScreen() {
         category: "GENERAL",
         feed: "RECENT",
         photoUrl: "https://media.licdn.com/dms/image/D4D03AQHr31DtXUh9GA/profile-displayphoto-shrink_400_400/0/1719036984229?e=1726099200&v=beta&t=6RhKkyLrJ7OF2iEiiRFwNFOtRgDyA-7mIZpBn2PE8uY",
-        video: require("../d2.mp4")
+        video: require("../d2.mp4"),
+
+        post: "",
     }
 
     ]
 
-    const [indices, setIndices] = useState({ FOR_YOU: 0, FOLLOW: 0, TRENDING: 0, RECENT: 0 });
 
-    const swiperRef = useRef(null);
 
     const [currentNav, setCurrentNav] = useState("FOR_YOU");
 
     const forYouData = data.filter(item => item.feed === "FOR_YOU");
 
-    const [dataState, setDataState] = useState(forYouData);
+    const followData = data.filter(item => item.feed === "FOLLOW");
+
+    const trendData = data.filter(item => item.feed === "TRENDING");
+
+    const recentData = data.filter(item => item.feed === "RECENT");
+
+
     const [progress, setProgress] = useState(0);
 
-    useEffect(() => {
-        // if (swiperRef.current && swiperRef.current.jumpToCardIndex) {
-        swiperRef.current.jumpToCardIndex(indices?.currentNav);
-        // }
-    }, [currentNav, indices]);
-
-    const onPlaybackStatusUpdate = (status) => {
-        if (status.isLoaded && status.isPlaying) {
-            setProgress(status.positionMillis / status.durationMillis);
-        }
-    };
-
-
-    const [followData, setFollowData] = useState([]);
-    const [trendData, setTrendData] = useState([])
-    const [recentData, setRecentData] = useState([])
-
+    const [filteredData, setFilteredData] = useState(forYouData);
+    
 
     const filterData = (feed) => {
         const filtered = data.filter(item => item.feed === feed);
-        setCurrentNav(feed)
-        setDataState(filtered);
-        // swiperRef.jumpToCardIndex(indices?.feed);
-
-        // useEffect(() => {
-        //     if (swiperRef.current && swiperRef.current.jumpToCardIndex) {
-        //       swiperRef.current.jumpToCardIndex(indices?.feed);
-        //     }
-        //   }, [indices, feed]);
-    }
-
-    // const filterDataTrending = (feed) => {
-
-    //     const filtered = data.filter(item => item.feed === feed);
-    //     setCurrentNav(feed)
-    //     setTrendData(filtered);
-    // }
-
-
-    // const filterDataRecent = (feed) => {
-
-    //     const filtered = data.filter(item => item.feed === feed);
-    //     setCurrentNav(feed)
-    //     setRecentData(filtered);
-    // }
-
+        setFilteredData(filtered);
+        // setCurrentIndex(0);
+        setCurrentNav(feed) // Reset index when data is filtered
+    };
 
 
     const videoRef = useRef(null);
 
 
-    const onSwiped = (cardIndex) => {
-        // Update index in state when card is swiped
-        setIndices(prevIndices => ({
-            ...prevIndices,
-            [currentNav]: cardIndex + 1
-        }));
-    };
 
-    console.log('swiperref', swiperRef)
 
 
     return (
@@ -260,10 +236,11 @@ export default function HomeScreen() {
                         </TouchableOpacity>
 
                     </View>
+                    
 
                     <View className="flex flex-row justify-between px-4">
                         <View>
-                            <TouchableOpacity onPress={() => filterData("FOR_YOU")} className={
+                            <TouchableOpacity onPress={() => filterData('FOR_YOU')} className={
                                 currentNav == "FOR_YOU" ? "font-semibold text-lg text-white bg-white/20 p-2 rounded-3xl transition transform duration-200 ease-in-out" :
                                     " p-2"}><Text className="font-semibold text-lg text-white"
                                     >
@@ -303,106 +280,18 @@ export default function HomeScreen() {
                     </View>
 
                     <View className="mt-[-32] ">
-                        <Swiper
-                            ref={swiperRef}
-                            onSwipedLeft={() => { console.log('Swiped Pass') }}
-                            onSwipedRight={() => { console.log('Swiped Match') }}
-                            overlayLabels={{
-                                right: {
-                                    title: "Repost",
-                                    style: {
-                                        label: {
-                                            textAlign: "LEFT",
-                                            color: "#38bdf8"
-                                        }
-                                    }
-                                },
-                                left: {
-                                    title: "Like",
-                                    style: {
-                                        label: {
-                                            textAlign: "RIGHT",
-                                            color: "#4DED30"
-                                        }
-                                    }
-                                },
-                                top: {
-                                    title: "Like",
-                                    style: {
-                                        label: {
-                                            textAlign: "BOTTOM",
-                                            color: "#4DED30"
-                                        }
-                                    }
-                                }
-                            }}
+                        {currentNav == "FOLLOW" ? <Swipe data={filteredData}  >
 
-                            containerStyle={{ backgroundColor: "transparent" }} cards={dataState} stackSize={1} cardIndex={indices?.currentNav} animateCardOpacity renderCard={(card) => (
-                                <View key={card.id} className={card?.category == "GENERAL" ? "relative bg-black/40  h-[67%] rounded-xl border border-green-500 border-1" : "relative bg-black/40  h-[65%] rounded-xl border border-red-500 border-1"}>
-                                    <View className="flex flex-col space-y-2">
-                                        <View className="flex flex-row  p-4">
-                                            <Image className="h-14 w-14 rounded-full object-cover" source={{ uri: card?.photoUrl }} >
+                        </Swipe> : (currentNav == "TRENDING" ? <Swipe2 data={filteredData} >
 
-                                            </Image>
+                        </Swipe2> : (currentNav == "RECENT" ? <Swipe3 data={filteredData} >
 
-                                            <View className="flex flex-col space-y-1 pl-4">
-                                                <Text className="font-semibold text-white text-lg">
-                                                    {card?.name}
-                                                </Text>
-                                                <Text className=" text-white opacity-80 text-[15%]">
-                                                    {card?.userName}
-                                                </Text>
-                                            </View>
-                                            <View className={card?.category == "GENERAL" ? "font-semibold ml-4  bg-green-500/20 bg-opacity-20  py-0 px-3 flex justify-center rounded-full text-lg" : "font-semibold  bg-red-500/20 bg-opacity-20 py-0 ml-4 px-3 flex justify-center rounded-full text-lg"}>
-                                                <Text className={card?.category == "GENERAL" ? "font-semibold text-green-600  text-center text-[15%]" : "font-semibold text-red-600 text-[15%]"}>
-                                                    {card?.category}
-                                                </Text>
-                                            </View>
-                                            <View className="ml-9">
-                                                <TouchableOpacity className="mt-1 bg-white/20 rounded-full p-3 self-end ">
-                                                    <Ionicons size={26} color="white" name="ellipsis-horizontal-outline"></Ionicons>
-                                                </TouchableOpacity>
-                                            </View>
+                        </Swipe3> : <Swipe4 data={filteredData} >
 
-
-                                        </View>
-
-
-
-                                    </View>
-
-                                    {
-                                        card?.post &&
-                                        <Image className="h-[78%] w-[88%] absolute top-[18%] rounded-md object-cover  ml-5" source={card?.post} >
-
-                                        </Image>
-                                    }
-
-
-                                    {
-                                        card?.video &&
-                                        <>
-                                            <Video
-                                                ref={videoRef}
-                                                source={card?.video}
-                                                className="h-[78%] w-[88%] absolute top-[14%] rounded-md object-cover  ml-5"
-                                                // useNativeControls
-                                                shouldPlay
-                                                cardIndex={0}
-                                                resizeMode="contain"
-                                                onSwiped={onSwiped}
-                                                isMuted={false} // Ensure the video is not muted
-                                                isLooping={true} // Ensure the video loops
-                                                onPlaybackStatusUpdate={onPlaybackStatusUpdate}
-                                            />
-                                            {/* <Progress.Bar progress={progress} width={300} /> */}
-                                        </>
-
-                                    }
-                                </View>
-                            )}>
-                        </Swiper>
+                        </Swipe4>))}
                     </View>
+
+                    {/*  */}
 
                 </SafeAreaView>
 
