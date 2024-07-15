@@ -416,7 +416,7 @@ export default function HomeScreen() {
 
                     </View>
 
-                    <View className="mt-[-32] ">
+                    <View className="mt-[-40] ">
                         {currentNav == "FOLLOW" ? <Swipe data={filteredData}  >
 
                         </Swipe> : (currentNav == "TRENDING" ? <Swipe2 data={filteredData} >
