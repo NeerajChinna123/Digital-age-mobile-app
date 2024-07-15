@@ -1,7 +1,7 @@
 
 
-import React, { useRef, useState } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native';
+import React, { useRef, useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, Animated } from 'react-native';
 import Swiper from 'react-native-deck-swiper';
 import { Video, Audio } from 'expo-av';
 import { Ionicons } from '@expo/vector-icons';
@@ -47,69 +47,149 @@ export default function Swipe4({ data }) {
 
     const [swiped, setSwiped] = useState(false);
 
+
+
+
     // function swipedFunc(i) {
     //     setCurrentIndex(index + 1);
     //     setSwiped(true);
     // }
 
-    
+    let isFirstCard = currentIndex === 0;
+    let isLastCard = currentIndex === data.length - 1;
+
+    const goToPreviousCard = () => {
+        if (!isFirstCard) {
+            swiperRef.current.swipeBack();
+            setCurrentIndex((prevIndex) => prevIndex - 1);
+        }
+    };
+
+    const goToNextCard = () => {
+        if (!isLastCard) {
+            swiperRef.current.swipeRight();
+            setCurrentIndex((prevIndex) => prevIndex + 1);
+        }
+    };
+
+    const swipeRight = () => {
+        swiperRef.current.swipeRight();
+        setCurrentIndex((prevIndex) => prevIndex + 1);
+    };
+
+    const swipeBottom = () => {
+        swiperRef.current.swipeBottom();
+        setCurrentIndex((prevIndex) => prevIndex + 1);
+    };
+
+    const swipeLeft = () => {
+        swiperRef.current.swipeLeft();
+        setCurrentIndex((prevIndex) => prevIndex + 1);
+    };
+
+
+    const fadeAnimRight = useRef(new Animated.Value(0)).current;
+    const fadeAnimLeft = useRef(new Animated.Value(0)).current;
+    const fadeAnimTop = useRef(new Animated.Value(0)).current;
+    const fadeAnimBottom = useRef(new Animated.Value(0)).current;
+
+    const fadeIn = (fadeAnim) => {
+        Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 300,
+            useNativeDriver: true,
+        }).start();
+    };
+
+    const fadeOut = (fadeAnim) => {
+        Animated.timing(fadeAnim, {
+            toValue: 0,
+            duration: 300,
+            useNativeDriver: true,
+        }).start();
+    };
+
+
+
+    useEffect(() => {
+        fadeIn(fadeAnimRight);
+        fadeIn(fadeAnimLeft);
+        fadeIn(fadeAnimTop);
+        fadeIn(fadeAnimBottom);
+        return () => {
+            fadeOut(fadeAnimRight);
+            fadeOut(fadeAnimLeft);
+            fadeOut(fadeAnimTop);
+            fadeOut(fadeAnimBottom);
+        };
+    }, [currentIndex]);
 
     return (
         <>
             <Swiper
                 ref={swiperRef}
                 cardIndex={currentIndex}
-                onSwiping={()=> setSwiped(true)}
-                onSwipedAborted={()=> setSwiped(false)}
-                onSwiped={(index) => setCurrentIndex(index)}
-                onSwipedLeft={() => console.log('Swiped Pass')}
-                onSwipedRight={() => console.log('Swiped Match')}
+                onSwiping={() => setSwiped(true)}
+                onSwipedAborted={() => setSwiped(false)}
+                // onSwiped={(index) => setCurrentIndex(index)}
+                onSwipedLeft={(index) => setCurrentIndex(index + 1)}
+                onSwipedRight={(index) => setCurrentIndex(index + 1)}
+                onSwipedTop={(index) => setCurrentIndex(index + 1)}
+                onSwipedBottom={(index) => setCurrentIndex(index + 1)}
                 overlayLabels={{
                     right: {
                         element: (
                             <View className="ml-[-65%] mt-[35%]">
-                                <LottieView
-                                    source={require('../Animation - 1720995753431.json')} // Replace with your right swipe animation
-                                    autoPlay
-                                    // loop={false}
-                                    style={styles.lottieAnimation1}
-                                />
+                                <Animated.View style={{ opacity: fadeAnimRight }}>
+                                    <LottieView
+                                        source={require('../Animation - 1720995753431.json')} // Replace with your right swipe animation
+                                        autoPlay
+                                        // loop={false}
+                                        style={styles.lottieAnimation1}
+                                    />
+                                </Animated.View>
                             </View>
                         ),
                     },
                     left: {
                         element: (
                             <View className="ml-[105%] mt-[39%]">
-                                <LottieView
-                                    source={require('../repost.json')} // Replace with your left swipe animation
-                                    autoPlay
-                                    // loop={false}
-                                    style={styles.lottieAnimation2}
-                                />
+                                <Animated.View style={{ opacity: fadeAnimLeft }}>
+                                    <LottieView
+                                        source={require('../repost.json')} // Replace with your left swipe animation
+                                        autoPlay
+                                        // loop={false}
+                                        style={styles.lottieAnimation2}
+                                    />
+                                </Animated.View>
                             </View>
                         ),
                     },
                     top: {
                         element: (
                             <View className="mt-[124%] ml-[2%]">
-                                <LottieView
-                                    source={require('../Share.json')} // Replace with your top swipe animation
-                                    autoPlay
-                                    // loop={false}
-                                    style={styles.lottieAnimation3}
-                                />
+                                <Animated.View style={{ opacity: fadeAnimTop }}>
+                                    <LottieView
+                                        source={require('../Share.json')} // Replace with your top swipe animation
+                                        autoPlay
+                                        // loop={false}
+                                        style={styles.lottieAnimation3}
+                                    />
+                                </Animated.View>
                             </View>
                         ),
                     },
                     bottom: {
                         element: (
                             <View className="mt-[-60%] ml-[22%]">
-                                <LottieView
-                                    source={require('../Animation - 1720995626995.json')} // Replace with your top swipe animation
-                                    autoPlay
-                                    loop={false}
-                                    style={styles.lottieAnimation4}
-                                />
+                                <Animated.View style={{ opacity: fadeAnimBottom }}>
+                                    <LottieView
+                                        source={require('../Animation - 1720995626995.json')} // Replace with your top swipe animation
+                                        autoPlay
+                                        loop={false}
+                                        style={styles.lottieAnimation4}
+                                    />
+                                </Animated.View>
                             </View>
                         ),
                     },
@@ -183,11 +263,13 @@ export default function Swipe4({ data }) {
                 )}
             />
 
-            <View  className={swiped?"absolute flex flex-row space-x-6 mt-[146.8%] ml-[4%] z-[-50]":"absolute flex flex-row space-x-6 mt-[146.8%] ml-[4%]"}>
+            <View className={swiped ? "absolute flex flex-row space-x-6 mt-[146.8%] ml-[4%] z-[-50]" : "absolute flex flex-row space-x-6 mt-[146.8%] ml-[4%]"}>
                 <View>
                     <TouchableOpacity onPressIn={handlePressIn}
                         onPressOut={handlePressOut}
-                        className={isActive ? "p-3 rounded-full bg-white/10 " : "  p-3 rounded-full bg-white/20 "}>
+                        onPress={goToPreviousCard}
+                        disabled={isFirstCard}
+                        className={isFirstCard ? "p-3 rounded-full bg-white/20 opacity-50 transition-all transform duration-500 ease-in-out " : "  transition-all transform duration-500 ease-in-out p-3 rounded-full bg-white/20 opacity-100 "}>
                         <Icon name="undo" size={28} color={'#fff'}
                             className={isActive ? "rotate-12 transition-all transform duration-500 ease-in-out" : "rotate-45 transition-all transform duration-500 ease-in-out"} />
                     </TouchableOpacity>
@@ -195,6 +277,7 @@ export default function Swipe4({ data }) {
                 <View className="mt-[-1%]">
                     <TouchableOpacity onPressIn={handlePressIn1}
                         onPressOut={handlePressOut1}
+                        onPress={swipeRight}
                         className={isActive1 ? "p-3 rounded-full bg-white/10 " : "  p-3 rounded-full bg-white/20 "}>
                         <Icon name="heart" size={32} color={'#be123c'}
                             className={isActive1 ? " transition-all transform duration-500 ease-in-out" : "transition-all transform duration-500 ease-in-out"} />
@@ -204,6 +287,7 @@ export default function Swipe4({ data }) {
                 <View className="mt-[-1%]">
                     <TouchableOpacity onPressIn={handlePressIn12}
                         onPressOut={handlePressOut12}
+                        onPress={swipeBottom}
                         className={isActive12 ? "p-3 rounded-full bg-white/10 " : "  p-3 rounded-full bg-white/20 "}>
                         <Icon name="comment" size={32} color={'#0ea5e9'}
                             className={isActive12 ? " transition-all transform duration-500 ease-in-out" : "transition-all transform duration-500 ease-in-out"} />
@@ -213,6 +297,7 @@ export default function Swipe4({ data }) {
                 <View className="mt-[-1%]">
                     <TouchableOpacity onPressIn={handlePressIn123}
                         onPressOut={handlePressOut123}
+                        onPress={swipeLeft}
                         className={isActive123 ? "p-3 rounded-full bg-white/10 " : "  p-3 rounded-full bg-white/20 "}>
                         <Icon name="retweet" size={32} color={'#0ea5e9'}
                             className={isActive12 ? " transition-all transform duration-500 ease-in-out" : "transition-all transform duration-500 ease-in-out"} />
@@ -233,7 +318,9 @@ export default function Swipe4({ data }) {
                 <View>
                     <TouchableOpacity onPressIn={handlePressIn1234}
                         onPressOut={handlePressOut1234}
-                        className={isActive1234 ? "p-3 rounded-full bg-white/10 " : "  p-3 rounded-full bg-white/20 "}>
+                        disabled={isLastCard}
+                        onPress={goToNextCard}
+                        className={isLastCard ? "p-3 rounded-full bg-white/20 opacity-50 transition-all transform duration-500 ease-in-out " : "  transition-all transform duration-500 ease-in-out p-3 rounded-full bg-white/20 opacity-100 "}>
                         <Icon name="repeat" size={28} color={'#fff'}
                             className={isActive1234 ? "rotate-12 transition-all transform duration-500 ease-in-out" : "-rotate-45 transition-all transform duration-500 ease-in-out"} />
                     </TouchableOpacity>
