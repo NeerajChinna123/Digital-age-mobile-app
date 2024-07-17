@@ -124,6 +124,23 @@ export default function Swipe4({ data }) {
         };
     }, [currentIndex]);
 
+
+
+
+
+    const fadeAnim = useRef(new Animated.Value(0)).current; // Initial opacity value of 0
+
+
+
+
+    useEffect(() => {
+        Animated.timing(fadeAnim, {
+            toValue: swiped ? 1 : 0, // Fade in if visible is true, fade out if false
+            duration: 500, // Duration of the animation
+            useNativeDriver: true, // Use native driver for better performance
+        }).start();
+    }, [swiped]);
+
     return (
         <>
             <Swiper
@@ -139,57 +156,97 @@ export default function Swipe4({ data }) {
                 overlayLabels={{
                     right: {
                         element: (
-                            <View className="ml-[-65%] mt-[35%]">
-                                <Animated.View style={{ opacity: fadeAnimRight }}>
-                                    <LottieView
-                                        source={require('../Animation - 1720995753431.json')} // Replace with your right swipe animation
-                                        autoPlay
-                                        // loop={false}
-                                        style={styles.lottieAnimation1}
-                                    />
-                                </Animated.View>
+                            <View className="ml-[-62%] mt-[42%] relative">
+                                <View className="animate-pulse">
+                                    <View className="absolute h-40 w-40 shadow-inner top-2 left-3 rounded-full bg-white/20">
+
+                                    </View>
+                                    <Animated.View  >
+                                        <LottieView
+                                            source={require('../Animation - 1720995753431.json')} // Replace with your right swipe animation
+                                            autoPlay
+                                            // loop={false}
+                                            style={styles.lottieAnimation1}
+                                            className=""
+                                        />
+                                    </Animated.View>
+                                </View>
+
                             </View>
                         ),
                     },
                     left: {
                         element: (
-                            <View className="ml-[105%] mt-[39%]">
-                                <Animated.View style={{ opacity: fadeAnimLeft }}>
-                                    <LottieView
-                                        source={require('../repost.json')} // Replace with your left swipe animation
-                                        autoPlay
-                                        // loop={false}
-                                        style={styles.lottieAnimation2}
-                                    />
-                                </Animated.View>
+                            <View className="ml-[108%] mt-[45%]">
+                                <View className="animate-pulse">
+                                    <View className="absolute h-40 w-40 shadow-inner top-3 left-0 rounded-full bg-white/20">
+
+                                    </View>
+                                    <Animated.View  >
+                                        <LottieView
+                                            source={require('../repost.json')}  // Replace with your right swipe animation
+                                            autoPlay
+
+                                            // loop={false}
+                                            style={styles.lottieAnimation2}
+                                            className="ml-3 mt-5"
+                                        />
+                                    </Animated.View>
+                                </View>
+
                             </View>
                         ),
                     },
                     top: {
                         element: (
-                            <View className="mt-[124%] ml-[2%]">
-                                <Animated.View style={{ opacity: fadeAnimTop }}>
-                                    <LottieView
-                                        source={require('../Share.json')} // Replace with your top swipe animation
-                                        autoPlay
-                                        // loop={false}
-                                        style={styles.lottieAnimation3}
-                                    />
-                                </Animated.View>
+                            // <View className="mt-[124%] ml-[2%]">
+                            //     <Animated.View style={{ opacity: fadeAnimTop }}>
+                            //         <LottieView
+                            //             source={require('../Share.json')} // Replace with your top swipe animation
+                            //             autoPlay
+                            //             // loop={false}
+                            //             style={styles.lottieAnimation3}
+                            //         />
+                            //     </Animated.View>
+                            // </View>
+
+
+                            <View className="mt-[130%] ml-[8.4%] relative">
+                                <View className="animate-pulse">
+                                    <View className="absolute h-40 w-40 shadow-inner top-[23%] left-[22.8%] rounded-full bg-white/20">
+
+                                    </View>
+                                    <Animated.View  >
+                                        <LottieView
+                                            source={require('../Share.json')}// Replace with your right swipe animation
+                                            autoPlay
+                                            // loop={false}
+                                            style={styles.lottieAnimation3}
+                                            className="ml-[0.6%]"
+                                        />
+                                    </Animated.View>
+                                </View>
                             </View>
                         ),
                     },
                     bottom: {
                         element: (
-                            <View className="mt-[-60%] ml-[22%]">
-                                <Animated.View style={{ opacity: fadeAnimBottom }}>
-                                    <LottieView
-                                        source={require('../Animation - 1720995626995.json')} // Replace with your top swipe animation
-                                        autoPlay
-                                        loop={false}
-                                        style={styles.lottieAnimation4}
-                                    />
-                                </Animated.View>
+
+                            <View className="mt-[-58%] ml-[23.5%]">
+                                <View className="animate-pulse">
+                                    <View className="absolute h-40 w-40 shadow-inner top-3 left-5 rounded-full bg-white/20">
+
+                                    </View>
+                                    <Animated.View  >
+                                        <LottieView
+                                            source={require('../new-com.json')}  // Replace with your right swipe animation
+                                            autoPlay
+                                            // loop={false}
+                                            style={styles.lottieAnimation4}
+                                            className="ml-2"
+                                        />
+                                    </Animated.View>
+                                </View>
                             </View>
                         ),
                     },
@@ -303,15 +360,6 @@ export default function Swipe4({ data }) {
                             className={isActive12 ? " transition-all transform duration-500 ease-in-out" : "transition-all transform duration-500 ease-in-out"} />
                     </TouchableOpacity>
                 </View>
-                {/* 
-                <View className="mt-[-1%]">
-                    <TouchableOpacity onPressIn={handlePressIn123}
-                        onPressOut={handlePressOut123}
-                        className={isActive12 ? "p-3 rounded-full bg-white/10 " : "  p-3 rounded-full bg-white/20 "}>
-                      <FontAwesome name="paper-plane" size={34} color="#0ea5e9" 
-                            className={isActive12 ? " transition-all transform duration-500 ease-in-out" : "transition-all transform duration-500 ease-in-out"} />
-                    </TouchableOpacity>
-                </View> */}
 
 
 
@@ -359,20 +407,20 @@ const styles = StyleSheet.create({
         borderRadius: 50,
     },
     lottieAnimation1: {
-        height: 240,
-        width: 240,
+        height: 180,
+        width: 180,
     },
     lottieAnimation2: {
-        height: 170,
-        width: 170,
+        height: 136,
+        width: 136,
     },
     lottieAnimation3: {
-        height: 350,
-        width: 350,
+        height: 300,
+        width: 300,
     },
     lottieAnimation4: {
-        height: 190,
-        width: 190,
+        height: 175,
+        width: 175,
     },
     iconContainer: {
         flexDirection: 'row',

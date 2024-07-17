@@ -21,7 +21,7 @@ export default function HomeScreen() {
         userName: "@nc127",
         category: "GENERAL",
         feed: "FOR_YOU",
-        photoUrl: "https://media.licdn.com/dms/image/D5603AQHbDKGK9Wi8fw/profile-displayphoto-shrink_800_800/0/1720942253496?e=1726704000&v=beta&t=OOYnwGWznx0XMWV3pNcA3mKKL4yVpOMNduZMMT4NeIk",
+        photoUrl: "https://media.licdn.com/dms/image/D4D03AQELM-tqD-X4-A/profile-displayphoto-shrink_800_800/0/1721061786562?e=1726704000&v=beta&t=st42cxp0lMvJ1179yafkRc8rGUM8uIVeL3fcGYncnlQ",
         post: require('../d-p-p.png'),
         video: "",
     },
