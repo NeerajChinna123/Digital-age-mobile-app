@@ -494,36 +494,36 @@ export default function HomeScreen() {
                             </View>
                         </View>
 
-                        <View className="flex flex-col space-y-8  mt-14 px-5">
+                        <View className="flex flex-col space-y-6  mt-14 px-5">
                             <TouchableOpacity disabled className="flex flex-row  items-center">
-                                <View className="flex flex-row space-x-2 opacity-60">
-                                    <Ionicons size={32} color="white" name="location" />
+                                <View className="flex flex-row space-x-2 opacity-50">
+                                    <Ionicons size={38} color="white" name="location" />
                                 </View>
 
-                                <View className="flex flex-row space-x-2 items-center ml-4 mt-1">
+                                <View className="flex flex-row space-x-2 items-center ml-6 mt-1">
                                     <View>
                                         <Text className="text-3xl">🇺🇸</Text>
                                     </View>
 
-                                    <View className="opacity-60">
+                                    <View className="opacity-50">
                                         <Text className="text-lg text-white font-semibold">United States</Text>
                                     </View>
                                 </View>
 
-                                <View className="opacity-60 ml-[118] mt-1" >
+                                <View className="opacity-60 ml-[100] mt-1" >
                                     <Ionicons size={32} color="white" name="chevron-forward-outline" />
                                 </View>
                             </TouchableOpacity>
 
 
                             <TouchableOpacity disabled className="flex flex-row  items-center">
-                                <View className="flex flex-row space-x-2 opacity-60 mt-2">
-                                    <Ionicons size={32} color="white" name="calendar" />
+                                <View className="flex flex-row space-x-2 opacity-50 mt-2">
+                                    <Ionicons size={38} color="white" name="calendar" />
                                 </View>
 
-                                <View className="flex flex-col space-y-[1%]  ml-6 mt-1">
+                                <View className="flex flex-col space-y-[1%]  ml-7 mt-1">
 
-                                    <View className="opacity-60">
+                                    <View className="opacity-50">
                                         <Text className="text-lg text-white font-semibold">Date of Birth</Text>
                                     </View>
                                     <View>
@@ -532,13 +532,70 @@ export default function HomeScreen() {
 
                                 </View>
 
-                                <View className="opacity-60 ml-[160] mt-2" >
+                                <View className="opacity-60 ml-[145] mt-2" >
                                     <Ionicons size={32} color="white" name="chevron-forward-outline" />
                                 </View>
                             </TouchableOpacity>
 
+                            <View className="flex flex-row items-center">
+                                <TouchableOpacity className="relative ml-[-4]">
+                                    <Image className="h-11 w-11 rounded-full border border-cyan-500 object-cover" source={{ uri: "https://media.licdn.com/dms/image/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/0/1681764031887?e=1726099200&v=beta&t=xj9Lxl6yRL2Wcb5imP_zspIqb1ZpIb5vm6Sbw6DQLow" }} />
+                                    <View className="rotate-90 absolute left-7 top-7">
+                                        <Ionicons size={18} color="#22d3ee" name="leaf" />
+                                    </View>
+
+                                </TouchableOpacity>
+
+                                <View className="flex flex-col space-y-[1%]  ml-6 mt-1">
+
+                                    <View className="opacity-90">
+                                        <Text className="text-lg text-white font-semibold">Peter Michaels</Text>
+                                    </View>
+                                    <View>
+                                        <Text className="text-md font-semibold text-white opacity-70">Natural Persona</Text>
+                                    </View>
+
+                                </View>
+
+                                <View className="opacity-60 ml-[128] mt-2" >
+                                    <Ionicons size={32} color="white" name="chevron-forward-outline" />
+                                </View>
+                            </View>
+
+                            <View className="flex flex-row flex-wrap ml-[60] ">
+                                <View className="rounded-full p-2 bg-white/20 mr-2 mb-3">
+                                    <Text className="text-md font-semibold text-white/80">Innovative</Text>
+                                </View>
+                                <View className="rounded-full p-2 bg-white/20  mr-2 mb-3">
+                                    <Text className="text-md font-semibold text-white/80">Friendly</Text>
+                                </View>
+                                <View className="rounded-full p-2 bg-white/20  mr-2 mb-3">
+                                    <Text className="text-md font-semibold text-white/80">Hiking</Text>
+                                </View> 
+                        
+                              
+                                <View className="rounded-full p-2 bg-white/20  mr-2 mb-3">
+                                    <Text className="text-md font-semibold text-white/80">Fitness</Text>
+                                </View>
+                                <View className="rounded-full p-2 bg-white/20  mr-2 mb-3">
+                                    <Text className="text-md font-semibold text-white/80">Cooking</Text>
+                                </View>
+                                <View className="rounded-full p-2 bg-white/20  mr-2 mb-3">
+                                    <Text className="text-md font-semibold text-white/80">Music</Text>
+                                </View>
+                                <View className="rounded-full p-2 bg-cyan-600/60  mr-2 mb-3">
+                                    <Text className="text-md font-semibold text-white/80">Add +</Text>
+                                </View>
+                            </View>
+
 
                         </View>
+
+
+                        <TouchableOpacity className="p-4 bg-white/25 w-[90%] mt-6 ml-4 rounded-md flex flex-row justify-center">
+
+                            <Text className="text-white text-lg font-bold">Apply Changes</Text>
+                        </TouchableOpacity>
 
                     </BlurView>
                 </View>
