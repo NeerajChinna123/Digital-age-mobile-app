@@ -457,7 +457,7 @@ export default function HomeScreen() {
                     <BlurView
                         className=" h-[100%]  "
                         tint="dark"
-                        intensity={60}
+                        intensity={65}
 
                     >
 
@@ -489,10 +489,55 @@ export default function HomeScreen() {
                             }
 
 
-
                             <View className="absolute  h-[7%] w-full bg-white/10  left-0 top-11 ">
 
                             </View>
+                        </View>
+
+                        <View className="flex flex-col space-y-8  mt-14 px-5">
+                            <TouchableOpacity disabled className="flex flex-row  items-center">
+                                <View className="flex flex-row space-x-2 opacity-60">
+                                    <Ionicons size={32} color="white" name="location" />
+                                </View>
+
+                                <View className="flex flex-row space-x-2 items-center ml-4 mt-1">
+                                    <View>
+                                        <Text className="text-3xl">🇺🇸</Text>
+                                    </View>
+
+                                    <View className="opacity-60">
+                                        <Text className="text-lg text-white font-semibold">United States</Text>
+                                    </View>
+                                </View>
+
+                                <View className="opacity-60 ml-[118] mt-1" >
+                                    <Ionicons size={32} color="white" name="chevron-forward-outline" />
+                                </View>
+                            </TouchableOpacity>
+
+
+                            <TouchableOpacity disabled className="flex flex-row  items-center">
+                                <View className="flex flex-row space-x-2 opacity-60 mt-2">
+                                    <Ionicons size={32} color="white" name="calendar" />
+                                </View>
+
+                                <View className="flex flex-col space-y-[1%]  ml-6 mt-1">
+
+                                    <View className="opacity-60">
+                                        <Text className="text-lg text-white font-semibold">Date of Birth</Text>
+                                    </View>
+                                    <View>
+                                        <Text className="text-md font-semibold text-white opacity-50">July 7, 1990</Text>
+                                    </View>
+
+                                </View>
+
+                                <View className="opacity-60 ml-[160] mt-2" >
+                                    <Ionicons size={32} color="white" name="chevron-forward-outline" />
+                                </View>
+                            </TouchableOpacity>
+
+
                         </View>
 
                     </BlurView>
