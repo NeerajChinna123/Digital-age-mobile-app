@@ -12,11 +12,27 @@ import Swipe4 from '../components/Swipe4';
 
 import { AntDesign, Entypo, Ionicons } from "@expo/vector-icons";
 
+import { Switch } from 'react-native';
+
 import Modal from "react-native-modal";
 import { BlurView } from 'expo-blur';
 
 export default function HomeScreen() {
+    const [isEnabled, setIsEnabled] = useState(false);
+    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
+
+
+    const [isEnabled1, setIsEnabled1] = useState(false);
+    const toggleSwitch1 = () => setIsEnabled1(previousState => !previousState);
+
+
+    const [isEnabled2, setIsEnabled2] = useState(false);
+    const toggleSwitch2 = () => setIsEnabled2(previousState => !previousState);
+
+
+    const [isEnabled3, setIsEnabled3] = useState(false);
+    const toggleSwitch3 = () => setIsEnabled3(previousState => !previousState);
 
     const [isModalVisible, setModalVisible] = useState(false);
 
@@ -494,102 +510,215 @@ export default function HomeScreen() {
                             </View>
                         </View>
 
-                        <View className="flex flex-col space-y-6  mt-14 px-5">
-                            <TouchableOpacity disabled className="flex flex-row  items-center">
-                                <View className="flex flex-row space-x-2 opacity-50">
-                                    <Ionicons size={38} color="white" name="location" />
-                                </View>
-
-                                <View className="flex flex-row space-x-2 items-center ml-6 mt-1">
-                                    <View>
-                                        <Text className="text-3xl">🇺🇸</Text>
+                        {
+                            tab == "default" ? <View className="flex flex-col space-y-6  mt-14 px-5 ">
+                                <TouchableOpacity disabled className="flex flex-row  items-center">
+                                    <View className="flex flex-row space-x-2 opacity-50">
+                                        <Ionicons size={38} color="white" name="location" />
                                     </View>
 
-                                    <View className="opacity-50">
-                                        <Text className="text-lg text-white font-semibold">United States</Text>
-                                    </View>
-                                </View>
+                                    <View className="flex flex-row space-x-2 items-center ml-6 mt-1">
+                                        <View>
+                                            <Text className="text-3xl">🇺🇸</Text>
+                                        </View>
 
-                                <View className="opacity-60 ml-[100] mt-1" >
-                                    <Ionicons size={32} color="white" name="chevron-forward-outline" />
-                                </View>
-                            </TouchableOpacity>
-
-
-                            <TouchableOpacity disabled className="flex flex-row  items-center">
-                                <View className="flex flex-row space-x-2 opacity-50 mt-2">
-                                    <Ionicons size={38} color="white" name="calendar" />
-                                </View>
-
-                                <View className="flex flex-col space-y-[1%]  ml-7 mt-1">
-
-                                    <View className="opacity-50">
-                                        <Text className="text-lg text-white font-semibold">Date of Birth</Text>
-                                    </View>
-                                    <View>
-                                        <Text className="text-md font-semibold text-white opacity-50">July 7, 1990</Text>
+                                        <View className="opacity-50">
+                                            <Text className="text-lg text-white font-semibold">United States</Text>
+                                        </View>
                                     </View>
 
-                                </View>
-
-                                <View className="opacity-60 ml-[145] mt-2" >
-                                    <Ionicons size={32} color="white" name="chevron-forward-outline" />
-                                </View>
-                            </TouchableOpacity>
-
-                            <View className="flex flex-row items-center">
-                                <TouchableOpacity className="relative ml-[-4]">
-                                    <Image className="h-11 w-11 rounded-full border border-cyan-500 object-cover" source={{ uri: "https://media.licdn.com/dms/image/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/0/1681764031887?e=1726099200&v=beta&t=xj9Lxl6yRL2Wcb5imP_zspIqb1ZpIb5vm6Sbw6DQLow" }} />
-                                    <View className="rotate-90 absolute left-7 top-7">
-                                        <Ionicons size={18} color="#22d3ee" name="leaf" />
+                                    <View className="opacity-60 ml-[100] mt-1" >
+                                        <Ionicons size={32} color="white" name="chevron-forward-outline" />
                                     </View>
-
                                 </TouchableOpacity>
 
-                                <View className="flex flex-col space-y-[1%]  ml-6 mt-1">
 
-                                    <View className="opacity-90">
-                                        <Text className="text-lg text-white font-semibold">Peter Michaels</Text>
-                                    </View>
-                                    <View>
-                                        <Text className="text-md font-semibold text-white opacity-70">Natural Persona</Text>
+                                <TouchableOpacity disabled className="flex flex-row  items-center">
+                                    <View className="flex flex-row space-x-2 opacity-50 mt-2">
+                                        <Ionicons size={38} color="white" name="calendar" />
                                     </View>
 
+                                    <View className="flex flex-col space-y-[1%]  ml-7 mt-1">
+
+                                        <View className="opacity-50">
+                                            <Text className="text-lg text-white font-semibold">Date of Birth</Text>
+                                        </View>
+                                        <View>
+                                            <Text className="text-md font-semibold text-white opacity-50">July 7, 1990</Text>
+                                        </View>
+
+                                    </View>
+
+                                    <View className="opacity-60 ml-[145] mt-2" >
+                                        <Ionicons size={32} color="white" name="chevron-forward-outline" />
+                                    </View>
+                                </TouchableOpacity>
+
+                                <View className="flex flex-row items-center">
+                                    <TouchableOpacity className="relative ml-[-4]">
+                                        <Image className="h-11 w-11 rounded-full border border-cyan-500 object-cover" source={{ uri: "https://media.licdn.com/dms/image/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/0/1681764031887?e=1726099200&v=beta&t=xj9Lxl6yRL2Wcb5imP_zspIqb1ZpIb5vm6Sbw6DQLow" }} />
+                                        <View className="rotate-90 absolute left-7 top-7">
+                                            <Ionicons size={18} color="#22d3ee" name="leaf" />
+                                        </View>
+
+                                    </TouchableOpacity>
+
+                                    <View className="flex flex-col space-y-[1%]  ml-6 mt-1">
+
+                                        <View className="opacity-90">
+                                            <Text className="text-lg text-white font-semibold">Peter Michaels</Text>
+                                        </View>
+                                        <View>
+                                            <Text className="text-md font-semibold text-white opacity-70">Natural Persona</Text>
+                                        </View>
+
+                                    </View>
+
+                                    <View className="opacity-60 ml-[128] mt-2" >
+                                        <Ionicons size={32} color="white" name="chevron-forward-outline" />
+                                    </View>
                                 </View>
 
-                                <View className="opacity-60 ml-[128] mt-2" >
-                                    <Ionicons size={32} color="white" name="chevron-forward-outline" />
-                                </View>
-                            </View>
-
-                            <View className="flex flex-row flex-wrap ml-[60] ">
-                                <View className="rounded-full p-2 bg-white/20 mr-2 mb-3">
-                                    <Text className="text-md font-semibold text-white/80">Innovative</Text>
-                                </View>
-                                <View className="rounded-full p-2 bg-white/20  mr-2 mb-3">
-                                    <Text className="text-md font-semibold text-white/80">Friendly</Text>
-                                </View>
-                                <View className="rounded-full p-2 bg-white/20  mr-2 mb-3">
-                                    <Text className="text-md font-semibold text-white/80">Hiking</Text>
-                                </View> 
-                        
-                              
-                                <View className="rounded-full p-2 bg-white/20  mr-2 mb-3">
-                                    <Text className="text-md font-semibold text-white/80">Fitness</Text>
-                                </View>
-                                <View className="rounded-full p-2 bg-white/20  mr-2 mb-3">
-                                    <Text className="text-md font-semibold text-white/80">Cooking</Text>
-                                </View>
-                                <View className="rounded-full p-2 bg-white/20  mr-2 mb-3">
-                                    <Text className="text-md font-semibold text-white/80">Music</Text>
-                                </View>
-                                <View className="rounded-full p-2 bg-cyan-600/60  mr-2 mb-3">
-                                    <Text className="text-md font-semibold text-white/80">Add +</Text>
-                                </View>
-                            </View>
+                                <View className="flex flex-row flex-wrap ml-[60] ">
+                                    <View className="rounded-full p-2 bg-white/20 mr-2 mb-3">
+                                        <Text className="text-md font-semibold text-white/80">Innovative</Text>
+                                    </View>
+                                    <View className="rounded-full p-2 bg-white/20  mr-2 mb-3">
+                                        <Text className="text-md font-semibold text-white/80">Friendly</Text>
+                                    </View>
+                                    <View className="rounded-full p-2 bg-white/20  mr-2 mb-3">
+                                        <Text className="text-md font-semibold text-white/80">Hiking</Text>
+                                    </View>
 
 
-                        </View>
+                                    <View className="rounded-full p-2 bg-white/20  mr-2 mb-3">
+                                        <Text className="text-md font-semibold text-white/80">Fitness</Text>
+                                    </View>
+                                    <View className="rounded-full p-2 bg-white/20  mr-2 mb-3">
+                                        <Text className="text-md font-semibold text-white/80">Cooking</Text>
+                                    </View>
+                                    <View className="rounded-full p-2 bg-white/20  mr-2 mb-3">
+                                        <Text className="text-md font-semibold text-white/80">Music</Text>
+                                    </View>
+                                    <View className="rounded-full p-2 bg-cyan-600/60  mr-2 mb-3">
+                                        <Text className="text-md font-semibold text-white/80">Add +</Text>
+                                    </View>
+                                </View>
+
+
+                            </View> : <View className="lex flex-col space-y-8 justify-center  mt-14 mb-[14%] px-5">
+
+                                <TouchableOpacity  className="flex flex-row  items-center">
+                                    <View className="flex flex-row space-x-2 ">
+                                        <Ionicons size={38} color="#22c55e" name="checkmark-circle" />
+                                    </View>
+
+                                    <View className="flex flex-row space-x-2 items-center ml-6 mt-1">
+
+
+                                        <View className="">
+                                            <Text className="text-[22%] text-white font-bold">General</Text>
+                                        </View>
+                                    </View>
+
+                                    <View className=" ml-[150] mt-1" >
+                                        <Switch
+                                            trackColor={{ false: '#767577', true: '#22c55e' }}
+                                            thumbColor={isEnabled ? '#ffffff' : '#f4f3f4'}
+                                            ios_backgroundColor="#3e3e3e"
+                                            onValueChange={toggleSwitch}
+                                            value={isEnabled}
+                                        />
+                                    </View>
+                                </TouchableOpacity>
+
+
+                                <TouchableOpacity  className="flex flex-row  items-center">
+                                    <View className="flex flex-row space-x-2 ">
+                                        <Ionicons size={38} color="#ef4444" name="warning" />
+                                    </View>
+
+                                    <View className="flex flex-row space-x-2 items-center ml-6 mt-1 relative">
+
+
+                                        <View className="">
+                                            <Text className="text-[22%] text-white font-bold">Explicit</Text>
+                                        </View>
+
+
+                                        <View className="absolute left-[75] top-[-6]">
+                                            <Text className="text-[22%] text-white font-bold">*</Text>
+                                        </View>
+                                    </View>
+
+                                    <View className=" ml-[154] mt-1" >
+                                        <Switch
+                                            trackColor={{ false: '#767577', true: '#ef4444' }}
+                                            thumbColor={isEnabled1 ? '#ffffff' : '#f4f3f4'}
+                                            ios_backgroundColor="#3e3e3e"
+                                            onValueChange={toggleSwitch1}
+                                            value={isEnabled1}
+                                        />
+                                    </View>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity  className="flex flex-row  items-center">
+                                    <View className="flex flex-row space-x-2 ">
+                                        <Ionicons size={38} color="#facc15" name="people" />
+                                    </View>
+
+                                    <View className="flex flex-row space-x-2 items-center ml-6 mt-1">
+
+
+                                        <View className="">
+                                            <Text className="text-[22%] text-white font-bold">Parental Guidance</Text>
+                                        </View>
+                                    </View>
+
+                                    <View className=" ml-[40] mt-1" >
+                                        <Switch
+                                            trackColor={{ false: '#767577', true: '#facc15' }}
+                                            thumbColor={isEnabled2 ? '#ffffff' : '#f4f3f4'}
+                                            ios_backgroundColor="#3e3e3e"
+                                            onValueChange={toggleSwitch2}
+                                            value={isEnabled2}
+                                        />
+                                    </View>
+                                </TouchableOpacity>
+
+
+                                <TouchableOpacity  className="flex flex-row  items-center">
+                                    <View className="flex flex-row space-x-2 relative ">
+                                        <Ionicons size={38} color="#9333ea" name="person-outline" />
+                                        <View className="absolute h-1 w-10 bg-purple-500 rotate-45 top-5 left-[-8]">
+
+                                        </View>
+                                    </View>
+
+                                    <View className="flex flex-row space-x-2 items-center ml-6 mt-1">
+
+
+                                        <View className="">
+                                            <Text className="text-[22%] text-white font-bold">No Children</Text>
+                                        </View>
+                                    </View>
+
+                                    <View className=" ml-[106] mt-1" >
+                                        <Switch
+                                            trackColor={{ false: '#767577', true: '#9333ea' }}
+                                            thumbColor={isEnabled3 ? '#ffffff' : '#f4f3f4'}
+                                            ios_backgroundColor="#3e3e3e"
+                                            onValueChange={toggleSwitch3}
+                                            value={isEnabled3}
+                                        />
+                                    </View>
+                                </TouchableOpacity>
+
+                                
+
+                            </View>}
+
+
 
 
                         <TouchableOpacity className="p-4 bg-white/25 w-[90%] mt-6 ml-4 rounded-md flex flex-row justify-center">
