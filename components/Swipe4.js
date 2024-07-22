@@ -9,6 +9,8 @@ import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { FontAwesome } from '@expo/vector-icons';
+import LinearGradient from 'react-native-linear-gradient';
+
 
 const { width, height } = Dimensions.get('window');
 
@@ -75,16 +77,19 @@ export default function Swipe4({ data }) {
     const swipeRight = () => {
         swiperRef.current.swipeRight();
         setCurrentIndex((prevIndex) => prevIndex + 1);
+
     };
 
     const swipeBottom = () => {
         swiperRef.current.swipeBottom();
         setCurrentIndex((prevIndex) => prevIndex + 1);
+
     };
 
     const swipeLeft = () => {
         swiperRef.current.swipeLeft();
         setCurrentIndex((prevIndex) => prevIndex + 1);
+
     };
 
 
@@ -141,18 +146,64 @@ export default function Swipe4({ data }) {
         }).start();
     }, [swiped]);
 
+    const [swipeDirection, setSwipeDirection] = useState('');
+
+    function onSwiping(x, y) {
+        setSwiped(true);
+
+        if (Math.abs(x) > Math.abs(y)) {
+            if (x < 0) {
+                setSwipeDirection('left');
+                console.log('left')
+            } else if (x > 0) {
+                setSwipeDirection('right');
+                console.log('right')
+            }
+        } else {
+            if (y < 0) {
+                setSwipeDirection('top');
+                console.log('top')
+            } else if (y > 0) {
+                setSwipeDirection('bottom');
+                console.log('bottom')
+            }
+        }
+
+    }
+
+    function onSwiped(index) {
+        setSwiped(false);
+        setCurrentIndex(index + 1);
+        setSwipeDirection('');
+    }
+
+
+    const [explicit, setExplixit] = useState(false);
+
+    console.log('sensitive',explicit);
+    const [swiperKey, setSwiperKey] = useState("swiper-key");
+
+    function forceUpdateCard(){
+        setExplixit(true);
+        setSwiperKey('none');
+        
+    }
+
     return (
         <>
             <Swiper
                 ref={swiperRef}
                 cardIndex={currentIndex}
-                onSwiping={() => setSwiped(true)}
+                onSwiping={(x, y) => onSwiping(x, y)}
+                key={swiperKey}
+                // onSwiping={() => setSwiped(true)}
                 onSwipedAborted={() => setSwiped(false)}
                 // onSwiped={(index) => setCurrentIndex(index)}
-                onSwipedLeft={(index) => setCurrentIndex(index + 1)}
-                onSwipedRight={(index) => setCurrentIndex(index + 1)}
-                onSwipedTop={(index) => setCurrentIndex(index + 1)}
-                onSwipedBottom={(index) => setCurrentIndex(index + 1)}
+                onSwipedLeft={(index) => onSwiped(index)}
+                onSwipedRight={(index) => onSwiped(index)}
+                onSwipedTop={(index) => onSwiped(index)}
+                onSwipedBottom={(index) => onSwiped(index)}
+
                 overlayLabels={{
                     right: {
                         element: (
@@ -199,16 +250,6 @@ export default function Swipe4({ data }) {
                     },
                     top: {
                         element: (
-                            // <View className="mt-[124%] ml-[2%]">
-                            //     <Animated.View style={{ opacity: fadeAnimTop }}>
-                            //         <LottieView
-                            //             source={require('../Share.json')} // Replace with your top swipe animation
-                            //             autoPlay
-                            //             // loop={false}
-                            //             style={styles.lottieAnimation3}
-                            //         />
-                            //     </Animated.View>
-                            // </View>
 
 
                             <View className="mt-[130%] ml-[8.4%] relative">
@@ -237,7 +278,7 @@ export default function Swipe4({ data }) {
                                     <View className="absolute h-40 w-40 shadow-inner top-3 left-5 rounded-full bg-white/20">
 
                                     </View>
-                                    <Animated.View  >
+                                    <Animated.View>
                                         <LottieView
                                             source={require('../new-com.json')}  // Replace with your right swipe animation
                                             autoPlay
@@ -296,9 +337,28 @@ export default function Swipe4({ data }) {
                             </View>
                         </View>
 
+
+                        { (card?.category == "EXPLICIT" && !explicit) &&
+                            <View className="flex absolute w-[88%] z-[50] top-[18%] h-[78%] ml-5 flex-col space-y-2 bg-black/90  ">
+
+
+                                    <View className="flex flex-col mt-[32%] items-center space-y-6 ml-3 p-2">
+                                        <Text className="text-lg text-white font-semibold text-center">This content may contain explicit material. Viewer discretion is advised. Click below to proceed.</Text>
+                                        <TouchableOpacity onPress={()=>forceUpdateCard()} className="p-4 text-md  rounded-full bg-white/30"><Text className="text-white font-semibold">View Content</Text></TouchableOpacity>
+                                    </View>
+                           
+
+                            </View>
+
+                        }
+
                         {card?.post && (
-                            <Image className="h-[78%] w-[88%] absolute top-[18%] rounded-md object-cover ml-5" source={card?.post} />
+                            <Image className="h-[78%] w-[88%] absolute top-[18%] rounded-md object-cover ml-5 " source={card?.post} />
+
                         )}
+
+
+
 
                         {card?.video && (
                             <>
@@ -320,8 +380,8 @@ export default function Swipe4({ data }) {
                 )}
             />
 
-            <View className={swiped ? "absolute flex flex-row space-x-6 mt-[146.8%] ml-[4%] z-[-50]" : "absolute flex flex-row space-x-6 mt-[146.8%] ml-[4%]"}>
-                <View>
+            <View className={swiped ? "absolute flex flex-row space-x-6 mt-[147.8%] ml-[4%] z-[-50]" : "absolute flex flex-row space-x-6 mt-[147.8%] ml-[4%]"}>
+                <View className="mt-2">
                     <TouchableOpacity onPressIn={handlePressIn}
                         onPressOut={handlePressOut}
                         onPress={goToPreviousCard}
@@ -331,7 +391,9 @@ export default function Swipe4({ data }) {
                             className={isActive ? "rotate-12 transition-all transform duration-500 ease-in-out" : "rotate-45 transition-all transform duration-500 ease-in-out"} />
                     </TouchableOpacity>
                 </View>
-                <View className="mt-[-1%]">
+
+
+                <View className={swiped ? (swipeDirection == 'right' ? "mt-[-4.8%]" : "mt-[-2.8%]") : "mt-[-2.8%]"} >
                     <TouchableOpacity onPressIn={handlePressIn1}
                         onPressOut={handlePressOut1}
                         onPress={swipeRight}
@@ -341,7 +403,7 @@ export default function Swipe4({ data }) {
                     </TouchableOpacity>
                 </View>
 
-                <View className="mt-[-1%]">
+                <View className="mt-[-2.8%]">
                     <TouchableOpacity onPressIn={handlePressIn12}
                         onPressOut={handlePressOut12}
                         onPress={swipeBottom}
@@ -351,7 +413,11 @@ export default function Swipe4({ data }) {
                     </TouchableOpacity>
                 </View>
 
-                <View className="mt-[-1%]">
+                <View
+
+
+
+                    className={swiped ? (swipeDirection == 'left' ? "mt-[-7.8%] transition-all transform duration-500 ease-in-out" : "mt-[-2.8%] transition-all transform duration-500 ease-in-out") : "mt-[-2.8%] transition-all transform duration-500 ease-in-out"}>
                     <TouchableOpacity onPressIn={handlePressIn123}
                         onPressOut={handlePressOut123}
                         onPress={swipeLeft}
@@ -361,9 +427,7 @@ export default function Swipe4({ data }) {
                     </TouchableOpacity>
                 </View>
 
-
-
-                <View>
+                <View className="mt-2">
                     <TouchableOpacity onPressIn={handlePressIn1234}
                         onPressOut={handlePressOut1234}
                         disabled={isLastCard}
