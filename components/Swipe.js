@@ -302,7 +302,7 @@ export default function Swipe({ data }) {
                         className={
                             card?.category === 'GENERAL'
                                 ? 'relative bg-black/40 h-[67%] rounded-xl border border-green-500 border-1'
-                                : 'relative bg-black/40 h-[65%] rounded-xl border border-red-500 border-1'
+                                : (card?.category === 'PG' ? 'relative bg-black/40 h-[67%] rounded-xl border border-yellow-500 border-1' : 'relative bg-black/40 h-[65%] rounded-xl border border-red-500 border-1')
                         }
                     >
                         <View className="flex flex-col space-y-2">
@@ -316,14 +316,14 @@ export default function Swipe({ data }) {
                                     className={
                                         card?.category === 'GENERAL'
                                             ? 'font-semibold ml-4 bg-green-500/20 bg-opacity-20 py-0 px-3 flex justify-center rounded-full text-lg'
-                                            : 'font-semibold bg-red-500/20 bg-opacity-20 py-0 ml-4 px-3 flex justify-center rounded-full text-lg'
+                                            : (card?.category === 'PG' ? 'font-semibold bg-yellow-500/20 bg-opacity-20 py-0 ml-4 px-3 flex justify-center rounded-full text-lg' : 'font-semibold bg-red-500/20 bg-opacity-20 py-0 ml-4 px-3 flex justify-center rounded-full text-lg')
                                     }
                                 >
                                     <Text
                                         className={
                                             card?.category === 'GENERAL'
                                                 ? 'font-semibold text-green-600 text-center text-[15%]'
-                                                : 'font-semibold text-red-600 text-[15%]'
+                                                : (card?.category === 'PG' ? 'font-semibold text-yellow-600 text-[15%]' : 'font-semibold text-red-600 text-[15%]')
                                         }
                                     >
                                         {card?.category}

@@ -10,6 +10,9 @@ import LottieView from 'lottie-react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { FontAwesome } from '@expo/vector-icons';
 import LinearGradient from 'react-native-linear-gradient';
+import Modal from "react-native-modal";
+import { BlurView } from 'expo-blur';
+import * as Progress from 'react-native-progress';
 
 
 const { width, height } = Dimensions.get('window');
@@ -148,6 +151,9 @@ export default function Swipe4({ data }) {
 
     const [swipeDirection, setSwipeDirection] = useState('');
 
+
+
+
     function onSwiping(x, y) {
         setSwiped(true);
 
@@ -180,14 +186,58 @@ export default function Swipe4({ data }) {
 
     const [explicit, setExplixit] = useState(false);
 
-    console.log('sensitive',explicit);
+    console.log('sensitive', explicit);
     const [swiperKey, setSwiperKey] = useState("swiper-key");
 
-    function forceUpdateCard(){
+    function forceUpdateCard() {
         setExplixit(true);
-        setSwiperKey('none');
-        
+        setSwiperKey(Math.random() + 'none');
+
     }
+
+
+
+    const [categoryModal, setCategoryModal] = useState(false);
+
+    const [progress1, setProgress1] = useState(0);
+    const [progress2, setProgress2] = useState(0);
+    const [progress3, setProgress3] = useState(0);
+
+    const toggleCatModal = () => {
+        setCategoryModal(!categoryModal);
+        setSwiperKey(Math.random() + 'none8r');
+
+        setTimeout(() => {
+            setProgress1(0.4);
+            setProgress2(0.95);
+            setProgress3(0.99)
+        }, 500)
+
+        console.log('catModalin', categoryModal);
+    };
+
+
+    console.log('catModal', categoryModal);
+
+
+    const [isModalVisible3, setModalVisible3] = useState(false);
+
+    const toggleModal3 = () => {
+        setModalVisible3(!isModalVisible3);
+    };
+
+
+    const [isModalVisible4, setModalVisible4] = useState(false);
+
+    const toggleModal4 = () => {
+        setModalVisible4(!isModalVisible4);
+    };
+
+
+
+    const [trend, setTrend] = useState(true);
+
+
 
     return (
         <>
@@ -302,7 +352,7 @@ export default function Swipe4({ data }) {
                         className={
                             card?.category === 'GENERAL'
                                 ? 'relative bg-black/40 h-[67%] rounded-xl border border-green-500 border-1'
-                                : 'relative bg-black/40 h-[65%] rounded-xl border border-red-500 border-1'
+                                : (card?.category === 'PG' ? 'relative bg-black/40 h-[67%] rounded-xl border border-yellow-500 border-1 ' : 'relative bg-black/40 h-[65%] rounded-xl border border-red-500 border-1')
                         }
                     >
                         <View className="flex flex-col space-y-2">
@@ -312,23 +362,24 @@ export default function Swipe4({ data }) {
                                     <Text className="font-semibold text-white text-lg">{card?.name}</Text>
                                     <Text className="text-white opacity-80 text-[15%]">{card?.userName}</Text>
                                 </View>
-                                <View
+                                <TouchableOpacity
+                                    onPress={() => toggleCatModal()}
                                     className={
                                         card?.category === 'GENERAL'
                                             ? 'font-semibold ml-4 bg-green-500/20 bg-opacity-20 py-0 px-3 flex justify-center rounded-full text-lg'
-                                            : 'font-semibold bg-red-500/20 bg-opacity-20 py-0 ml-4 px-3 flex justify-center rounded-full text-lg'
+                                            : (card?.category === 'PG' ? 'font-semibold bg-yellow-500/20 bg-opacity-20 py-0 ml-4 px-9 flex justify-center rounded-full text-lg' : 'font-semibold bg-red-500/20 bg-opacity-20 py-0 ml-4 px-3 flex justify-center rounded-full text-lg')
                                     }
                                 >
                                     <Text
                                         className={
                                             card?.category === 'GENERAL'
                                                 ? 'font-semibold text-green-600 text-center text-[15%]'
-                                                : 'font-semibold text-red-600 text-[15%]'
+                                                : (card?.category === 'PG' ? 'font-semibold text-yellow-600 text-[15%]' : 'font-semibold text-red-600 text-[15%]')
                                         }
                                     >
                                         {card?.category}
                                     </Text>
-                                </View>
+                                </TouchableOpacity>
                                 <View className="ml-9">
                                     <TouchableOpacity className="mt-1 bg-white/20 rounded-full p-3 self-end ">
                                         <Ionicons size={26} color="white" name="ellipsis-horizontal-outline" />
@@ -338,16 +389,14 @@ export default function Swipe4({ data }) {
                         </View>
 
 
-                        { (card?.category == "EXPLICIT" && !explicit) &&
+                        {(card?.category == "EXPLICIT" && !explicit) &&
                             <View className="flex absolute w-[88%] z-[50] top-[18%] h-[78%] ml-5 flex-col space-y-2 bg-black/90  ">
 
 
-                                    <View className="flex flex-col mt-[32%] items-center space-y-6 ml-3 p-2">
-                                        <Text className="text-lg text-white font-semibold text-center">This content may contain explicit material. Viewer discretion is advised. Click below to proceed.</Text>
-                                        <TouchableOpacity onPress={()=>forceUpdateCard()} className="p-4 text-md  rounded-full bg-white/30"><Text className="text-white font-semibold">View Content</Text></TouchableOpacity>
-                                    </View>
-                           
-
+                                <View className="flex flex-col mt-[32%] items-center space-y-6 ml-3 p-2">
+                                    <Text className="text-lg text-white font-semibold text-center">This content may contain explicit material. Viewer discretion is advised. Click below to proceed.</Text>
+                                    <TouchableOpacity onPress={() => forceUpdateCard()} className="p-4 text-md  rounded-full bg-white/30"><Text className="text-white font-semibold">View Content</Text></TouchableOpacity>
+                                </View>
                             </View>
 
                         }
@@ -356,8 +405,6 @@ export default function Swipe4({ data }) {
                             <Image className="h-[78%] w-[88%] absolute top-[18%] rounded-md object-cover ml-5 " source={card?.post} />
 
                         )}
-
-
 
 
                         {card?.video && (
@@ -414,9 +461,6 @@ export default function Swipe4({ data }) {
                 </View>
 
                 <View
-
-
-
                     className={swiped ? (swipeDirection == 'left' ? "mt-[-7.8%] transition-all transform duration-500 ease-in-out" : "mt-[-2.8%] transition-all transform duration-500 ease-in-out") : "mt-[-2.8%] transition-all transform duration-500 ease-in-out"}>
                     <TouchableOpacity onPressIn={handlePressIn123}
                         onPressOut={handlePressOut123}
@@ -441,6 +485,340 @@ export default function Swipe4({ data }) {
 
                 </View>
             </View>
+
+
+            {categoryModal &&
+
+
+                <Modal onBackdropPress={() => toggleCatModal()} animationInTiming={400} animationOutTiming={400} className="w-[100%] ml-[0] mt-[30%] rounded-t-[40%]" animationIn="slideInUp" animationOut="slideOutDown" isVisible={categoryModal}>
+                    <View className="w-full h-[100%] ">
+                        <BlurView
+                            className=" h-[100%] p-2 relative "
+                            tint="dark"
+                            intensity={65}
+                        >
+
+                            <View className="flex flex-col mt-3">
+                                <View className="h-[0.7%] w-[14%] bg-white/40 ml-[42%] rounded-full">
+
+                                </View>
+
+                                <View className="flex flex-row space-x-2 items-center  justify-center mt-4 ml-[-12] relative">
+
+                                    <View className="flex flex-row space-x-2 ">
+                                        <Ionicons size={38} color="#ef4444" name="warning" />
+                                    </View>
+                                    <View className="pt-1">
+                                        <Text className="text-[22%] text-white font-bold">Explicit Content</Text>
+                                    </View>
+
+                                </View>
+
+                                {/* <View className="flex flex-row justify-center mt-6 px-2">
+
+                                    <Text className="text-center text-white text-[15%] font-semibold opacity-60 leading-5">This content is classified as Explicit due to certain elements listed below. To reclassify or exclude these elements, use the customize button below.</Text>
+                                </View>
+
+                                <View className="h-[0.5%] w-[98%] bg-gray-500 opacity-30 ml-[1%] mt-6 rounded-full">
+
+                                </View> */}
+
+
+                                <View className="flex flex-col  mt-8 space-y-2 px-2">
+                                    <View className="flex flex-row items-center">
+                                        <Text className="font-bold text-white text-[20%]">Classified Attributes</Text>
+                                        <TouchableOpacity onPress={() => toggleModal3()} className="border border-white rounded-full h-5 w-5 relative ml-2 mt-1 opacity-30">
+
+                                            <Text className=" text-white italic text-[12%] absolute font-semibold left-[7] top-[2] ">i</Text>
+                                        </TouchableOpacity>
+
+                                    </View>
+                                </View>
+
+                                <View className=" rounded-lg mt-1 flex flex-row  pt-4 pl-1  flex-wrap">
+                                    <View className="rounded-full p-2 bg-white/20 mr-2 mb-4">
+                                        <Text className="text-md font-semibold text-white/80">Violence</Text>
+                                    </View>
+                                    <View className="rounded-full p-2 bg-white/20  mr-2 mb-4">
+                                        <Text className="text-md font-semibold text-white/80">Gore</Text>
+                                    </View>
+                                    <View className="rounded-full p-2 bg-white/20  mr-2 mb-4">
+                                        <Text className="text-md font-semibold text-white/80">Disturbing</Text>
+                                    </View>
+                                    <View className="rounded-full p-2 bg-white/20  mr-2 mb-4">
+                                        <Text className="text-md font-semibold text-white/80">Adult</Text>
+
+                                    </View>
+                                    <View className="rounded-full p-2 bg-white/20  mr-2 mb-4">
+                                        <Text className="text-md font-semibold text-white/80">Trauma</Text>
+                                    </View>
+
+                                    <View className="rounded-full p-2 bg-white/20  mr-2 mb-4">
+                                        <Text className="text-md font-semibold text-white/80">Trending</Text>
+                                    </View>
+
+                                    <View className="rounded-full p-2 bg-white/20  mr-2 mb-4">
+                                        <Text className="text-md font-semibold text-white/80">Strong Language</Text>
+                                    </View>
+                                    {/* <View className="rounded-full p-2 bg-white/20  mr-2 mb-3">
+                                        <Text className="text-md font-semibold text-white/80">Cooking</Text>
+                                    </View>
+                                    <View className="rounded-full p-2 bg-white/20  mr-2 mb-3">
+                                        <Text className="text-md font-semibold text-white/80">Music</Text>
+                                    </View> */}
+
+                                </View>
+
+
+
+                                <View className="h-[0.5%] w-[98%] bg-gray-500 opacity-30 ml-[1%] mt-3 rounded-full">
+
+                                </View>
+
+                                <View className="flex flex-col  mt-5 space-y-2 px-2">
+                                    <View className="flex flex-row items-center">
+                                        <Text className="font-bold text-white text-[20%]">Identified Elements</Text>
+                                        <View className="border border-white rounded-full h-5 w-5 relative ml-2 mt-1 opacity-30">
+                                            <Text className=" text-white italic text-[12%] absolute font-semibold left-[7] top-[2] ">i</Text>
+                                        </View>
+
+                                    </View>
+
+                                    <View className=" pt-4 flex flex-col space-y-2 ">
+
+                                        <View>
+                                            <Text className="font-bold text-white text-[16%] opacity-80">Blood</Text>
+                                        </View>
+
+                                        <View className="flex flex-row space-x-4 items-center">
+                                            <Progress.Bar className="border-0 bg-gray-500/80 opacity-70 mt-1 " duration={2400} progress={progress1} width={308} height={10} animated={true} color='#22d3ee' />
+                                            <View>
+                                                <Text className="font-bold text-white text-[15%] opacity-80">40%</Text>
+                                            </View>
+                                        </View>
+
+                                    </View>
+
+
+                                    <View className=" pt-4 flex flex-col space-y-2 ">
+
+                                        <View>
+                                            <Text className="font-bold text-white text-[16%] opacity-80">Dead Body</Text>
+                                        </View>
+
+                                        <View className="flex flex-row space-x-4 items-center">
+                                            <Progress.Bar className="border-0 bg-gray-500/80 opacity-70 mt-1 " progress={progress2} duration={2800} width={308} height={10} animated={true} color='#22d3ee' />
+                                            <View>
+                                                <Text className="font-bold text-white text-[15%] opacity-80">95%</Text>
+                                            </View>
+                                        </View>
+
+                                    </View>
+
+
+                                    <View className=" pt-4 flex flex-col space-y-2 ">
+
+                                        <View>
+                                            <Text className="font-bold text-white text-[16%] opacity-80">Crime</Text>
+                                        </View>
+
+                                        <View className="flex flex-row space-x-4 items-center">
+                                            <Progress.Bar className="border-0 bg-gray-500/80 opacity-70 mt-1 " progress={progress3} duration={3200} width={308} height={10} animated={true} color='#22d3ee' />
+                                            <View>
+                                                <Text className="font-bold text-white text-[15%] opacity-80">99%</Text>
+                                            </View>
+                                        </View>
+
+                                    </View>
+
+
+                                </View>
+
+                                <View className="flex flex-col space-y-3 mt-8 px-2">
+                                    <TouchableOpacity onPress={() => toggleModal4()} className="justify-center flex flex-row items-center space-x-2 bg-white/20 rounded-md p-4">
+                                        <Ionicons size={32} color="white" name="aperture" />
+                                        <Text className="text-white font-bold text-[19%]">Customize Category</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity className="justify-center flex flex-row items-center space-x-2 bg-white/20 rounded-md p-4">
+                                        <Ionicons size={32} color="white" name="thumbs-up" />
+                                        <Text className="text-white font-bold text-[19%]">Help Us Improve</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </BlurView>
+                    </View>
+
+
+
+                    <Modal
+                        isVisible={isModalVisible3}
+                        onBackdropPress={toggleModal3}
+                        animationIn="fadeIn"
+                        animationOut="fadeOut"
+                        backdropOpacity={0.8}
+                    >
+
+                        <BlurView
+                            className=" h-[30%] rounded-3xl relative"
+                            tint="dark"
+                            intensity={60}
+
+                        >
+
+
+                            <TouchableOpacity onPress={toggleModal3} className="p-2 absolute bg-white/20 right-4 top-4 rounded-full">
+                                <Ionicons size={20} color="#ffffff" name="close-outline" />
+                            </TouchableOpacity>
+
+                            <View className="flex flex-row justify-center mt-[18%] px-4">
+
+                                <Text className="text-center text-white text-[18%] font-semibold opacity-60 leading-6">Based on the elements identified in the post, the following attributes have led to its classification as explicit content. To reclassify or exclude these attributes, please use the customize button below.</Text>
+                            </View>
+
+
+
+                        </BlurView>
+                    </Modal>
+
+
+
+
+
+                    <Modal
+                        isVisible={isModalVisible4}
+                        onBackdropPress={toggleModal4}
+                        animationIn="fadeIn"
+                        animationOut="fadeOut"
+                        backdropOpacity={0.9}
+                    >
+
+                        <BlurView
+                            className=" h-[59%] rounded-3xl relative"
+                            tint="dark"
+                            intensity={60}
+
+                        >
+
+                            <TouchableOpacity onPress={toggleModal4} className="p-2 absolute bg-white/20 right-4 top-4 rounded-full">
+                                <Ionicons size={20} color="#ffffff" name="close-outline" />
+                            </TouchableOpacity>
+                            <View className="relative flex flex-row  justify-center items-center p-8 mt-10 space-x-3" >
+
+
+
+                                <Ionicons size={32} color="white" name="aperture" />
+
+                                <Text className="text-xl font-semibold text-white opacity-80" >Customize Explicit Attributes</Text>
+
+
+                            </View>
+
+                            <View className="flex flex-row flex-wrap ml-[28] ">
+                                <View className="rounded-full flex flex-row space-x-1 items-center p-2 bg-white/20 mr-2 mb-3">
+                                    <Text className="text-md font-semibold text-white/80">Violence</Text>
+                                    <TouchableOpacity>
+                                        <Ionicons size={20} color="#ffffff" name="close-outline" />
+                                    </TouchableOpacity>
+
+                                </View>
+                                <View className="rounded-full flex flex-row space-x-1 items-center p-2 bg-white/20 mr-2 mb-3">
+                                    <Text className="text-md font-semibold text-white/80">Gore</Text>
+                                    <TouchableOpacity>
+                                        <Ionicons size={20} color="#ffffff" name="close-outline" />
+                                    </TouchableOpacity>
+
+                                </View>
+                                <View className="rounded-full flex flex-row space-x-1 items-center p-2 bg-white/20 mr-2 mb-3">
+                                    <Text className="text-md font-semibold text-white/80">Nudity</Text>
+                                    <TouchableOpacity>
+                                        <Ionicons size={20} color="#ffffff" name="close-outline" />
+                                    </TouchableOpacity>
+
+                                </View>
+                                <View className="rounded-full flex flex-row space-x-1 items-center p-2 bg-white/20 mr-2 mb-3">
+                                    <Text className="text-md font-semibold text-white/80">Drug Use</Text>
+                                    <TouchableOpacity>
+                                        <Ionicons size={20} color="#ffffff" name="close-outline" />
+                                    </TouchableOpacity>
+
+                                </View>
+                                <View className="rounded-full flex flex-row space-x-1 items-center p-2 bg-white/20 mr-2 mb-3">
+                                    <Text className="text-md font-semibold text-white/80">Sexualized Violence</Text>
+                                    <TouchableOpacity>
+                                        <Ionicons size={20} color="#ffffff" name="close-outline" />
+                                    </TouchableOpacity>
+
+                                </View>
+                                <View className="rounded-full flex flex-row space-x-1 items-center p-2 bg-white/20 mr-2 mb-3">
+                                    <Text className="text-md font-semibold text-white/80">Self-Harm</Text>
+                                    <TouchableOpacity>
+                                        <Ionicons size={20} color="#ffffff" name="close-outline" />
+                                    </TouchableOpacity>
+
+                                </View>
+                                <View className="rounded-full flex flex-row space-x-1 items-center p-2 bg-white/20 mr-2 mb-3">
+                                    <Text className="text-md font-semibold text-white/80">Strong Language</Text>
+                                    <TouchableOpacity>
+                                        <Ionicons size={20} color="#ffffff" name="close-outline" />
+                                    </TouchableOpacity>
+
+                                </View>
+                                <View className="rounded-full flex flex-row space-x-1 items-center p-2 bg-white/20 mr-2 mb-3">
+                                    <Text className="text-md font-semibold text-white/80">Suicide</Text>
+                                    <TouchableOpacity>
+                                        <Ionicons size={20} color="#ffffff" name="close-outline" />
+                                    </TouchableOpacity>
+
+                                </View>
+                                <View className="rounded-full flex flex-row space-x-1 items-center p-2 bg-white/20 mr-2 mb-3">
+                                    <Text className="text-md font-semibold text-white/80">Disturbing</Text>
+                                    <TouchableOpacity>
+                                        <Ionicons size={20} color="#ffffff" name="close-outline" />
+                                    </TouchableOpacity>
+
+                                </View>
+                                <View className="rounded-full flex flex-row space-x-1 items-center p-2 bg-white/20 mr-2 mb-3">
+                                    <Text className="text-md font-semibold text-white/80">Adult</Text>
+                                    <TouchableOpacity>
+                                        <Ionicons size={20} color="#ffffff" name="close-outline" />
+                                    </TouchableOpacity>
+
+                                </View>
+                                <View className="rounded-full flex flex-row space-x-1 items-center p-2 bg-white/20 mr-2 mb-3">
+                                    <Text className="text-md font-semibold text-white/80">Trauma</Text>
+                                    <TouchableOpacity>
+                                        <Ionicons size={20} color="#ffffff" name="close-outline" />
+                                    </TouchableOpacity>
+
+                                </View>
+
+                                {
+                                    trend && <View className="rounded-full flex flex-row space-x-1 items-center p-2 bg-white/20 mr-2 mb-3">
+                                        <Text className="text-md font-semibold text-white/80">Trending</Text>
+                                        <TouchableOpacity onPress={() => setTrend(false)}>
+                                            <Ionicons size={20} color="#ffffff" name="close-outline" />
+                                        </TouchableOpacity>
+
+                                    </View>
+                                }
+
+                                <View className="rounded-full p-2 bg-cyan-600/60  mr-2 mb-3">
+                                    <Text className="text-md font-semibold text-white/80">Add +</Text>
+                                </View>
+                            </View>
+
+
+
+                            <TouchableOpacity onPress={toggleModal4} className="p-4 bg-white/25 w-[40%] mt-5 ml-[29%] rounded-md flex flex-row justify-center">
+
+                                <Text className="text-white text-[16%] font-bold">Save</Text>
+                            </TouchableOpacity>
+                        </BlurView>
+                    </Modal>
+                </Modal>
+
+
+            }
         </>
     );
 }

@@ -180,13 +180,13 @@ export default function Swipe2({ data }) {
 
     const [explicit, setExplixit] = useState(false);
 
-    console.log('sensitive',explicit);
+    console.log('sensitive', explicit);
     const [swiperKey, setSwiperKey] = useState("swiper-key");
 
-    function forceUpdateCard(){
+    function forceUpdateCard() {
         setExplixit(true);
         setSwiperKey('none');
-        
+
     }
 
     return (
@@ -302,7 +302,7 @@ export default function Swipe2({ data }) {
                         className={
                             card?.category === 'GENERAL'
                                 ? 'relative bg-black/40 h-[67%] rounded-xl border border-green-500 border-1'
-                                : 'relative bg-black/40 h-[65%] rounded-xl border border-red-500 border-1'
+                                : (card?.category === 'PG' ? 'relative bg-black/40 h-[67%] rounded-xl border border-yellow-500 border-1' : 'relative bg-black/40 h-[65%] rounded-xl border border-red-500 border-1')
                         }
                     >
                         <View className="flex flex-col space-y-2">
@@ -316,14 +316,14 @@ export default function Swipe2({ data }) {
                                     className={
                                         card?.category === 'GENERAL'
                                             ? 'font-semibold ml-4 bg-green-500/20 bg-opacity-20 py-0 px-3 flex justify-center rounded-full text-lg'
-                                            : 'font-semibold bg-red-500/20 bg-opacity-20 py-0 ml-4 px-3 flex justify-center rounded-full text-lg'
+                                            : (card?.category === 'PG' ? 'font-semibold bg-yellow-500/20 bg-opacity-20 py-0 ml-4 px-3 flex justify-center rounded-full text-lg' : 'font-semibold bg-red-500/20 bg-opacity-20 py-0 ml-4 px-3 flex justify-center rounded-full text-lg')
                                     }
                                 >
                                     <Text
                                         className={
                                             card?.category === 'GENERAL'
                                                 ? 'font-semibold text-green-600 text-center text-[15%]'
-                                                : 'font-semibold text-red-600 text-[15%]'
+                                                : (card?.category === 'PG' ? 'font-semibold text-yellow-600 text-[15%]' : 'font-semibold text-red-600 text-[15%]')
                                         }
                                     >
                                         {card?.category}
@@ -338,15 +338,15 @@ export default function Swipe2({ data }) {
                         </View>
 
 
-                        { (card?.category == "EXPLICIT" && !explicit) &&
+                        {(card?.category == "EXPLICIT" && !explicit) &&
                             <View className="flex absolute w-[88%] z-[50] top-[18%] h-[78%] ml-5 flex-col space-y-2 bg-black/90  ">
 
 
-                                    <View className="flex flex-col mt-[32%] items-center space-y-6 ml-3 p-2">
-                                        <Text className="text-lg text-white font-semibold text-center">This content may contain explicit material. Viewer discretion is advised. Click below to proceed.</Text>
-                                        <TouchableOpacity onPress={()=>forceUpdateCard()} className="p-4 text-md  rounded-full bg-white/30"><Text className="text-white font-semibold">View Content</Text></TouchableOpacity>
-                                    </View>
-                           
+                                <View className="flex flex-col mt-[32%] items-center space-y-6 ml-3 p-2">
+                                    <Text className="text-lg text-white font-semibold text-center">This content may contain explicit material. Viewer discretion is advised. Click below to proceed.</Text>
+                                    <TouchableOpacity onPress={() => forceUpdateCard()} className="p-4 text-md  rounded-full bg-white/30"><Text className="text-white font-semibold">View Content</Text></TouchableOpacity>
+                                </View>
+
 
                             </View>
 

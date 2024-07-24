@@ -18,12 +18,12 @@ import Modal from "react-native-modal";
 import { BlurView } from 'expo-blur';
 
 export default function HomeScreen() {
-    const [isEnabled, setIsEnabled] = useState(false);
+    const [isEnabled, setIsEnabled] = useState(true);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
 
 
-    const [isEnabled1, setIsEnabled1] = useState(false);
+    const [isEnabled1, setIsEnabled1] = useState(true);
     const toggleSwitch1 = () => setIsEnabled1(previousState => !previousState);
 
 
@@ -43,12 +43,12 @@ export default function HomeScreen() {
 
     const data = [{
         id: 1,
-        name: "Renee",
-        userName: "@Re18",
+        name: "Peter",
+        userName: "@Pe20",
         category: "GENERAL",
         feed: "FOR_YOU",
-        photoUrl: "https://media.licdn.com/dms/image/D4E03AQEFL9wup87lNw/profile-displayphoto-shrink_800_800/0/1714019194685?e=1726704000&v=beta&t=PTO-kEywgVt6n_2_qJJEcaro0uqxbZqp0RQD9Df0Lh8",
 
+        photoUrl: "https://media.licdn.com/dms/image/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/0/1681764031887?e=1726704000&v=beta&t=piy0AWRKEDTmdfD3zevzggciPPr9G1SLiGnsf00sq6U",
         post: "",
         video: require("../d-1-a.mp4"),
     },
@@ -75,13 +75,13 @@ export default function HomeScreen() {
     },
     {
         id: 4,
-        name: "User 4",
-        userName: "@user4",
-        category: "GENERAL",
+        name: "Renee",
+        userName: "@Re18",
+        category: "PG",
         feed: "FOR_YOU",
-        photoUrl: "https://thispersondoesnotexist.com",
+        photoUrl: "https://media.licdn.com/dms/image/D4E03AQEFL9wup87lNw/profile-displayphoto-shrink_800_800/0/1714019194685?e=1726704000&v=beta&t=PTO-kEywgVt6n_2_qJJEcaro0uqxbZqp0RQD9Df0Lh8",
         video: "",
-        post: require('../d-p-p.png'),
+        post: require('../PG.jpeg'),
     },
 
     {
@@ -378,6 +378,16 @@ export default function HomeScreen() {
     const [tab, setTab] = useState("default")
 
 
+
+    const [isModalVisible2, setModalVisible2] = useState(false);
+
+    const toggleModal2 = () => {
+        setModalVisible2(!isModalVisible2);
+        // setTab("default");
+    };
+
+
+
     return (
         <SafeAreaView className="flex-1 relative" >
 
@@ -544,7 +554,7 @@ export default function HomeScreen() {
                                             <Text className="text-lg text-white font-semibold">Date of Birth</Text>
                                         </View>
                                         <View>
-                                            <Text className="text-md font-semibold text-white opacity-50">July 7, 1990</Text>
+                                            <Text className="text-md font-semibold text-white opacity-50">July 7, 1964</Text>
                                         </View>
 
                                     </View>
@@ -608,7 +618,7 @@ export default function HomeScreen() {
 
                             </View> : <View className="lex flex-col space-y-8 justify-center  mt-14 mb-[14%] px-5">
 
-                                <TouchableOpacity  className="flex flex-row  items-center">
+                                <TouchableOpacity className="flex flex-row  items-center">
                                     <View className="flex flex-row space-x-2 ">
                                         <Ionicons size={38} color="#22c55e" name="checkmark-circle" />
                                     </View>
@@ -633,7 +643,7 @@ export default function HomeScreen() {
                                 </TouchableOpacity>
 
 
-                                <TouchableOpacity  className="flex flex-row  items-center">
+                                <TouchableOpacity className="flex flex-row  items-center">
                                     <View className="flex flex-row space-x-2 ">
                                         <Ionicons size={38} color="#ef4444" name="warning" />
                                     </View>
@@ -662,7 +672,7 @@ export default function HomeScreen() {
                                     </View>
                                 </TouchableOpacity>
 
-                                <TouchableOpacity  className="flex flex-row  items-center">
+                                <TouchableOpacity onLongPress={toggleModal2} className="flex flex-row  items-center">
                                     <View className="flex flex-row space-x-2 ">
                                         <Ionicons size={38} color="#facc15" name="people" />
                                     </View>
@@ -687,7 +697,7 @@ export default function HomeScreen() {
                                 </TouchableOpacity>
 
 
-                                <TouchableOpacity  className="flex flex-row  items-center">
+                                <TouchableOpacity className="flex flex-row  items-center">
                                     <View className="flex flex-row space-x-2 relative ">
                                         <Ionicons size={38} color="#9333ea" name="person-outline" />
                                         <View className="absolute h-1 w-10 bg-purple-500 rotate-45 top-5 left-[-8]">
@@ -713,23 +723,92 @@ export default function HomeScreen() {
                                         />
                                     </View>
                                 </TouchableOpacity>
-
-                                
-
                             </View>}
 
-
-
-
-                        <TouchableOpacity className="p-4 bg-white/25 w-[90%] mt-6 ml-4 rounded-md flex flex-row justify-center">
+                        <TouchableOpacity onPress={toggleModal} className="p-4 bg-white/25 w-[90%] mt-6 ml-4 rounded-md flex flex-row justify-center">
 
                             <Text className="text-white text-lg font-bold">Apply Changes</Text>
                         </TouchableOpacity>
 
                     </BlurView>
                 </View>
+                <Modal
+                    isVisible={isModalVisible2}
+                    onBackdropPress={toggleModal2}
+                    animationIn="fadeIn"
+                    animationOut="fadeOut"
+                    backdropOpacity={0.8}
+                >
 
+                    <BlurView
+                        className=" h-[44%] rounded-3xl relative"
+                        tint="dark"
+                        intensity={60}
+
+                    >
+
+                        <TouchableOpacity onPress={toggleModal2} className="p-2 absolute bg-white/20 right-4 top-4 rounded-full">
+                            <Ionicons size={20} color="#ffffff" name="close-outline" />
+                        </TouchableOpacity>
+                        <View className="relative flex flex-row  justify-center items-center p-8 mt-10 space-x-3" >
+
+
+                            <Ionicons size={28} color="#facc15" name="people" />
+
+                            <Text className="text-xl font-semibold text-white opacity-80" >Parental Guidance Attributes</Text>
+
+
+                        </View>
+
+                        <View className="flex flex-row flex-wrap ml-[20] ">
+                            <View className="rounded-full p-2 bg-white/20 mr-2 mb-3">
+                                <Text className="text-md font-semibold text-white/80">Educational</Text>
+                            </View>
+                            <View className="rounded-full p-2 bg-white/20  mr-2 mb-3">
+                                <Text className="text-md font-semibold text-white/80">Animated</Text>
+                            </View>
+                            <View className="rounded-full p-2 bg-white/20  mr-2 mb-3">
+                                <Text className="text-md font-semibold text-white/80">Family</Text>
+                            </View>
+
+                            <View className="rounded-full p-2 bg-white/20  mr-2 mb-3">
+                                <Text className="text-md font-semibold text-white/80">Adventure</Text>
+                            </View>
+                            <View className="rounded-full p-2 bg-white/20  mr-2 mb-3">
+                                <Text className="text-md font-semibold text-white/80">Cooking</Text>
+                            </View>
+                            <View className="rounded-full p-2 bg-white/20  mr-2 mb-3">
+                                <Text className="text-md font-semibold text-white/80">Comedy</Text>
+                            </View>
+                            <View className="rounded-full p-2 bg-white/20  mr-2 mb-3">
+                                <Text className="text-md font-semibold text-white/80">Sports</Text>
+                            </View>
+                            <View className="rounded-full p-2 bg-white/20  mr-2 mb-3">
+                                <Text className="text-md font-semibold text-white/80">Drama</Text>
+                            </View>
+                            <View className="rounded-full p-2 bg-white/20  mr-2 mb-3">
+                                <Text className="text-md font-semibold text-white/80">Science</Text>
+                            </View>
+
+                            <View className="rounded-full p-2 bg-cyan-600/60  mr-2 mb-3">
+                                <Text className="text-md font-semibold text-white/80">Add +</Text>
+                            </View>
+                        </View>
+
+
+
+                        <TouchableOpacity onPress={toggleModal2} className="p-4 bg-white/25 w-[40%] mt-5 ml-[29%] rounded-md flex flex-row justify-center">
+
+                            <Text className="text-white text-[16%] font-bold">Save</Text>
+                        </TouchableOpacity>
+                    </BlurView>
+                </Modal>
             </Modal>
+
+
+
+
+
         </SafeAreaView>
 
     );
