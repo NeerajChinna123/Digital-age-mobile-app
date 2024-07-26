@@ -1,7 +1,7 @@
 
 
 import React, { useRef, useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, Animated } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, Animated, ScrollView } from 'react-native';
 import Swiper from 'react-native-deck-swiper';
 import { Video, Audio } from 'expo-av';
 import { Ionicons } from '@expo/vector-icons';
@@ -25,10 +25,16 @@ export default function Swipe4({ data }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isMuted, setIsMuted] = useState(false);
 
+    const [liked, setLiked] = useState(false);
+
     const toggleMute = () => {
         setIsMuted(!isMuted);
         videoRef.current.setIsMutedAsync(!isMuted);
     };
+
+
+
+
 
     const [isActive, setIsActive] = useState(false);
     const handlePressIn = () => setIsActive(true);
@@ -160,18 +166,18 @@ export default function Swipe4({ data }) {
         if (Math.abs(x) > Math.abs(y)) {
             if (x < 0) {
                 setSwipeDirection('left');
-                console.log('left')
+
             } else if (x > 0) {
                 setSwipeDirection('right');
-                console.log('right')
+                // console.log('right')
             }
         } else {
             if (y < 0) {
                 setSwipeDirection('top');
-                console.log('top')
+
             } else if (y > 0) {
                 setSwipeDirection('bottom');
-                console.log('bottom')
+
             }
         }
 
@@ -184,9 +190,11 @@ export default function Swipe4({ data }) {
     }
 
 
+
+
     const [explicit, setExplixit] = useState(false);
 
-    console.log('sensitive', explicit);
+
     const [swiperKey, setSwiperKey] = useState("swiper-key");
 
     function forceUpdateCard() {
@@ -194,6 +202,7 @@ export default function Swipe4({ data }) {
         setSwiperKey(Math.random() + 'none');
 
     }
+
 
 
 
@@ -213,11 +222,9 @@ export default function Swipe4({ data }) {
             setProgress3(0.99)
         }, 500)
 
-        console.log('catModalin', categoryModal);
+
     };
 
-
-    console.log('catModal', categoryModal);
 
 
     const [isModalVisible3, setModalVisible3] = useState(false);
@@ -233,9 +240,41 @@ export default function Swipe4({ data }) {
         setModalVisible4(!isModalVisible4);
     };
 
-
-
     const [trend, setTrend] = useState(true);
+
+
+    function onSwipedRight(index) {
+        onSwiped(index);
+        setLiked(true);
+
+        setTimeout(() => {
+            setLiked(false);
+        }, 1400)
+    }
+
+
+
+    const [shareModal, setShareModal] = useState(false);
+
+    function toggleShareModal() {
+        setShareModal(!shareModal);
+    }
+
+
+    function onSwiped1(index) {
+
+        setSwiped(false);
+        // swiperRef.current.jumpToCardIndex(index);
+        setCurrentIndex(index);
+        setSwipeDirection('');
+
+        setShareModal(true);
+        setSwiperKey(Math.random() + 'nones');
+
+    }
+
+    console.log('shm', shareModal);
+
 
 
 
@@ -250,10 +289,9 @@ export default function Swipe4({ data }) {
                 onSwipedAborted={() => setSwiped(false)}
                 // onSwiped={(index) => setCurrentIndex(index)}
                 onSwipedLeft={(index) => onSwiped(index)}
-                onSwipedRight={(index) => onSwiped(index)}
-                onSwipedTop={(index) => onSwiped(index)}
-                onSwipedBottom={(index) => onSwiped(index)}
-
+                onSwipedRight={(index) => onSwipedRight(index)}
+                onSwipedTop={(index) => onSwiped1(index)}
+                onSwipedBottom={(index) => onSwiped1(index)}
                 overlayLabels={{
                     right: {
                         element: (
@@ -347,7 +385,8 @@ export default function Swipe4({ data }) {
                 stackSize={1}
                 animateCardOpacity
                 renderCard={(card) => (
-                    <View
+                    <TouchableOpacity
+                        // onPress={() => navigation.navigate("PostDetails")}
                         key={card.id}
                         className={
                             card?.category === 'GENERAL'
@@ -357,7 +396,7 @@ export default function Swipe4({ data }) {
                     >
                         <View className="flex flex-col space-y-2">
                             <View className="flex flex-row p-4">
-                                <Image className="h-14 w-14 rounded-full object-cover" source={{ uri: card?.photoUrl }} />
+                                <Image className="h-14 w-14 rounded-full object-fit" source={{ uri: card?.photoUrl }} />
                                 <View className="flex flex-col space-y-1 pl-4">
                                     <Text className="font-semibold text-white text-lg">{card?.name}</Text>
                                     <Text className="text-white opacity-80 text-[15%]">{card?.userName}</Text>
@@ -419,11 +458,11 @@ export default function Swipe4({ data }) {
                                     volume={1.0} // Ensure the volume is set to a reasonable level
                                     isLooping={true}
                                     useNativeControls
-                                    onPlaybackStatusUpdate={(status) => console.log('Playback Status:', status)}
+                                // onPlaybackStatusUpdate={(status) => ('Playback Staconsole.logtus:', status)}
                                 />
                             </>
                         )}
-                    </View>
+                    </TouchableOpacity>
                 )}
             />
 
@@ -819,6 +858,153 @@ export default function Swipe4({ data }) {
 
 
             }
+
+
+
+            {shareModal &&
+                <Modal animationInTiming={400} onBackdropPress={toggleShareModal} animationOutTiming={400} className="w-[100%] ml-[0] mt-[60%] rounded-t-[40%]" animationIn="slideInUp" animationOut="slideOutDown" isVisible={shareModal}>
+                    <View className="w-full h-[100%] ">
+                        <BlurView
+                            className=" h-[100%] p-2 relative "
+                            tint="dark"
+                            intensity={65}
+                        >
+
+                            <View className="flex flex-col mt-3">
+                                <View className="h-[1.7%] w-[14%] bg-white/40 ml-[42%] rounded-full">
+
+                                </View>
+
+                                <View className="p-2 mt-8 rounded-lg bg-white/20 flex flex-row mx-1 items-center space-x-2">
+                                    <Ionicons size={25} color="#A9A9A9" name="search-outline" />
+
+                                    <Text className="text-lg  text-gray-300 opacity-70">Search People ...</Text>
+                                </View>
+
+                                {/* <View className="flex flex-row flex-wrap px-6 max-h-[68%] overflow-hidden mt-10 ml-1"> */}
+
+                                <View style={styles.container}>
+                                    <ScrollView contentContainerStyle={styles.scrollView}>
+                                        <TouchableOpacity className="flex flex-col space-y-2 items-center pr-10 pb-8">
+                                            <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/0/1681764031887?e=1727308800&v=beta&t=hGVVaP-8KbWFJTt1kVAPq-GvsaYkg-LBh9Xbo1WShdQ' }} />
+                                            <View className="flex flex-col space-y-1">
+                                                <Text className=" text-white text-lg">Peter</Text>
+
+                                            </View>
+                                        </TouchableOpacity>
+
+                                        <TouchableOpacity className="flex flex-col space-y-2 items-center  pr-10 pb-8">
+                                            <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4D03AQELM-tqD-X4-A/profile-displayphoto-shrink_800_800/0/1721061786562?e=1727308800&v=beta&t=-sxV_xa0_vK_04QXMyzseX54cEYlTfuH8xS7bicg-os' }} />
+                                            <View className="flex flex-col space-y-1">
+                                                <Text className=" text-white text-lg">Neeraj</Text>
+
+                                            </View>
+                                        </TouchableOpacity>
+
+
+                                        <TouchableOpacity className="flex flex-col space-y-2 items-center  pb-8">
+                                            <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D5603AQFh1MEBbmOVBQ/profile-displayphoto-shrink_800_800/0/1718282646997?e=1727308800&v=beta&t=1uXY8jdo4kN_z_0JCMHwbziuutvZdyuWVpyxqgI4jSI' }} />
+                                            <View className="flex flex-col space-y-1">
+                                                <Text className=" text-white text-lg">Jeff</Text>
+
+                                            </View>
+                                        </TouchableOpacity>
+
+                                        <TouchableOpacity className="flex flex-col space-y-2 items-center pr-10 pb-8">
+                                            <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4E03AQEFL9wup87lNw/profile-displayphoto-shrink_800_800/0/1714019194685?e=1727308800&v=beta&t=OZCYo4jv0DrgCrM8ROvp1WNUEMDBeA5TBFRDtSJ1u8o' }} />
+                                            <View className="flex flex-col space-y-1">
+                                                <Text className=" text-white text-lg">Renee</Text>
+
+                                            </View>
+                                        </TouchableOpacity>
+
+                                        <TouchableOpacity className="flex flex-col space-y-2 items-center  pr-11 pb-8">
+
+                                            <View className="relative h-20 w-20 ml-[-4]">
+                                                <Image className="h-14 w-14 top-1 absolute rounded-full object-fit" source={{ uri: 'https://pbs.twimg.com/profile_images/1779151535147986944/-CcykDos_400x400.jpg' }} />
+                                                <Image className="h-10 w-10 top-2 left-[75%] absolute rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_400_400/0/1681764031887?e=1727308800&v=beta&t=0V-4U2d0YzMRkAjulwgEzUcqi_1nJEcG7Uj-_615Ml8' }} />
+                                                <View className="p-2 absolute bg-white/20 top-12 left-12 rounded-full"><Text className="text-white text-md">+4</Text></View>
+                                            </View>
+
+                                            <View className="flex flex-col space-y-1">
+                                                <Text className=" text-white text-lg">Common</Text>
+
+                                            </View>
+                                        </TouchableOpacity>
+
+
+                                        <TouchableOpacity className="flex flex-col space-y-2 items-center  pb-8">
+                                            <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D5603AQFh1MEBbmOVBQ/profile-displayphoto-shrink_800_800/0/1718282646997?e=1727308800&v=beta&t=1uXY8jdo4kN_z_0JCMHwbziuutvZdyuWVpyxqgI4jSI' }} />
+                                            <View className="flex flex-col space-y-1">
+                                                <Text className=" text-white text-lg">User5</Text>
+
+                                            </View>
+                                        </TouchableOpacity>
+
+
+                                        <TouchableOpacity className="flex flex-col space-y-2 items-center pr-10 pb-8">
+                                            <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4E03AQEFL9wup87lNw/profile-displayphoto-shrink_800_800/0/1714019194685?e=1727308800&v=beta&t=OZCYo4jv0DrgCrM8ROvp1WNUEMDBeA5TBFRDtSJ1u8o' }} />
+                                            <View className="flex flex-col space-y-1">
+                                                <Text className=" text-white text-lg">Renee</Text>
+
+                                            </View>
+                                        </TouchableOpacity>
+
+                                        <TouchableOpacity className="flex flex-col space-y-2 items-center  pr-11 pb-8">
+
+                                            <View className="relative h-20 w-20 ml-[-4]">
+                                                <Image className="h-14 w-14 top-1 absolute rounded-full object-fit" source={{ uri: 'https://pbs.twimg.com/profile_images/1779151535147986944/-CcykDos_400x400.jpg' }} />
+                                                <Image className="h-10 w-10 top-2 left-[75%] absolute rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_400_400/0/1681764031887?e=1727308800&v=beta&t=0V-4U2d0YzMRkAjulwgEzUcqi_1nJEcG7Uj-_615Ml8' }} />
+                                                <View className="p-2 absolute bg-white/20 top-12 left-12 rounded-full"><Text className="text-white text-md">+4</Text></View>
+                                            </View>
+
+                                            <View className="flex flex-col space-y-1">
+                                                <Text className=" text-white text-lg">Common</Text>
+
+                                            </View>
+                                        </TouchableOpacity>
+
+
+                                        <TouchableOpacity className="flex flex-col space-y-2 items-center  pb-8">
+                                            <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D5603AQFh1MEBbmOVBQ/profile-displayphoto-shrink_800_800/0/1718282646997?e=1727308800&v=beta&t=1uXY8jdo4kN_z_0JCMHwbziuutvZdyuWVpyxqgI4jSI' }} />
+                                            <View className="flex flex-col space-y-1">
+                                                <Text className=" text-white text-lg">User5</Text>
+
+                                            </View>
+                                        </TouchableOpacity>
+                                    </ScrollView>
+                                </View>
+
+
+
+
+
+
+
+
+
+
+                                {/* </View> */}
+                            </View>
+                        </BlurView>
+                    </View>
+
+
+                </Modal>}
+            {
+                liked &&
+
+                <Animated.View className="ml-[-19%] mt-[70%]" >
+                    <LottieView
+                        source={require('../Love-anim.json')} // Replace with your right swipe animation
+                        autoPlay
+                        duration={1300}
+                        loop={false}
+                        style={styles.lottieAnimation9}
+
+                    />
+                </Animated.View>
+            }
         </>
     );
 }
@@ -864,6 +1050,11 @@ const styles = StyleSheet.create({
         height: 175,
         width: 175,
     },
+
+    lottieAnimation9: {
+        height: 375,
+        width: 375,
+    },
     iconContainer: {
         flexDirection: 'row',
         justifyContent: 'space-around',
@@ -889,6 +1080,21 @@ const styles = StyleSheet.create({
     },
     iconActive: {
         transform: [{ rotate: '0deg' }],
+    },
+    container: {
+        height: 380,
+        width: "100%" // Height for 5 items, assuming each item is 50 units tall
+    },
+    scrollView: {
+        // flexGrow: 0,
+
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        paddingHorizontal:20,
+        marginTop:30
+       // Adjust space between items
+
     },
 });
 

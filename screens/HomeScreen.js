@@ -74,6 +74,17 @@ export default function HomeScreen() {
         post: "",
     },
     {
+        id: 121,
+        name: "Peter",
+        userName: "@Pe20",
+        category: "GENERAL",
+        feed: "FOR_YOU",
+
+        photoUrl: "https://media.licdn.com/dms/image/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/0/1681764031887?e=1726704000&v=beta&t=piy0AWRKEDTmdfD3zevzggciPPr9G1SLiGnsf00sq6U",
+        post: require("../PG.jpeg"),
+        video: "",
+    },
+    {
         id: 4,
         name: "Renee",
         userName: "@Re18",
@@ -81,7 +92,7 @@ export default function HomeScreen() {
         feed: "FOR_YOU",
         photoUrl: "https://media.licdn.com/dms/image/D4E03AQEFL9wup87lNw/profile-displayphoto-shrink_800_800/0/1714019194685?e=1726704000&v=beta&t=PTO-kEywgVt6n_2_qJJEcaro0uqxbZqp0RQD9Df0Lh8",
         video: "",
-        post: require('../PG.jpeg'),
+        post: require('../biki-f.jpeg'),
     },
 
     {
@@ -499,8 +510,6 @@ export default function HomeScreen() {
                             <TouchableOpacity onPress={() => setTab("default")} className="">
                                 <Text className={tab == "default" ? "text-white font-bold text-lg opacity-70 transition-all transform duration-200 ease-in-out" : "text-white font-bold text-lg opacity-40 transition-all transform duration-500 ease-in-out"}>Default</Text>
                             </TouchableOpacity>
-
-
 
                             <TouchableOpacity onPress={() => setTab("Content")} className="">
                                 <Text className={tab == "Content" ? "text-white font-bold text-lg opacity-70 transition-all transform duration-200 ease-in-out" : "text-white font-bold text-lg opacity-40 transition-all transform duration-500 ease-in-out"}>Content</Text>
