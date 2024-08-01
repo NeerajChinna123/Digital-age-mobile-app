@@ -299,6 +299,11 @@ export default function Swipe4({ data }) {
     }
 
 
+
+
+
+
+
     return (
         <>
             <Swiper
@@ -319,7 +324,6 @@ export default function Swipe4({ data }) {
                             <View className="ml-[-62%] mt-[42%] relative">
                                 <View className="animate-pulse">
                                     <View className="absolute h-40 w-40 shadow-inner top-2 left-3 rounded-full bg-white/20">
-
                                     </View>
                                     <Animated.View  >
                                         <LottieView
@@ -331,7 +335,6 @@ export default function Swipe4({ data }) {
                                         />
                                     </Animated.View>
                                 </View>
-
                             </View>
                         ),
                     },
@@ -340,7 +343,6 @@ export default function Swipe4({ data }) {
                             <View className="ml-[108%] mt-[45%]">
                                 <View className="animate-pulse">
                                     <View className="absolute h-40 w-40 shadow-inner top-3 left-0 rounded-full bg-white/20">
-
                                     </View>
                                     <Animated.View  >
                                         <LottieView
@@ -353,14 +355,11 @@ export default function Swipe4({ data }) {
                                         />
                                     </Animated.View>
                                 </View>
-
                             </View>
                         ),
                     },
                     top: {
                         element: (
-
-
                             <View className="mt-[130%] ml-[8.4%] relative">
                                 <View className="animate-pulse">
                                     <View className="absolute h-40 w-40 shadow-inner top-[23%] left-[22.8%] rounded-full bg-white/20">
@@ -381,11 +380,9 @@ export default function Swipe4({ data }) {
                     },
                     bottom: {
                         element: (
-
                             <View className="mt-[-58%] ml-[23.5%]">
                                 <View className="animate-pulse">
                                     <View className="absolute h-40 w-40 shadow-inner top-3 left-5 rounded-full bg-white/20">
-
                                     </View>
                                     <Animated.View>
                                         <LottieView
@@ -415,7 +412,10 @@ export default function Swipe4({ data }) {
                                 : (card?.category === 'PG' ? 'relative bg-black/40 h-[67%] rounded-xl border border-yellow-500 border-1 ' : 'relative bg-black/40 h-[65%] rounded-xl border border-red-500 border-1')
                         }
                     >
-                        <View className="flex absolute z-[100] flex-col items-center space-y-2">
+
+
+                        <Animated.View
+                            className="flex absolute z-[100] flex-col items-center space-y-2">
                             <View className="flex flex-row p-4 items-center ml-1 mt-1">
                                 <View className="flex flex-row rounded-full bg-black/40 pr-4 pl-2 py-2 ">
                                     <Image className="h-10 w-10 rounded-full object-fit" source={{ uri: card?.photoUrl }} />
@@ -425,33 +425,35 @@ export default function Swipe4({ data }) {
                                     </View>
 
                                 </View>
-                         
-                                    <TouchableOpacity
-                                        onPress={() => toggleCatModal()}
+
+                                <TouchableOpacity
+                                    onPress={() => toggleCatModal()}
+                                    className={
+                                        card?.category === 'GENERAL'
+                                            ? 'font-semibold ml-3 bg-green-700/90 bg-opacity-20 py-4 px-3 flex justify-center rounded-full text-lg'
+                                            : (card?.category === 'PG' ? 'font-semibold bg-yellow-700/90 bg-opacity-20 py-4 ml-3 px-9 flex justify-center rounded-full text-lg' : 'font-semibold bg-red-700/90 py-4 ml-3 px-3 flex justify-center rounded-full text-lg')
+                                    }
+                                >
+                                    <Text
                                         className={
                                             card?.category === 'GENERAL'
-                                                ? 'font-semibold ml-3 bg-green-700/90 bg-opacity-20 py-4 px-3 flex justify-center rounded-full text-lg'
-                                                : (card?.category === 'PG' ? 'font-semibold bg-yellow-700/90 bg-opacity-20 py-4 ml-3 px-9 flex justify-center rounded-full text-lg' : 'font-semibold bg-red-700/90 py-4 ml-3 px-3 flex justify-center rounded-full text-lg')
+                                                ? 'font-semibold text-green-200 text-center text-[15%]'
+                                                : (card?.category === 'PG' ? 'font-semibold text-yellow-200 text-[15%]' : 'font-semibold text-red-200 text-[15%]')
                                         }
                                     >
-                                        <Text
-                                            className={
-                                                card?.category === 'GENERAL'
-                                                    ? 'font-semibold text-green-200 text-center text-[15%]'
-                                                    : (card?.category === 'PG' ? 'font-semibold text-yellow-200 text-[15%]' : 'font-semibold text-red-200 text-[15%]')
-                                            }
-                                        >
-                                            {card?.category}
-                                        </Text>
-                                    </TouchableOpacity>
-                            
+                                        {card?.category}
+                                    </Text>
+                                </TouchableOpacity>
+
                                 <View className="ml-8">
                                     <TouchableOpacity className="mt-1 bg-black/40 rounded-full p-3 self-end ">
                                         <Ionicons size={26} color="white" name="ellipsis-horizontal-outline" />
                                     </TouchableOpacity>
                                 </View>
                             </View>
-                        </View>
+                        </Animated.View>
+
+
                         {(card?.category == "EXPLICIT" && !explicit) &&
                             <View className="flex absolute z-[50] top-[2.5%] h-[94%] w-[94%]  ml-[3%] flex-col space-y-2 bg-black/90  ">
 
