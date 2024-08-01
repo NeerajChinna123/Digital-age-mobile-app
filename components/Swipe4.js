@@ -32,10 +32,6 @@ export default function Swipe4({ data }) {
         videoRef.current.setIsMutedAsync(!isMuted);
     };
 
-
-
-
-
     const [isActive, setIsActive] = useState(false);
     const handlePressIn = () => setIsActive(true);
     const handlePressOut = () => setIsActive(false);
@@ -286,6 +282,22 @@ export default function Swipe4({ data }) {
 
 
 
+    const [send, setSend] = useState(false);
+
+    function sendin() {
+        setSend(true);
+
+        setTimeout(() => {
+            setShareModal(false);
+
+        }, 2900)
+
+        setTimeout(() => {
+            setSend(false);
+
+        }, 4000)
+    }
+
 
     return (
         <>
@@ -332,12 +344,12 @@ export default function Swipe4({ data }) {
                                     </View>
                                     <Animated.View  >
                                         <LottieView
-                                            source={require('../repost.json')}  // Replace with your right swipe animation
+                                            source={require('../Save-lottie.json')}  // Replace with your right swipe animation
                                             autoPlay
 
                                             // loop={false}
                                             style={styles.lottieAnimation2}
-                                            className="ml-3 mt-5"
+                                            className="ml-1 mt-4"
                                         />
                                     </Animated.View>
                                 </View>
@@ -394,7 +406,7 @@ export default function Swipe4({ data }) {
                 stackSize={1}
                 animateCardOpacity
                 renderCard={(card) => (
-                    <TouchableOpacity
+                    <View
                         // onPress={() => navigation.navigate("PostDetails")}
                         key={card.id}
                         className={
@@ -403,45 +415,43 @@ export default function Swipe4({ data }) {
                                 : (card?.category === 'PG' ? 'relative bg-black/40 h-[67%] rounded-xl border border-yellow-500 border-1 ' : 'relative bg-black/40 h-[65%] rounded-xl border border-red-500 border-1')
                         }
                     >
-                        <View className="flex flex-col space-y-2">
-                            <View className="flex flex-row p-4">
-                                <Image className="h-14 w-14 rounded-full object-fit" source={{ uri: card?.photoUrl }} />
-                                <View className="flex flex-col space-y-1 pl-4">
-                                    <Text className="font-semibold text-white text-lg">{card?.name}</Text>
-                                    <Text className="text-white opacity-80 text-[15%]">{card?.userName}</Text>
+                        <View className="flex absolute z-[100] flex-col items-center space-y-2">
+                            <View className="flex flex-row p-4 ml-1 mt-1">
+                                <Image className="h-12 w-12 rounded-full object-fit" source={{ uri: card?.photoUrl }} />
+                                <View className="flex flex-col ml-4  items-center justify-center  rounded-3xl">
+                                    <Text className="font-semibold text-white text-[17%]">{card?.name}</Text>
+                                    <Text className="text-white mt-1 opacity-90 text-[13%]">{card?.userName}</Text>
                                 </View>
                                 <TouchableOpacity
                                     onPress={() => toggleCatModal()}
                                     className={
                                         card?.category === 'GENERAL'
-                                            ? 'font-semibold ml-4 bg-green-500/20 bg-opacity-20 py-0 px-3 flex justify-center rounded-full text-lg'
-                                            : (card?.category === 'PG' ? 'font-semibold bg-yellow-500/20 bg-opacity-20 py-0 ml-4 px-9 flex justify-center rounded-full text-lg' : 'font-semibold bg-red-500/20 bg-opacity-20 py-0 ml-4 px-3 flex justify-center rounded-full text-lg')
+                                            ? 'font-semibold ml-6 bg-green-700/90 bg-opacity-20 py-0 px-3 flex justify-center rounded-full text-lg'
+                                            : (card?.category === 'PG' ? 'font-semibold bg-yellow-700/90 bg-opacity-20 py-0 ml-6 px-9 flex justify-center rounded-full text-lg' : 'font-semibold bg-red-700/90 bg-opacity-20 py-0 ml-6 px-3 flex justify-center rounded-full text-lg')
                                     }
                                 >
                                     <Text
                                         className={
                                             card?.category === 'GENERAL'
-                                                ? 'font-semibold text-green-600 text-center text-[15%]'
-                                                : (card?.category === 'PG' ? 'font-semibold text-yellow-600 text-[15%]' : 'font-semibold text-red-600 text-[15%]')
+                                                ? 'font-semibold text-green-300 text-center text-[15%]'
+                                                : (card?.category === 'PG' ? 'font-semibold text-yellow-300 text-[15%]' : 'font-semibold text-red-100 text-[15%]')
                                         }
                                     >
                                         {card?.category}
                                     </Text>
                                 </TouchableOpacity>
-                                <View className="ml-9">
-                                    <TouchableOpacity className="mt-1 bg-white/20 rounded-full p-3 self-end ">
+                                <View className="ml-8">
+                                    <TouchableOpacity className="mt-1 bg-black/40 rounded-full p-3 self-end ">
                                         <Ionicons size={26} color="white" name="ellipsis-horizontal-outline" />
                                     </TouchableOpacity>
                                 </View>
                             </View>
                         </View>
-
-
                         {(card?.category == "EXPLICIT" && !explicit) &&
-                            <View className="flex absolute w-[88%] z-[50] top-[18%] h-[78%] ml-5 flex-col space-y-2 bg-black/90  ">
+                            <View className="flex absolute z-[50] top-[2.5%] h-[94%] w-[94%]  ml-[3%] flex-col space-y-2 bg-black/90  ">
 
 
-                                <View className="flex flex-col mt-[32%] items-center space-y-6 ml-3 p-2">
+                                <View className="flex flex-col mt-[52%] items-center space-y-6 ml-2 p-2">
                                     <Text className="text-lg text-white font-semibold text-center">This content may contain explicit material. Viewer discretion is advised. Click below to proceed.</Text>
                                     <TouchableOpacity onPress={() => forceUpdateCard()} className="p-4 text-md  rounded-full bg-white/30"><Text className="text-white font-semibold">View Content</Text></TouchableOpacity>
                                 </View>
@@ -450,7 +460,7 @@ export default function Swipe4({ data }) {
                         }
 
                         {card?.post && (
-                            <Image className="h-[78%] w-[88%] absolute top-[18%] rounded-md object-cover ml-5 " source={card?.post} />
+                            <Image className="h-[94%] w-[94%] absolute top-[2.5%] rounded-md object-cover ml-[3%] " source={card?.post} />
 
                         )}
 
@@ -471,7 +481,7 @@ export default function Swipe4({ data }) {
                                 />
                             </>
                         )}
-                    </TouchableOpacity>
+                    </View>
                 )}
             />
 
@@ -497,7 +507,6 @@ export default function Swipe4({ data }) {
                             className={isActive1 ? " transition-all transform duration-500 ease-in-out" : "transition-all transform duration-500 ease-in-out"} />
                     </TouchableOpacity>
                 </View>
-
                 <View className="mt-[-2.8%]">
                     <TouchableOpacity onPressIn={handlePressIn12}
                         onPressOut={handlePressOut12}
@@ -507,18 +516,16 @@ export default function Swipe4({ data }) {
                             className={isActive12 ? " transition-all transform duration-500 ease-in-out" : "transition-all transform duration-500 ease-in-out"} />
                     </TouchableOpacity>
                 </View>
-
                 <View
                     className={swiped ? (swipeDirection == 'left' ? "mt-[-7.8%] transition-all transform duration-500 ease-in-out" : "mt-[-2.8%] transition-all transform duration-500 ease-in-out") : "mt-[-2.8%] transition-all transform duration-500 ease-in-out"}>
                     <TouchableOpacity onPressIn={handlePressIn123}
                         onPressOut={handlePressOut123}
                         onPress={swipeLeft}
                         className={isActive123 ? "p-3 rounded-full bg-white/10 " : "  p-3 rounded-full bg-white/20 "}>
-                        <Icon name="retweet" size={32} color={'#0ea5e9'}
-                            className={isActive12 ? " transition-all transform duration-500 ease-in-out" : "transition-all transform duration-500 ease-in-out"} />
+                        <Icon name="bookmark" size={32} color={'#fff'}
+                            className={isActive12 ? " transition-all transform opacity-80 duration-500 ease-in-out" : "transition-all opacity-80 transform duration-500 ease-in-out"} />
                     </TouchableOpacity>
                 </View>
-
                 <View className="mt-2">
                     <TouchableOpacity onPressIn={handlePressIn1234}
                         onPressOut={handlePressOut1234}
@@ -871,308 +878,430 @@ export default function Swipe4({ data }) {
 
 
             {shareModal &&
-                <Modal animationInTiming={400} onBackdropPress={toggleShareModal} animationOutTiming={400} className="w-[100%] ml-[0] mt-[60%] rounded-t-[40%]" animationIn="slideInUp" animationOut="slideOutDown" isVisible={shareModal}>
+                <Modal animationInTiming={400} onBackdropPress={toggleShareModal} animationOutTiming={400} className={(u1 && !u3) ? "w-[100%] ml-[0] mt-[38%] rounded-t-[40%]" : (u3 ? "w-[100%] ml-[0] mt-[23%] rounded-t-[40%]" : "w-[100%] ml-[0] mt-[60%] rounded-t-[40%]")} animationIn="slideInUp" animationOut="slideOutDown" isVisible={shareModal}>
                     <View className="w-full h-[100%] ">
                         <BlurView
                             className=" h-[100%] p-2 relative "
                             tint="dark"
                             intensity={65}
                         >
+                            {
 
-                            <View className="flex flex-col mt-3">
-                                <View className="h-[1.7%] w-[14%] bg-white/40 ml-[42%] rounded-full">
+                                !send ? <View className="flex flex-col mt-3">
+                                    <View className="h-[1.7%] w-[14%] bg-white/40 ml-[42%] rounded-full">
 
-                                </View>
-
-                                <View className="p-2 mt-8 rounded-lg bg-white/20 flex flex-row mx-1 items-center space-x-2">
-                                    <Ionicons size={25} color="#A9A9A9" name="search-outline" />
-
-                                    <Text className="text-lg  text-gray-300 opacity-70">Search People ...</Text>
-                                </View>
-
-
-                                {u1 &&
-
-                                    <View className="flex flex-row flex-wrap  max-w px-1 mt-4 mb-4">
-                                        {u1 &&
-                                            <View className="flex flex-row space-x-2 mr-2  bg-white/20 items-center rounded-3xl p-2">
-                                                <Image className="h-8 w-8 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4D03AQELM-tqD-X4-A/profile-displayphoto-shrink_800_800/0/1721061786562?e=1727308800&v=beta&t=-sxV_xa0_vK_04QXMyzseX54cEYlTfuH8xS7bicg-os' }} />
-                                                <View>
-
-                                                    <Text className="text-white text-[16%] font-semibold">Neeraj</Text>
-                                                </View>
-
-                                                <TouchableOpacity onPress={() => setU1(!u1)}>
-                                                    <Ionicons size={24} color="#ffffff" name="close-outline" />
-                                                </TouchableOpacity>
-                                            </View>
-                                        }
-
-
-
-
-                                        {u2 &&
-                                            <View className="flex flex-row space-x-2 bg-white/20 items-center rounded-3xl p-2">
-                                                <Image className="h-8 w-8 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/C5603AQEL1SpiPMx00A/profile-displayphoto-shrink_400_400/0/1626392153104?e=1727308800&v=beta&t=gVWNCSwHqxUvG11xPKrK4C5rGNZg5lM4yLw-sf2rJR4' }} />
-                                                <View>
-
-                                                    <Text className="text-white text-[16%] font-semibold">Leighton</Text>
-                                                </View>
-
-                                                <TouchableOpacity onPress={() => setU2(!u2)}>
-                                                    <Ionicons size={24} color="#ffffff" name="close-outline" />
-                                                </TouchableOpacity>
-                                            </View>
-                                        }
-
-                                        {u3 &&
-                                            <View className="flex flex-row space-x-2 mt-3 bg-white/20 items-center rounded-3xl px-3 py-2">
-                                                <View className="relative h-8 w-8 ml-[-4]">
-                                                    <Image className="h-6 w-6 top-1 absolute rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4E03AQEFL9wup87lNw/profile-displayphoto-shrink_800_800/0/1714019194685?e=1727308800&v=beta&t=OZCYo4jv0DrgCrM8ROvp1WNUEMDBeA5TBFRDtSJ1u8o' }} />
-                                                    <Image className="h-6 w-6 top-2 left-[75%] absolute rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4D03AQELM-tqD-X4-A/profile-displayphoto-shrink_800_800/0/1721061786562?e=1727308800&v=beta&t=-sxV_xa0_vK_04QXMyzseX54cEYlTfuH8xS7bicg-os' }} />
-                                                    {/* <View className="p-2 absolute bg-white/20 top-12 left-12 rounded-full"><Text className="text-white text-md">+9</Text></View> */}
-                                                </View>
-                                                <View className="pl-4">
-
-                                                    <Text className="text-white text-[16%] font-semibold">Common</Text>
-                                                </View>
-
-                                                <TouchableOpacity onPress={() => setU3(!u3)}>
-                                                    <Ionicons size={24} color="#ffffff" name="close-outline" />
-                                                </TouchableOpacity>
-                                            </View>
-                                        }
-
-                                        {u4 &&
-                                            <View className="flex flex-row space-x-2 mt-2 bg-white/20 items-center ml-2 rounded-3xl p-2">
-                                                <Image className="h-8 w-8 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4E03AQEFL9wup87lNw/profile-displayphoto-shrink_800_800/0/1714019194685?e=1727308800&v=beta&t=OZCYo4jv0DrgCrM8ROvp1WNUEMDBeA5TBFRDtSJ1u8o' }} />
-                                                <View>
-
-                                                    <Text className="text-white text-[16%] font-semibold">Renee</Text>
-                                                </View>
-
-                                                <TouchableOpacity onPress={() => setU4(!u4)}>
-                                                    <Ionicons size={24} color="#ffffff" name="close-outline" />
-                                                </TouchableOpacity>
-                                            </View>
-                                        }
                                     </View>
 
-                                }
+                                    <View className="p-2 mt-8 rounded-lg bg-white/20 flex flex-row mx-1 items-center space-x-2">
+                                        <Ionicons size={25} color="#A9A9A9" name="search-outline" />
+
+                                        <Text className="text-lg  text-gray-300 opacity-70">Search People ...</Text>
+                                    </View>
 
 
+                                    {u1 &&
 
-                                {/* <View className="flex flex-row flex-wrap px-6 max-h-[68%] overflow-hidden mt-10 ml-1"> */}
+                                        <View className="flex flex-row flex-wrap  max-w px-1 mt-4 mb-4">
+                                            {u1 &&
+                                                <View className="flex flex-row space-x-2 mr-2  bg-white/20 items-center rounded-3xl p-2">
+                                                    <Image className="h-8 w-8 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4D03AQELM-tqD-X4-A/profile-displayphoto-shrink_800_800/0/1721061786562?e=1727308800&v=beta&t=-sxV_xa0_vK_04QXMyzseX54cEYlTfuH8xS7bicg-os' }} />
+                                                    <View>
 
-                                <View style={styles.container}>
-                                    <ScrollView contentContainerStyle={styles.scrollView}>
-                                        <TouchableOpacity className="flex flex-col space-y-2 items-center pr-10 pb-8">
-                                            <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/0/1681764031887?e=1727308800&v=beta&t=hGVVaP-8KbWFJTt1kVAPq-GvsaYkg-LBh9Xbo1WShdQ' }} />
-                                            <View className="flex flex-col space-y-1">
-                                                <Text className=" text-white text-lg">Peter</Text>
+                                                        <Text className="text-white text-[16%] font-semibold">Neeraj</Text>
+                                                    </View>
 
-                                            </View>
-                                        </TouchableOpacity>
-
-                                        <TouchableOpacity onPress={() => setU1(!u1)} className="flex flex-col relative space-y-2 items-center  pr-10 pb-8">
-                                            <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4D03AQELM-tqD-X4-A/profile-displayphoto-shrink_800_800/0/1721061786562?e=1727308800&v=beta&t=-sxV_xa0_vK_04QXMyzseX54cEYlTfuH8xS7bicg-os' }} />
-                                            <View className="flex flex-col space-y-1">
-                                                <Text className=" text-white text-lg">Neeraj</Text>
-
-                                            </View>
-                                            {u1 && <View className="absolute left-14 top-[-12] p-2 bg-cyan-500 opacity-90 rounded-full">
-                                                <Ionicons size={14} color="#ffffff" name="checkmark-outline" />
-                                            </View>}
-
-                                        </TouchableOpacity>
-
-
-                                        <TouchableOpacity className="flex flex-col space-y-2 items-center  pb-8">
-                                            <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D5603AQFh1MEBbmOVBQ/profile-displayphoto-shrink_800_800/0/1718282646997?e=1727308800&v=beta&t=1uXY8jdo4kN_z_0JCMHwbziuutvZdyuWVpyxqgI4jSI' }} />
-                                            <View className="flex flex-col space-y-1">
-                                                <Text className=" text-white text-lg">Jeff</Text>
-
-                                            </View>
-                                        </TouchableOpacity>
-
-                                        <TouchableOpacity onPress={() => setU4(!u4)} className="flex flex-col space-y-2 items-center pr-10 pb-8">
-                                            <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4E03AQEFL9wup87lNw/profile-displayphoto-shrink_800_800/0/1714019194685?e=1727308800&v=beta&t=OZCYo4jv0DrgCrM8ROvp1WNUEMDBeA5TBFRDtSJ1u8o' }} />
-                                            <View className="flex flex-col space-y-1">
-                                                <Text className=" text-white text-lg">Renee</Text>
-
-                                            </View>
-                                            {u4 && <View className="absolute left-14 top-[-12] p-2 bg-cyan-500 opacity-90 rounded-full">
-                                                <Ionicons size={14} color="#ffffff" name="checkmark-outline" />
-                                            </View>}
-                                        </TouchableOpacity>
-
-                                        <TouchableOpacity className="flex flex-col space-y-2 items-center  pr-11 pb-8">
-
-                                            <View className="relative h-20 w-20 ml-[-4]">
-                                                <Image className="h-14 w-14 top-1 absolute rounded-full object-fit" source={{ uri: 'https://pbs.twimg.com/profile_images/1779151535147986944/-CcykDos_400x400.jpg' }} />
-                                                <Image className="h-10 w-10 top-2 left-[75%] absolute rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_400_400/0/1681764031887?e=1727308800&v=beta&t=0V-4U2d0YzMRkAjulwgEzUcqi_1nJEcG7Uj-_615Ml8' }} />
-                                                <View className="p-2 absolute bg-white/20 top-12 left-12 rounded-full"><Text className="text-white text-md">+4</Text></View>
-                                            </View>
-
-                                            <View className="flex flex-col space-y-1">
-                                                <Text className=" text-white text-lg">Squad ..</Text>
-
-                                            </View>
-                                        </TouchableOpacity>
-
-
-                                        <TouchableOpacity onPress={() => setU2(!u2)} className="flex flex-col space-y-2 items-center  pb-8">
-                                            <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/C5603AQEL1SpiPMx00A/profile-displayphoto-shrink_400_400/0/1626392153104?e=1727308800&v=beta&t=gVWNCSwHqxUvG11xPKrK4C5rGNZg5lM4yLw-sf2rJR4' }} />
-                                            <View className="flex flex-col space-y-1">
-                                                <Text className=" text-white text-lg">Leighton</Text>
-
-                                            </View>
-
-                                            {u2 && <View className="absolute left-14 top-[-12] p-2 bg-cyan-500 opacity-90 rounded-full">
-                                                <Ionicons size={14} color="#ffffff" name="checkmark-outline" />
-                                            </View>}
-                                        </TouchableOpacity>
-
-                                        <TouchableOpacity onPress={() => setU3(!u3)} className="flex flex-col space-y-2 items-center  pr-11 pb-8">
-
-                                            <View className="relative h-20 w-20 ml-[-4]">
-                                                <Image className="h-14 w-14 top-1 absolute rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4E03AQEFL9wup87lNw/profile-displayphoto-shrink_800_800/0/1714019194685?e=1727308800&v=beta&t=OZCYo4jv0DrgCrM8ROvp1WNUEMDBeA5TBFRDtSJ1u8o' }} />
-                                                <Image className="h-10 w-10 top-2 left-[75%] absolute rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4D03AQELM-tqD-X4-A/profile-displayphoto-shrink_800_800/0/1721061786562?e=1727308800&v=beta&t=-sxV_xa0_vK_04QXMyzseX54cEYlTfuH8xS7bicg-os' }} />
-                                                <View className="p-2 absolute bg-white/20 top-12 left-12 rounded-full"><Text className="text-white text-md">+9</Text></View>
-                                            </View>
-
-                                            <View className="flex flex-col space-y-1">
-                                                <Text className=" text-white text-lg">Common</Text>
-
-                                            </View>
-                                            {u3 && <View className="absolute left-20 top-[-12] p-2 bg-cyan-500 opacity-90 rounded-full">
-                                                <Ionicons size={14} color="#ffffff" name="checkmark-outline" />
-                                            </View>}
-                                        </TouchableOpacity>
-
-
-                                        <TouchableOpacity className="flex flex-col space-y-2 items-center pr-10 pb-8">
-                                            <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://pbs.twimg.com/profile_images/1779151535147986944/-CcykDos_400x400.jpg' }} />
-                                            <View className="flex flex-col space-y-1">
-                                                <Text className=" text-white text-lg">Chinna</Text>
-
-                                            </View>
-                                        </TouchableOpacity>
+                                                    <TouchableOpacity onPress={() => setU1(!u1)}>
+                                                        <Ionicons size={24} color="#ffffff" name="close-outline" />
+                                                    </TouchableOpacity>
+                                                </View>
+                                            }
 
 
 
 
-                                        <TouchableOpacity className="flex flex-col space-y-2 items-center  pb-8">
-                                            <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/C5603AQH9HEz8Ny9QaQ/profile-displayphoto-shrink_800_800/0/1661807785415?e=1727308800&v=beta&t=ohPwozK5Z4LweLok0VyqR_-jy8i8TX2oEdFNzzWuZ1U' }} />
-                                            <View className="flex flex-col space-y-1">
-                                                <Text className=" text-white text-lg">Newtina</Text>
+                                            {u2 &&
+                                                <View className="flex flex-row space-x-2 bg-white/20 items-center rounded-3xl p-2">
+                                                    <Image className="h-8 w-8 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/C5603AQEL1SpiPMx00A/profile-displayphoto-shrink_400_400/0/1626392153104?e=1727308800&v=beta&t=gVWNCSwHqxUvG11xPKrK4C5rGNZg5lM4yLw-sf2rJR4' }} />
+                                                    <View>
 
-                                            </View>
-                                        </TouchableOpacity>
+                                                        <Text className="text-white text-[16%] font-semibold">Leighton</Text>
+                                                    </View>
 
-                                        <TouchableOpacity className="flex flex-col space-y-2 items-center pr-10 pb-8">
-                                            <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/0/1681764031887?e=1727308800&v=beta&t=hGVVaP-8KbWFJTt1kVAPq-GvsaYkg-LBh9Xbo1WShdQ' }} />
-                                            <View className="flex flex-col space-y-1">
-                                                <Text className=" text-white text-lg">Peter</Text>
+                                                    <TouchableOpacity onPress={() => setU2(!u2)}>
+                                                        <Ionicons size={24} color="#ffffff" name="close-outline" />
+                                                    </TouchableOpacity>
+                                                </View>
+                                            }
 
-                                            </View>
-                                        </TouchableOpacity>
+                                            {u3 &&
+                                                <View className="flex flex-row space-x-2 mt-3 bg-white/20 items-center rounded-3xl px-3 py-2">
+                                                    <View className="relative h-8 w-8 ml-[-4]">
+                                                        <Image className="h-6 w-6 top-1 absolute rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4E03AQEFL9wup87lNw/profile-displayphoto-shrink_800_800/0/1714019194685?e=1727308800&v=beta&t=OZCYo4jv0DrgCrM8ROvp1WNUEMDBeA5TBFRDtSJ1u8o' }} />
+                                                        <Image className="h-6 w-6 top-2 left-[75%] absolute rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4D03AQELM-tqD-X4-A/profile-displayphoto-shrink_800_800/0/1721061786562?e=1727308800&v=beta&t=-sxV_xa0_vK_04QXMyzseX54cEYlTfuH8xS7bicg-os' }} />
+                                                        {/* <View className="p-2 absolute bg-white/20 top-12 left-12 rounded-full"><Text className="text-white text-md">+9</Text></View> */}
+                                                    </View>
+                                                    <View className="pl-4">
 
-                                        <TouchableOpacity className="flex flex-col space-y-2 items-center  pr-10 pb-8">
-                                            <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4D03AQELM-tqD-X4-A/profile-displayphoto-shrink_800_800/0/1721061786562?e=1727308800&v=beta&t=-sxV_xa0_vK_04QXMyzseX54cEYlTfuH8xS7bicg-os' }} />
-                                            <View className="flex flex-col space-y-1">
-                                                <Text className=" text-white text-lg">Neeraj</Text>
+                                                        <Text className="text-white text-[16%] font-semibold">Common</Text>
+                                                    </View>
 
-                                            </View>
-                                        </TouchableOpacity>
+                                                    <TouchableOpacity onPress={() => setU3(!u3)}>
+                                                        <Ionicons size={24} color="#ffffff" name="close-outline" />
+                                                    </TouchableOpacity>
+                                                </View>
+                                            }
 
+                                            {u4 &&
+                                                <View className="flex flex-row space-x-2 mt-2 bg-white/20 items-center ml-2 rounded-3xl p-2">
+                                                    <Image className="h-8 w-8 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4E03AQEFL9wup87lNw/profile-displayphoto-shrink_800_800/0/1714019194685?e=1727308800&v=beta&t=OZCYo4jv0DrgCrM8ROvp1WNUEMDBeA5TBFRDtSJ1u8o' }} />
+                                                    <View>
 
-                                        <TouchableOpacity className="flex flex-col space-y-2 items-center  pb-8">
-                                            <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D5603AQFh1MEBbmOVBQ/profile-displayphoto-shrink_800_800/0/1718282646997?e=1727308800&v=beta&t=1uXY8jdo4kN_z_0JCMHwbziuutvZdyuWVpyxqgI4jSI' }} />
-                                            <View className="flex flex-col space-y-1">
-                                                <Text className=" text-white text-lg">Jeff</Text>
+                                                        <Text className="text-white text-[16%] font-semibold">Renee</Text>
+                                                    </View>
 
-                                            </View>
-                                        </TouchableOpacity>
+                                                    <TouchableOpacity onPress={() => setU4(!u4)}>
+                                                        <Ionicons size={24} color="#ffffff" name="close-outline" />
+                                                    </TouchableOpacity>
+                                                </View>
+                                            }
+                                        </View>
 
-                                        <TouchableOpacity className="flex flex-col space-y-2 items-center pr-10 pb-8">
-                                            <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4E03AQEFL9wup87lNw/profile-displayphoto-shrink_800_800/0/1714019194685?e=1727308800&v=beta&t=OZCYo4jv0DrgCrM8ROvp1WNUEMDBeA5TBFRDtSJ1u8o' }} />
-                                            <View className="flex flex-col space-y-1">
-                                                <Text className=" text-white text-lg">Renee</Text>
-
-                                            </View>
-                                        </TouchableOpacity>
-
-                                        <TouchableOpacity className="flex flex-col space-y-2 items-center  pr-11 pb-8">
-
-                                            <View className="relative h-20 w-20 ml-[-4]">
-                                                <Image className="h-14 w-14 top-1 absolute rounded-full object-fit" source={{ uri: 'https://pbs.twimg.com/profile_images/1779151535147986944/-CcykDos_400x400.jpg' }} />
-                                                <Image className="h-10 w-10 top-2 left-[75%] absolute rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_400_400/0/1681764031887?e=1727308800&v=beta&t=0V-4U2d0YzMRkAjulwgEzUcqi_1nJEcG7Uj-_615Ml8' }} />
-                                                <View className="p-2 absolute bg-white/20 top-12 left-12 rounded-full"><Text className="text-white text-md">+4</Text></View>
-                                            </View>
-
-                                            <View className="flex flex-col space-y-1">
-                                                <Text className=" text-white text-lg">Squad ..</Text>
-
-                                            </View>
-                                        </TouchableOpacity>
-
-
-                                        <TouchableOpacity className="flex flex-col space-y-2 items-center  pb-8">
-                                            <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/C5603AQEL1SpiPMx00A/profile-displayphoto-shrink_400_400/0/1626392153104?e=1727308800&v=beta&t=gVWNCSwHqxUvG11xPKrK4C5rGNZg5lM4yLw-sf2rJR4' }} />
-                                            <View className="flex flex-col space-y-1">
-                                                <Text className=" text-white text-lg">Leighton</Text>
-
-                                            </View>
-                                        </TouchableOpacity>
-
-                                        <TouchableOpacity className="flex flex-col space-y-2 items-center  pr-11 pb-8">
-
-                                            <View className="relative h-20 w-20 ml-[-4]">
-                                                <Image className="h-14 w-14 top-1 absolute rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4E03AQEFL9wup87lNw/profile-displayphoto-shrink_800_800/0/1714019194685?e=1727308800&v=beta&t=OZCYo4jv0DrgCrM8ROvp1WNUEMDBeA5TBFRDtSJ1u8o' }} />
-                                                <Image className="h-10 w-10 top-2 left-[75%] absolute rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4D03AQELM-tqD-X4-A/profile-displayphoto-shrink_800_800/0/1721061786562?e=1727308800&v=beta&t=-sxV_xa0_vK_04QXMyzseX54cEYlTfuH8xS7bicg-os' }} />
-                                                <View className="p-2 absolute bg-white/20 top-12 left-12 rounded-full"><Text className="text-white text-md">+9</Text></View>
-                                            </View>
-
-                                            <View className="flex flex-col space-y-1">
-                                                <Text className=" text-white text-lg">Common</Text>
-
-                                            </View>
-                                        </TouchableOpacity>
-
-
-                                        <TouchableOpacity className="flex flex-col space-y-2 items-center pr-10 pb-8">
-                                            <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://pbs.twimg.com/profile_images/1779151535147986944/-CcykDos_400x400.jpg' }} />
-                                            <View className="flex flex-col space-y-1">
-                                                <Text className=" text-white text-lg">Chinna</Text>
-
-                                            </View>
-                                        </TouchableOpacity>
+                                    }
 
 
 
+                                    {/* <View className="flex flex-row flex-wrap px-6 max-h-[68%] overflow-hidden mt-10 ml-1"> */}
 
-                                        <TouchableOpacity className="flex flex-col space-y-2 items-center  pb-8">
-                                            <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/C5603AQH9HEz8Ny9QaQ/profile-displayphoto-shrink_800_800/0/1661807785415?e=1727308800&v=beta&t=ohPwozK5Z4LweLok0VyqR_-jy8i8TX2oEdFNzzWuZ1U' }} />
-                                            <View className="flex flex-col space-y-1">
-                                                <Text className=" text-white text-lg">Newtina</Text>
+                                    <View style={u1 ? styles.container1 : styles.container}>
+                                        <ScrollView contentContainerStyle={styles.scrollView}>
+                                            <TouchableOpacity className="flex flex-col space-y-2 items-center pr-10 pb-8">
+                                                <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/0/1681764031887?e=1727308800&v=beta&t=hGVVaP-8KbWFJTt1kVAPq-GvsaYkg-LBh9Xbo1WShdQ' }} />
+                                                <View className="flex flex-col space-y-1">
+                                                    <Text className=" text-white text-lg">Peter</Text>
 
-                                            </View>
-                                        </TouchableOpacity>
-                                    </ScrollView>
+                                                </View>
+                                            </TouchableOpacity>
+
+                                            <TouchableOpacity onPress={() => setU1(!u1)} className="flex flex-col relative space-y-2 items-center  pr-10 pb-8">
+                                                <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4D03AQELM-tqD-X4-A/profile-displayphoto-shrink_800_800/0/1721061786562?e=1727308800&v=beta&t=-sxV_xa0_vK_04QXMyzseX54cEYlTfuH8xS7bicg-os' }} />
+                                                <View className="flex flex-col space-y-1">
+                                                    <Text className=" text-white text-lg">Neeraj</Text>
+
+                                                </View>
+                                                {u1 && <View className="absolute left-14 top-[-12] p-2 bg-cyan-500 opacity-90 rounded-full">
+                                                    <Ionicons size={14} color="#ffffff" name="checkmark-outline" />
+                                                </View>}
+
+                                            </TouchableOpacity>
+
+
+                                            <TouchableOpacity className="flex flex-col space-y-2 items-center  pb-8">
+                                                <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D5603AQFh1MEBbmOVBQ/profile-displayphoto-shrink_800_800/0/1718282646997?e=1727308800&v=beta&t=1uXY8jdo4kN_z_0JCMHwbziuutvZdyuWVpyxqgI4jSI' }} />
+                                                <View className="flex flex-col space-y-1">
+                                                    <Text className=" text-white text-lg">Jeff</Text>
+
+                                                </View>
+                                            </TouchableOpacity>
+
+                                            <TouchableOpacity onPress={() => setU4(!u4)} className="flex flex-col space-y-2 items-center pr-10 pb-8">
+                                                <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4E03AQEFL9wup87lNw/profile-displayphoto-shrink_800_800/0/1714019194685?e=1727308800&v=beta&t=OZCYo4jv0DrgCrM8ROvp1WNUEMDBeA5TBFRDtSJ1u8o' }} />
+                                                <View className="flex flex-col space-y-1">
+                                                    <Text className=" text-white text-lg">Renee</Text>
+
+                                                </View>
+                                                {u4 && <View className="absolute left-14 top-[-12] p-2 bg-cyan-500 opacity-90 rounded-full">
+                                                    <Ionicons size={14} color="#ffffff" name="checkmark-outline" />
+                                                </View>}
+                                            </TouchableOpacity>
+
+                                            <TouchableOpacity className="flex flex-col space-y-2 items-center  pr-11 pb-8">
+
+                                                <View className="relative h-20 w-20 ml-[-4]">
+                                                    <Image className="h-14 w-14 top-1 absolute rounded-full object-fit" source={{ uri: 'https://pbs.twimg.com/profile_images/1779151535147986944/-CcykDos_400x400.jpg' }} />
+                                                    <Image className="h-10 w-10 top-2 left-[75%] absolute rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_400_400/0/1681764031887?e=1727308800&v=beta&t=0V-4U2d0YzMRkAjulwgEzUcqi_1nJEcG7Uj-_615Ml8' }} />
+                                                    <View className="p-2 absolute bg-white/20 top-12 left-12 rounded-full"><Text className="text-white text-md">+4</Text></View>
+                                                </View>
+
+                                                <View className="flex flex-col space-y-1">
+                                                    <Text className=" text-white text-lg">Squad ..</Text>
+
+                                                </View>
+                                            </TouchableOpacity>
+
+
+                                            <TouchableOpacity onPress={() => setU2(!u2)} className="flex flex-col space-y-2 items-center  pb-8">
+                                                <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/C5603AQEL1SpiPMx00A/profile-displayphoto-shrink_400_400/0/1626392153104?e=1727308800&v=beta&t=gVWNCSwHqxUvG11xPKrK4C5rGNZg5lM4yLw-sf2rJR4' }} />
+                                                <View className="flex flex-col space-y-1">
+                                                    <Text className=" text-white text-lg">Leighton</Text>
+
+                                                </View>
+
+                                                {u2 && <View className="absolute left-14 top-[-12] p-2 bg-cyan-500 opacity-90 rounded-full">
+                                                    <Ionicons size={14} color="#ffffff" name="checkmark-outline" />
+                                                </View>}
+                                            </TouchableOpacity>
+
+                                            <TouchableOpacity onPress={() => setU3(!u3)} className="flex flex-col space-y-2 items-center  pr-11 pb-8">
+
+                                                <View className="relative h-20 w-20 ml-[-4]">
+                                                    <Image className="h-14 w-14 top-1 absolute rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4E03AQEFL9wup87lNw/profile-displayphoto-shrink_800_800/0/1714019194685?e=1727308800&v=beta&t=OZCYo4jv0DrgCrM8ROvp1WNUEMDBeA5TBFRDtSJ1u8o' }} />
+                                                    <Image className="h-10 w-10 top-2 left-[75%] absolute rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4D03AQELM-tqD-X4-A/profile-displayphoto-shrink_800_800/0/1721061786562?e=1727308800&v=beta&t=-sxV_xa0_vK_04QXMyzseX54cEYlTfuH8xS7bicg-os' }} />
+                                                    <View className="p-2 absolute bg-white/20 top-12 left-12 rounded-full"><Text className="text-white text-md">+9</Text></View>
+                                                </View>
+
+                                                <View className="flex flex-col space-y-1">
+                                                    <Text className=" text-white text-lg">Common</Text>
+
+                                                </View>
+                                                {u3 && <View className="absolute left-20 top-[-12] p-2 bg-cyan-500 opacity-90 rounded-full">
+                                                    <Ionicons size={14} color="#ffffff" name="checkmark-outline" />
+                                                </View>}
+                                            </TouchableOpacity>
+
+
+                                            <TouchableOpacity className="flex flex-col space-y-2 items-center pr-10 pb-8">
+                                                <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://pbs.twimg.com/profile_images/1779151535147986944/-CcykDos_400x400.jpg' }} />
+                                                <View className="flex flex-col space-y-1">
+                                                    <Text className=" text-white text-lg">Chinna</Text>
+
+                                                </View>
+                                            </TouchableOpacity>
+
+                                            <TouchableOpacity className="flex flex-col space-y-2 items-center  pb-8">
+                                                <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/C5603AQH9HEz8Ny9QaQ/profile-displayphoto-shrink_800_800/0/1661807785415?e=1727308800&v=beta&t=ohPwozK5Z4LweLok0VyqR_-jy8i8TX2oEdFNzzWuZ1U' }} />
+                                                <View className="flex flex-col space-y-1">
+                                                    <Text className=" text-white text-lg">Newtina</Text>
+
+                                                </View>
+                                            </TouchableOpacity>
+
+                                            <TouchableOpacity className="flex flex-col space-y-2 items-center pr-10 pb-8">
+                                                <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/0/1681764031887?e=1727308800&v=beta&t=hGVVaP-8KbWFJTt1kVAPq-GvsaYkg-LBh9Xbo1WShdQ' }} />
+                                                <View className="flex flex-col space-y-1">
+                                                    <Text className=" text-white text-lg">Peter</Text>
+
+                                                </View>
+                                            </TouchableOpacity>
+
+                                            <TouchableOpacity className="flex flex-col space-y-2 items-center  pr-10 pb-8">
+                                                <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4D03AQELM-tqD-X4-A/profile-displayphoto-shrink_800_800/0/1721061786562?e=1727308800&v=beta&t=-sxV_xa0_vK_04QXMyzseX54cEYlTfuH8xS7bicg-os' }} />
+                                                <View className="flex flex-col space-y-1">
+                                                    <Text className=" text-white text-lg">Neeraj</Text>
+
+                                                </View>
+                                            </TouchableOpacity>
+
+
+                                            <TouchableOpacity className="flex flex-col space-y-2 items-center  pb-8">
+                                                <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D5603AQFh1MEBbmOVBQ/profile-displayphoto-shrink_800_800/0/1718282646997?e=1727308800&v=beta&t=1uXY8jdo4kN_z_0JCMHwbziuutvZdyuWVpyxqgI4jSI' }} />
+                                                <View className="flex flex-col space-y-1">
+                                                    <Text className=" text-white text-lg">Jeff</Text>
+
+                                                </View>
+                                            </TouchableOpacity>
+
+                                            <TouchableOpacity className="flex flex-col space-y-2 items-center pr-10 pb-8">
+                                                <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4E03AQEFL9wup87lNw/profile-displayphoto-shrink_800_800/0/1714019194685?e=1727308800&v=beta&t=OZCYo4jv0DrgCrM8ROvp1WNUEMDBeA5TBFRDtSJ1u8o' }} />
+                                                <View className="flex flex-col space-y-1">
+                                                    <Text className=" text-white text-lg">Renee</Text>
+
+                                                </View>
+                                            </TouchableOpacity>
+
+                                            <TouchableOpacity className="flex flex-col space-y-2 items-center  pr-11 pb-8">
+
+                                                <View className="relative h-20 w-20 ml-[-4]">
+                                                    <Image className="h-14 w-14 top-1 absolute rounded-full object-fit" source={{ uri: 'https://pbs.twimg.com/profile_images/1779151535147986944/-CcykDos_400x400.jpg' }} />
+                                                    <Image className="h-10 w-10 top-2 left-[75%] absolute rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_400_400/0/1681764031887?e=1727308800&v=beta&t=0V-4U2d0YzMRkAjulwgEzUcqi_1nJEcG7Uj-_615Ml8' }} />
+                                                    <View className="p-2 absolute bg-white/20 top-12 left-12 rounded-full"><Text className="text-white text-md">+4</Text></View>
+                                                </View>
+
+                                                <View className="flex flex-col space-y-1">
+                                                    <Text className=" text-white text-lg">Squad ..</Text>
+
+                                                </View>
+                                            </TouchableOpacity>
+
+
+                                            <TouchableOpacity className="flex flex-col space-y-2 items-center  pb-8">
+                                                <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/C5603AQEL1SpiPMx00A/profile-displayphoto-shrink_400_400/0/1626392153104?e=1727308800&v=beta&t=gVWNCSwHqxUvG11xPKrK4C5rGNZg5lM4yLw-sf2rJR4' }} />
+                                                <View className="flex flex-col space-y-1">
+                                                    <Text className=" text-white text-lg">Leighton</Text>
+
+                                                </View>
+                                            </TouchableOpacity>
+
+                                            <TouchableOpacity className="flex flex-col space-y-2 items-center  pr-11 pb-8">
+
+                                                <View className="relative h-20 w-20 ml-[-4]">
+                                                    <Image className="h-14 w-14 top-1 absolute rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4E03AQEFL9wup87lNw/profile-displayphoto-shrink_800_800/0/1714019194685?e=1727308800&v=beta&t=OZCYo4jv0DrgCrM8ROvp1WNUEMDBeA5TBFRDtSJ1u8o' }} />
+                                                    <Image className="h-10 w-10 top-2 left-[75%] absolute rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4D03AQELM-tqD-X4-A/profile-displayphoto-shrink_800_800/0/1721061786562?e=1727308800&v=beta&t=-sxV_xa0_vK_04QXMyzseX54cEYlTfuH8xS7bicg-os' }} />
+                                                    <View className="p-2 absolute bg-white/20 top-12 left-12 rounded-full"><Text className="text-white text-md">+9</Text></View>
+                                                </View>
+
+                                                <View className="flex flex-col space-y-1">
+                                                    <Text className=" text-white text-lg">Common</Text>
+
+                                                </View>
+                                            </TouchableOpacity>
+
+
+                                            <TouchableOpacity className="flex flex-col space-y-2 items-center pr-10 pb-8">
+                                                <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://pbs.twimg.com/profile_images/1779151535147986944/-CcykDos_400x400.jpg' }} />
+                                                <View className="flex flex-col space-y-1">
+                                                    <Text className=" text-white text-lg">Chinna</Text>
+
+                                                </View>
+                                            </TouchableOpacity>
+
+
+
+
+                                            <TouchableOpacity className="flex flex-col space-y-2 items-center  pb-8">
+                                                <Image className="h-20 w-20 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/C5603AQH9HEz8Ny9QaQ/profile-displayphoto-shrink_800_800/0/1661807785415?e=1727308800&v=beta&t=ohPwozK5Z4LweLok0VyqR_-jy8i8TX2oEdFNzzWuZ1U' }} />
+                                                <View className="flex flex-col space-y-1">
+                                                    <Text className=" text-white text-lg">Newtina</Text>
+
+                                                </View>
+                                            </TouchableOpacity>
+                                        </ScrollView>
+                                    </View>
+
+
+                                    <View className="relative">
+
+
+                                        {!u1 &&
+                                            <ScrollView showsHorizontalScrollIndicator={false} horizontal={true} className="flex flex-row space-x-7 px-6 mt-4 pr-10">
+                                                <View className="flex flex-col space-y-2 justify-center items-center">
+
+                                                    <View className="p-3 bg-white/20 rounded-full">
+                                                        <View className="-rotate-45 opacity-90">
+                                                            <Ionicons size={32} color="white" name="link-outline" />
+                                                        </View>
+                                                    </View>
+                                                    <View>
+                                                        <Text className="text-white">Copy Link</Text>
+                                                    </View>
+                                                </View>
+
+
+                                                <View className="flex flex-col space-y-2 justify-center items-center">
+
+                                                    <View className="p-3 bg-white/20 rounded-full">
+                                                        <View className="opacity-90">
+                                                            <Ionicons size={32} color="white" name="share-outline" />
+                                                        </View>
+                                                    </View>
+                                                    <View>
+                                                        <Text className="text-white">Share to..</Text>
+                                                    </View>
+                                                </View>
+
+
+                                                <View className="flex flex-col space-y-2 justify-center items-center">
+
+                                                    <View className="p-3 bg-white/20 rounded-full">
+                                                        <View className=" opacity-90">
+                                                            <Ionicons size={32} color="white" name="chatbubbles-outline" />
+                                                        </View>
+                                                    </View>
+                                                    <View>
+                                                        <Text className="text-white">Chat</Text>
+                                                    </View>
+                                                </View>
+
+
+                                                <View className="flex flex-col space-y-2 justify-center items-center">
+
+                                                    <View className="p-3 bg-white/20 rounded-full">
+                                                        <View className=" opacity-90">
+                                                            <Ionicons size={32} color="white" name="logo-whatsapp" />
+                                                        </View>
+                                                    </View>
+                                                    <View>
+                                                        <Text className="text-white">WhatsApp</Text>
+                                                    </View>
+                                                </View>
+
+                                                <View className="flex flex-col space-y-2 justify-center items-center">
+
+                                                    <View className="p-3 bg-white/20 rounded-full">
+                                                        <View className=" opacity-90">
+                                                            <Ionicons size={32} color="white" name="logo-facebook" />
+                                                        </View>
+                                                    </View>
+                                                    <View>
+                                                        <Text className="text-white">facebook</Text>
+                                                    </View>
+                                                </View>
+
+
+                                                <View className="flex flex-col space-y-2 justify-center items-center">
+
+                                                    <View className="p-3 bg-white/20 rounded-full">
+                                                        <View className=" opacity-90">
+                                                            <Ionicons size={32} color="white" name="logo-twitter" />
+                                                        </View>
+                                                    </View>
+                                                    <View>
+                                                        <Text className="text-white">Twitter</Text>
+                                                    </View>
+                                                </View>
+                                                <View className="flex flex-col space-y-2 justify-center items-center">
+
+                                                    <View className="p-3 bg-white/20 rounded-full">
+                                                        <View className=" opacity-90">
+                                                            <Ionicons size={32} color="white" name="logo-snapchat" />
+                                                        </View>
+                                                    </View>
+                                                    <View>
+                                                        <Text className="text-white">SnapChat</Text>
+                                                    </View>
+                                                </View>
+                                            </ScrollView>
+                                        }
+
+                                        {
+                                            u1 &&
+                                            <>
+                                                <View className="absolute bg-white/20 flex flex-row space-x-3 p-2 left-2 w-[76%] rounded-full items-center ">
+                                                    <Image className="h-10 w-10 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/0/1681764031887?e=1727308800&v=beta&t=hGVVaP-8KbWFJTt1kVAPq-GvsaYkg-LBh9Xbo1WShdQ' }} />
+                                                    <Text className="text-[16%] font-semibold text-white opacity-80">Drop a message ...</Text>
+                                                </View>
+
+                                                <TouchableOpacity onPress={() => sendin()} className="absolute bg-cyan-500/80 p-3 px-5 right-1 rounded-3xl ">
+                                                    <Ionicons size={30} color="white" name="paper-plane" />
+                                                </TouchableOpacity>
+                                            </>
+
+
+                                        }
+
+
+
+
+                                    </View>
+
+
+
+
+                                    {/* </View> */}
                                 </View>
 
+                                    : <Animated.View className="ml-[1%] mt-[40%]" >
+                                        <LottieView
+                                            source={require('../Sent.json')} // Replace with your right swipe animation
+                                            autoPlay
+                                            duration={3000}
+                                            loop={false}
+                                            style={styles.lottieAnimation9}
+
+                                        />
+                                    </Animated.View>
+                            }
 
 
-
-
-
-
-
-
-
-                                {/* </View> */}
-                            </View>
                         </BlurView>
                     </View>
 
@@ -1181,11 +1310,12 @@ export default function Swipe4({ data }) {
             {
                 liked &&
 
-                <Animated.View className="ml-[-19%] mt-[70%]" >
+                <Animated.View className=" ml-[-19%]  mt-[70%]" >
                     <LottieView
                         source={require('../Love-anim.json')} // Replace with your right swipe animation
                         autoPlay
-                        duration={1300}
+                        tim
+                        duration={1200}
                         loop={false}
                         style={styles.lottieAnimation9}
 
@@ -1226,8 +1356,8 @@ const styles = StyleSheet.create({
         width: 180,
     },
     lottieAnimation2: {
-        height: 136,
-        width: 136,
+        height: 150,
+        width: 150,
     },
     lottieAnimation3: {
         height: 300,
@@ -1270,6 +1400,11 @@ const styles = StyleSheet.create({
     },
     container: {
         height: 380,
+        width: "100%" // Height for 5 items, assuming each item is 50 units tall
+    },
+
+    container1: {
+        height: 422,
         width: "100%" // Height for 5 items, assuming each item is 50 units tall
     },
     scrollView: {
