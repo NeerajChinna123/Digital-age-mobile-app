@@ -416,30 +416,35 @@ export default function Swipe4({ data }) {
                         }
                     >
                         <View className="flex absolute z-[100] flex-col items-center space-y-2">
-                            <View className="flex flex-row p-4 ml-1 mt-1">
-                                <Image className="h-12 w-12 rounded-full object-fit" source={{ uri: card?.photoUrl }} />
-                                <View className="flex flex-col ml-4  items-center justify-center  rounded-3xl">
-                                    <Text className="font-semibold text-white text-[17%]">{card?.name}</Text>
-                                    <Text className="text-white mt-1 opacity-90 text-[13%]">{card?.userName}</Text>
+                            <View className="flex flex-row p-4 items-center ml-1 mt-1">
+                                <View className="flex flex-row rounded-full bg-black/40 pr-4 pl-2 py-2 ">
+                                    <Image className="h-10 w-10 rounded-full object-fit" source={{ uri: card?.photoUrl }} />
+                                    <View className="flex flex-col ml-4  items-center justify-center  rounded-3xl">
+                                        <Text className="font-bold text-white text-[15%]">{card?.name}</Text>
+                                        <Text className="text-white mt-1 opacity-90 text-[12%]">{card?.userName}</Text>
+                                    </View>
+
                                 </View>
-                                <TouchableOpacity
-                                    onPress={() => toggleCatModal()}
-                                    className={
-                                        card?.category === 'GENERAL'
-                                            ? 'font-semibold ml-6 bg-green-700/90 bg-opacity-20 py-0 px-3 flex justify-center rounded-full text-lg'
-                                            : (card?.category === 'PG' ? 'font-semibold bg-yellow-700/90 bg-opacity-20 py-0 ml-6 px-9 flex justify-center rounded-full text-lg' : 'font-semibold bg-red-700/90 bg-opacity-20 py-0 ml-6 px-3 flex justify-center rounded-full text-lg')
-                                    }
-                                >
-                                    <Text
+                         
+                                    <TouchableOpacity
+                                        onPress={() => toggleCatModal()}
                                         className={
                                             card?.category === 'GENERAL'
-                                                ? 'font-semibold text-green-300 text-center text-[15%]'
-                                                : (card?.category === 'PG' ? 'font-semibold text-yellow-300 text-[15%]' : 'font-semibold text-red-100 text-[15%]')
+                                                ? 'font-semibold ml-3 bg-green-700/90 bg-opacity-20 py-4 px-3 flex justify-center rounded-full text-lg'
+                                                : (card?.category === 'PG' ? 'font-semibold bg-yellow-700/90 bg-opacity-20 py-4 ml-3 px-9 flex justify-center rounded-full text-lg' : 'font-semibold bg-red-700/90 py-4 ml-3 px-3 flex justify-center rounded-full text-lg')
                                         }
                                     >
-                                        {card?.category}
-                                    </Text>
-                                </TouchableOpacity>
+                                        <Text
+                                            className={
+                                                card?.category === 'GENERAL'
+                                                    ? 'font-semibold text-green-200 text-center text-[15%]'
+                                                    : (card?.category === 'PG' ? 'font-semibold text-yellow-200 text-[15%]' : 'font-semibold text-red-200 text-[15%]')
+                                            }
+                                        >
+                                            {card?.category}
+                                        </Text>
+                                    </TouchableOpacity>
+                            
                                 <View className="ml-8">
                                     <TouchableOpacity className="mt-1 bg-black/40 rounded-full p-3 self-end ">
                                         <Ionicons size={26} color="white" name="ellipsis-horizontal-outline" />
@@ -470,7 +475,7 @@ export default function Swipe4({ data }) {
                                 <Video
                                     ref={videoRef}
                                     source={card?.video}
-                                    className="h-[78%] w-[88%] absolute top-[18%] rounded-md object-cover ml-5"
+                                    className="h-[94%] w-[94%] absolute top-[2.5%] rounded-md object-cover ml-[3%]"
                                     shouldPlay
                                     resizeMode="contain"
                                     isMuted={isMuted}
