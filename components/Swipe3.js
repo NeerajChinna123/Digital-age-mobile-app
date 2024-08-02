@@ -189,122 +189,146 @@ export default function Swipe3({ data }) {
 
     }
 
+
+    const opacity = useState(new Animated.Value(0))[0];
+
+
+    function fadeInSec() {
+        Animated.timing(opacity, {
+            toValue: 1, duration: 1000, useNativeDriver: true
+        }).start()
+
+    }
+    
+    function fadeOutSec() {
+        Animated.timing(opacity, {
+            toValue: 0, duration: 1000, useNativeDriver: true
+        }).start()
+    }
+
+    useEffect(() => {
+       setTimeout(()=>{
+        fadeInSec();
+       },5000)
+    }, []);
+
     return (
-        <>
-            <Swiper
-                ref={swiperRef}
-                cardIndex={currentIndex}
-                onSwiping={(x, y) => onSwiping(x, y)}
-                key={swiperKey}
-                // onSwiping={() => setSwiped(true)}
-                onSwipedAborted={() => setSwiped(false)}
-                // onSwiped={(index) => setCurrentIndex(index)}
-                onSwipedLeft={(index) => onSwiped(index)}
-                onSwipedRight={(index) => onSwiped(index)}
-                onSwipedTop={(index) => onSwiped(index)}
-                onSwipedBottom={(index) => onSwiped(index)}
+    <>
+        <Swiper
+            ref={swiperRef}
+            cardIndex={currentIndex}
+            onSwiping={(x, y) => onSwiping(x, y)}
+            key={swiperKey}
+            // onSwiping={() => setSwiped(true)}
+            onSwipedAborted={() => setSwiped(false)}
+            // onSwiped={(index) => setCurrentIndex(index)}
+            onSwipedLeft={(index) => onSwiped(index)}
+            onSwipedRight={(index) => onSwiped(index)}
+            onSwipedTop={(index) => onSwiped(index)}
+            onSwipedBottom={(index) => onSwiped(index)}
 
-                overlayLabels={{
-                    right: {
-                        element: (
-                            <View className="ml-[-62%] mt-[42%] relative">
-                                <View className="animate-pulse">
-                                    <View className="absolute h-40 w-40 shadow-inner top-2 left-3 rounded-full bg-white/20">
+            overlayLabels={{
+                right: {
+                    element: (
+                        <View className="ml-[-62%] mt-[42%] relative">
+                            <View className="animate-pulse">
+                                <View className="absolute h-40 w-40 shadow-inner top-2 left-3 rounded-full bg-white/20">
 
-                                    </View>
-                                    <Animated.View  >
-                                        <LottieView
-                                            source={require('../Animation - 1720995753431.json')} // Replace with your right swipe animation
-                                            autoPlay
-                                            // loop={false}
-                                            style={styles.lottieAnimation1}
-                                            className=""
-                                        />
-                                    </Animated.View>
                                 </View>
-
+                                <Animated.View  >
+                                    <LottieView
+                                        source={require('../Animation - 1720995753431.json')} // Replace with your right swipe animation
+                                        autoPlay
+                                        // loop={false}
+                                        style={styles.lottieAnimation1}
+                                        className=""
+                                    />
+                                </Animated.View>
                             </View>
-                        ),
-                    },
-                    left: {
-                        element: (
-                            <View className="ml-[108%] mt-[45%]">
-                                <View className="animate-pulse">
-                                    <View className="absolute h-40 w-40 shadow-inner top-3 left-0 rounded-full bg-white/20">
 
-                                    </View>
-                                    <Animated.View  >
-                                        <LottieView
-                                            source={require('../repost.json')}  // Replace with your right swipe animation
-                                            autoPlay
+                        </View>
+                    ),
+                },
+                left: {
+                    element: (
+                        <View className="ml-[108%] mt-[45%]">
+                            <View className="animate-pulse">
+                                <View className="absolute h-40 w-40 shadow-inner top-3 left-0 rounded-full bg-white/20">
 
-                                            // loop={false}
-                                            style={styles.lottieAnimation2}
-                                            className="ml-3 mt-5"
-                                        />
-                                    </Animated.View>
                                 </View>
+                                <Animated.View  >
+                                    <LottieView
+                                        source={require('../repost.json')}  // Replace with your right swipe animation
+                                        autoPlay
 
+                                        // loop={false}
+                                        style={styles.lottieAnimation2}
+                                        className="ml-3 mt-5"
+                                    />
+                                </Animated.View>
                             </View>
-                        ),
-                    },
-                    top: {
-                        element: (
+
+                        </View>
+                    ),
+                },
+                top: {
+                    element: (
 
 
-                            <View className="mt-[130%] ml-[8.4%] relative">
-                                <View className="animate-pulse">
-                                    <View className="absolute h-40 w-40 shadow-inner top-[23%] left-[22.8%] rounded-full bg-white/20">
+                        <View className="mt-[130%] ml-[8.4%] relative">
+                            <View className="animate-pulse">
+                                <View className="absolute h-40 w-40 shadow-inner top-[23%] left-[22.8%] rounded-full bg-white/20">
 
-                                    </View>
-                                    <Animated.View  >
-                                        <LottieView
-                                            source={require('../Share.json')}// Replace with your right swipe animation
-                                            autoPlay
-                                            // loop={false}
-                                            style={styles.lottieAnimation3}
-                                            className="ml-[0.6%]"
-                                        />
-                                    </Animated.View>
                                 </View>
+                                <Animated.View  >
+                                    <LottieView
+                                        source={require('../Share.json')}// Replace with your right swipe animation
+                                        autoPlay
+                                        // loop={false}
+                                        style={styles.lottieAnimation3}
+                                        className="ml-[0.6%]"
+                                    />
+                                </Animated.View>
                             </View>
-                        ),
-                    },
-                    bottom: {
-                        element: (
+                        </View>
+                    ),
+                },
+                bottom: {
+                    element: (
 
-                            <View className="mt-[-58%] ml-[23.5%]">
-                                <View className="animate-pulse">
-                                    <View className="absolute h-40 w-40 shadow-inner top-3 left-5 rounded-full bg-white/20">
+                        <View className="mt-[-58%] ml-[23.5%]">
+                            <View className="animate-pulse">
+                                <View className="absolute h-40 w-40 shadow-inner top-3 left-5 rounded-full bg-white/20">
 
-                                    </View>
-                                    <Animated.View>
-                                        <LottieView
-                                            source={require('../new-com.json')}  // Replace with your right swipe animation
-                                            autoPlay
-                                            // loop={false}
-                                            style={styles.lottieAnimation4}
-                                            className="ml-2"
-                                        />
-                                    </Animated.View>
                                 </View>
+                                <Animated.View>
+                                    <LottieView
+                                        source={require('../new-com.json')}  // Replace with your right swipe animation
+                                        autoPlay
+                                        // loop={false}
+                                        style={styles.lottieAnimation4}
+                                        className="ml-2"
+                                    />
+                                </Animated.View>
                             </View>
-                        ),
-                    },
-                }}
-                containerStyle={{ backgroundColor: 'transparent' }}
-                cards={data}
-                stackSize={1}
-                animateCardOpacity
-                renderCard={(card) => (
-                    <View
-                        key={card.id}
-                        className={
-                            card?.category === 'GENERAL'
-                                ? 'relative bg-black/40 h-[67%] rounded-xl border border-green-500 border-1'
-                                : (card?.category === 'PG' ? 'relative bg-black/40 h-[67%] rounded-xl border border-yellow-500 border-1' : 'relative bg-black/40 h-[65%] rounded-xl border border-red-500 border-1')
-                        }
-                    >
+                        </View>
+                    ),
+                },
+            }}
+            containerStyle={{ backgroundColor: 'transparent' }}
+            cards={data}
+            stackSize={1}
+            animateCardOpacity
+            renderCard={(card) => (
+                <View
+                    key={card.id}
+                    className={
+                        card?.category === 'GENERAL'
+                            ? 'relative bg-black/40 h-[67%] rounded-xl border border-green-500 border-1'
+                            : (card?.category === 'PG' ? 'relative bg-black/40 h-[67%] rounded-xl border border-yellow-500 border-1' : 'relative bg-black/40 h-[65%] rounded-xl border border-red-500 border-1')
+                    }
+                >
+                    <Animated.View style={[{ opacity:opacity }]}>
                         <View className="flex flex-col space-y-2">
                             <View className="flex flex-row p-4">
                                 <Image className="h-14 w-14 rounded-full object-cover" source={{ uri: card?.photoUrl }} />
@@ -336,113 +360,115 @@ export default function Swipe3({ data }) {
                                 </View>
                             </View>
                         </View>
+                    </Animated.View>
 
 
-                        {(card?.category == "EXPLICIT" && !explicit) &&
-                            <View className="flex absolute w-[88%] z-[50] top-[18%] h-[78%] ml-5 flex-col space-y-2 bg-black/90  ">
+
+                    {(card?.category == "EXPLICIT" && !explicit) &&
+                        <View className="flex absolute w-[88%] z-[50] top-[18%] h-[78%] ml-5 flex-col space-y-2 bg-black/90  ">
 
 
-                                <View className="flex flex-col mt-[32%] items-center space-y-6 ml-3 p-2">
-                                    <Text className="text-lg text-white font-semibold text-center">This content may contain explicit material. Viewer discretion is advised. Click below to proceed.</Text>
-                                    <TouchableOpacity onPress={() => forceUpdateCard()} className="p-4 text-md  rounded-full bg-white/30"><Text className="text-white font-semibold">View Content</Text></TouchableOpacity>
-                                </View>
-
-
+                            <View className="flex flex-col mt-[32%] items-center space-y-6 ml-3 p-2">
+                                <Text className="text-lg text-white font-semibold text-center">This content may contain explicit material. Viewer discretion is advised. Click below to proceed.</Text>
+                                <TouchableOpacity onPress={() => forceUpdateCard()} className="p-4 text-md  rounded-full bg-white/30"><Text className="text-white font-semibold">View Content</Text></TouchableOpacity>
                             </View>
 
-                        }
 
-                        {card?.post && (
-                            <Image className="h-[78%] w-[88%] absolute top-[18%] rounded-md object-cover ml-5 " source={card?.post} />
+                        </View>
 
-                        )}
+                    }
+
+                    {card?.post && (
+                        <Image className="h-[78%] w-[88%] absolute top-[18%] rounded-md object-cover ml-5 " source={card?.post} />
+
+                    )}
 
 
 
 
-                        {card?.video && (
-                            <>
-                                <Video
-                                    ref={videoRef}
-                                    source={card?.video}
-                                    className="h-[78%] w-[88%] absolute top-[18%] rounded-md object-cover ml-5"
-                                    shouldPlay
-                                    resizeMode="contain"
-                                    isMuted={isMuted}
-                                    volume={1.0} // Ensure the volume is set to a reasonable level
-                                    isLooping={true}
-                                    useNativeControls
-                                    onPlaybackStatusUpdate={(status) => console.log('Playback Status:', status)}
-                                />
-                            </>
-                        )}
-                    </View>
-                )}
-            />
-
-            <View className={swiped ? "absolute flex flex-row space-x-6 mt-[147.8%] ml-[4%] z-[-50]" : "absolute flex flex-row space-x-6 mt-[147.8%] ml-[4%]"}>
-                <View className="mt-2">
-                    <TouchableOpacity onPressIn={handlePressIn}
-                        onPressOut={handlePressOut}
-                        onPress={goToPreviousCard}
-                        disabled={isFirstCard}
-                        className={isFirstCard ? "p-3 rounded-full bg-white/20 opacity-50 transition-all transform duration-500 ease-in-out " : "  transition-all transform duration-500 ease-in-out p-3 rounded-full bg-white/20 opacity-100 "}>
-                        <Icon name="undo" size={28} color={'#fff'}
-                            className={isActive ? "rotate-12 transition-all transform duration-500 ease-in-out" : "rotate-45 transition-all transform duration-500 ease-in-out"} />
-                    </TouchableOpacity>
+                    {card?.video && (
+                        <>
+                            <Video
+                                ref={videoRef}
+                                source={card?.video}
+                                className="h-[78%] w-[88%] absolute top-[18%] rounded-md object-cover ml-5"
+                                shouldPlay
+                                resizeMode="contain"
+                                isMuted={isMuted}
+                                volume={1.0} // Ensure the volume is set to a reasonable level
+                                isLooping={true}
+                                useNativeControls
+                                onPlaybackStatusUpdate={(status) => console.log('Playback Status:', status)}
+                            />
+                        </>
+                    )}
                 </View>
+            )}
+        />
 
-
-                <View className={swiped ? (swipeDirection == 'right' ? "mt-[-4.8%]" : "mt-[-2.8%]") : "mt-[-2.8%]"} >
-                    <TouchableOpacity onPressIn={handlePressIn1}
-                        onPressOut={handlePressOut1}
-                        onPress={swipeRight}
-                        className={isActive1 ? "p-3 rounded-full bg-white/10 " : "  p-3 rounded-full bg-white/20 "}>
-                        <Icon name="heart" size={32} color={'#be123c'}
-                            className={isActive1 ? " transition-all transform duration-500 ease-in-out" : "transition-all transform duration-500 ease-in-out"} />
-                    </TouchableOpacity>
-                </View>
-
-                <View className="mt-[-2.8%]">
-                    <TouchableOpacity onPressIn={handlePressIn12}
-                        onPressOut={handlePressOut12}
-                        onPress={swipeBottom}
-                        className={isActive12 ? "p-3 rounded-full bg-white/10 " : "  p-3 rounded-full bg-white/20 "}>
-                        <Icon name="comment" size={32} color={'#0ea5e9'}
-                            className={isActive12 ? " transition-all transform duration-500 ease-in-out" : "transition-all transform duration-500 ease-in-out"} />
-                    </TouchableOpacity>
-                </View>
-
-                <View
-
-
-
-                    className={swiped ? (swipeDirection == 'left' ? "mt-[-7.8%] transition-all transform duration-500 ease-in-out" : "mt-[-2.8%] transition-all transform duration-500 ease-in-out") : "mt-[-2.8%] transition-all transform duration-500 ease-in-out"}>
-                    <TouchableOpacity onPressIn={handlePressIn123}
-                        onPressOut={handlePressOut123}
-                        onPress={swipeLeft}
-                        className={isActive123 ? "p-3 rounded-full bg-white/10 " : "  p-3 rounded-full bg-white/20 "}>
-                        <Icon name="retweet" size={32} color={'#0ea5e9'}
-                            className={isActive12 ? " transition-all transform duration-500 ease-in-out" : "transition-all transform duration-500 ease-in-out"} />
-                    </TouchableOpacity>
-                </View>
-
-                <View className="mt-2">
-                    <TouchableOpacity onPressIn={handlePressIn1234}
-                        onPressOut={handlePressOut1234}
-                        disabled={isLastCard}
-                        onPress={goToNextCard}
-                        className={isLastCard ? "p-3 rounded-full bg-white/20 opacity-50 transition-all transform duration-500 ease-in-out " : "  transition-all transform duration-500 ease-in-out p-3 rounded-full bg-white/20 opacity-100 "}>
-                        <Icon name="repeat" size={28} color={'#fff'}
-                            className={isActive1234 ? "rotate-12 transition-all transform duration-500 ease-in-out" : "-rotate-45 transition-all transform duration-500 ease-in-out"} />
-                    </TouchableOpacity>
-                </View>
-                <View>
-
-                </View>
+        <View className={swiped ? "absolute flex flex-row space-x-6 mt-[147.8%] ml-[4%] z-[-50]" : "absolute flex flex-row space-x-6 mt-[147.8%] ml-[4%]"}>
+            <View className="mt-2">
+                <TouchableOpacity onPressIn={handlePressIn}
+                    onPressOut={handlePressOut}
+                    onPress={goToPreviousCard}
+                    disabled={isFirstCard}
+                    className={isFirstCard ? "p-3 rounded-full bg-white/20 opacity-50 transition-all transform duration-500 ease-in-out " : "  transition-all transform duration-500 ease-in-out p-3 rounded-full bg-white/20 opacity-100 "}>
+                    <Icon name="undo" size={28} color={'#fff'}
+                        className={isActive ? "rotate-12 transition-all transform duration-500 ease-in-out" : "rotate-45 transition-all transform duration-500 ease-in-out"} />
+                </TouchableOpacity>
             </View>
-        </>
-    );
+
+
+            <View className={swiped ? (swipeDirection == 'right' ? "mt-[-4.8%]" : "mt-[-2.8%]") : "mt-[-2.8%]"} >
+                <TouchableOpacity onPressIn={handlePressIn1}
+                    onPressOut={handlePressOut1}
+                    onPress={swipeRight}
+                    className={isActive1 ? "p-3 rounded-full bg-white/10 " : "  p-3 rounded-full bg-white/20 "}>
+                    <Icon name="heart" size={32} color={'#be123c'}
+                        className={isActive1 ? " transition-all transform duration-500 ease-in-out" : "transition-all transform duration-500 ease-in-out"} />
+                </TouchableOpacity>
+            </View>
+
+            <View className="mt-[-2.8%]">
+                <TouchableOpacity onPressIn={handlePressIn12}
+                    onPressOut={handlePressOut12}
+                    onPress={swipeBottom}
+                    className={isActive12 ? "p-3 rounded-full bg-white/10 " : "  p-3 rounded-full bg-white/20 "}>
+                    <Icon name="comment" size={32} color={'#0ea5e9'}
+                        className={isActive12 ? " transition-all transform duration-500 ease-in-out" : "transition-all transform duration-500 ease-in-out"} />
+                </TouchableOpacity>
+            </View>
+
+            <View
+
+
+
+                className={swiped ? (swipeDirection == 'left' ? "mt-[-7.8%] transition-all transform duration-500 ease-in-out" : "mt-[-2.8%] transition-all transform duration-500 ease-in-out") : "mt-[-2.8%] transition-all transform duration-500 ease-in-out"}>
+                <TouchableOpacity onPressIn={handlePressIn123}
+                    onPressOut={handlePressOut123}
+                    onPress={swipeLeft}
+                    className={isActive123 ? "p-3 rounded-full bg-white/10 " : "  p-3 rounded-full bg-white/20 "}>
+                    <Icon name="retweet" size={32} color={'#0ea5e9'}
+                        className={isActive12 ? " transition-all transform duration-500 ease-in-out" : "transition-all transform duration-500 ease-in-out"} />
+                </TouchableOpacity>
+            </View>
+
+            <View className="mt-2">
+                <TouchableOpacity onPressIn={handlePressIn1234}
+                    onPressOut={handlePressOut1234}
+                    disabled={isLastCard}
+                    onPress={goToNextCard}
+                    className={isLastCard ? "p-3 rounded-full bg-white/20 opacity-50 transition-all transform duration-500 ease-in-out " : "  transition-all transform duration-500 ease-in-out p-3 rounded-full bg-white/20 opacity-100 "}>
+                    <Icon name="repeat" size={28} color={'#fff'}
+                        className={isActive1234 ? "rotate-12 transition-all transform duration-500 ease-in-out" : "-rotate-45 transition-all transform duration-500 ease-in-out"} />
+                </TouchableOpacity>
+            </View>
+            <View>
+
+            </View>
+        </View>
+    </>
+);
 }
 
 const styles = StyleSheet.create({

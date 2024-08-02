@@ -52,7 +52,40 @@ export default function Swipe4({ data }) {
     const handlePressIn1234 = () => setIsActive1234(true);
     const handlePressOut1234 = () => setIsActive1234(false);
 
+    const [compC, setCompC] = useState(false);
+
     const [swiped, setSwiped] = useState(false);
+
+
+    const opacity = useState(new Animated.Value(1))[0];
+
+
+    function fadeInSec() {
+
+        console.log('faded-in')
+        Animated.timing(opacity, {
+            toValue: 1, duration: 700, useNativeDriver: true
+        }).start()
+
+    }
+
+    function fadeOutSec() {
+        Animated.timing(opacity, {
+            toValue: 0, duration: 700, useNativeDriver: true
+        }).start()
+    }
+
+    useEffect(() => {
+        if (compC) {
+            //nothing
+        } else {
+            setTimeout(() => {
+                fadeOutSec();
+            }, 5000)
+        }
+
+    }, [swiped]);
+
 
 
 
@@ -156,6 +189,7 @@ export default function Swipe4({ data }) {
 
 
 
+
     function onSwiping(x, y) {
         setSwiped(true);
 
@@ -183,6 +217,9 @@ export default function Swipe4({ data }) {
         setSwiped(false);
         setCurrentIndex(index + 1);
         setSwipeDirection('');
+        setExplixit(false);
+        setCompC(false);
+        opacity.setValue(1);
     }
 
 
@@ -246,6 +283,9 @@ export default function Swipe4({ data }) {
         setTimeout(() => {
             setLiked(false);
         }, 1400)
+        setExplixit(false);
+        setCompC(false);
+        opacity.setValue(1);
     }
 
 
@@ -266,6 +306,9 @@ export default function Swipe4({ data }) {
 
         setShareModal(true);
         setSwiperKey(Math.random() + 'nones');
+        setExplixit(false);
+        setCompC(false);
+        opacity.setValue(1);
 
     }
 
@@ -299,6 +342,24 @@ export default function Swipe4({ data }) {
     }
 
 
+
+
+    function compClicked() {
+
+        setCompC(true);
+        if (opacity.__getValue() === 0) {
+
+            Animated.timing(opacity, {
+                toValue: 1, duration: 700, useNativeDriver: true
+            }).start()
+        } else {
+            Animated.timing(opacity, {
+                toValue: 0, duration: 700, useNativeDriver: true
+            }).start()
+        }
+
+
+    }
 
 
 
@@ -403,9 +464,11 @@ export default function Swipe4({ data }) {
                 stackSize={1}
                 animateCardOpacity
                 renderCard={(card) => (
-                    <View
+                    <TouchableOpacity
+                        onPress={() => compClicked()}
                         // onPress={() => navigation.navigate("PostDetails")}
                         key={card.id}
+                        activeOpacity={1}
                         className={
                             card?.category === 'GENERAL'
                                 ? 'relative bg-black/40 h-[67%] rounded-xl border border-green-500 border-1'
@@ -415,6 +478,7 @@ export default function Swipe4({ data }) {
 
 
                         <Animated.View
+                            style={[{ opacity: opacity }]}
                             className="flex absolute z-[100] flex-col items-center space-y-2">
                             <View className="flex flex-row p-4 items-center ml-1 mt-1">
                                 <View className="flex flex-row rounded-full bg-black/40 pr-4 pl-2 py-2 ">
@@ -445,14 +509,15 @@ export default function Swipe4({ data }) {
                                     </Text>
                                 </TouchableOpacity>
 
-                                <View className="ml-8">
-                                    <TouchableOpacity className="mt-1 bg-black/40 rounded-full p-3 self-end ">
-                                        <Ionicons size={26} color="white" name="ellipsis-horizontal-outline" />
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        </Animated.View>
 
+                            </View>
+
+                        </Animated.View>
+                        <Animated.View style={[{ opacity: opacity }]} className="absolute z-[80] right-[5%] top-[4.5%]">
+                            <TouchableOpacity className=" bg-black/40 rounded-full p-3 self-end ">
+                                <Ionicons size={26} color="white" name="ellipsis-horizontal-outline" />
+                            </TouchableOpacity>
+                        </Animated.View>
 
                         {(card?.category == "EXPLICIT" && !explicit) &&
                             <View className="flex absolute z-[50] top-[2.5%] h-[94%] w-[94%]  ml-[3%] flex-col space-y-2 bg-black/90  ">
@@ -488,7 +553,7 @@ export default function Swipe4({ data }) {
                                 />
                             </>
                         )}
-                    </View>
+                    </TouchableOpacity>
                 )}
             />
 
