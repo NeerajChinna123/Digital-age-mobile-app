@@ -52,6 +52,8 @@ export default function Swipe4({ data }) {
     const handlePressIn1234 = () => setIsActive1234(true);
     const handlePressOut1234 = () => setIsActive1234(false);
 
+    const [chatModal, setChatModal] = useState(false);
+
     const [compC, setCompC] = useState(false);
 
     const [swiped, setSwiped] = useState(false);
@@ -296,6 +298,10 @@ export default function Swipe4({ data }) {
         setShareModal(!shareModal);
     }
 
+    function toggleChatModal() {
+        setChatModal(!chatModal);
+    }
+
 
     function onSwiped1(index) {
 
@@ -309,6 +315,21 @@ export default function Swipe4({ data }) {
         setExplixit(false);
         setCompC(false);
         opacity.setValue(1);
+
+    }
+
+
+    function onSwiped2(index) {
+        setSwiped(false);
+        // swiperRef.current.jumpToCardIndex(index);
+        setCurrentIndex(index);
+        setSwipeDirection('');
+        // setShareModal(true);
+        setSwiperKey(Math.random() + 'nones');
+        setExplixit(false);
+        setCompC(false);
+        opacity.setValue(1);
+        setChatModal(true);
 
     }
 
@@ -378,7 +399,7 @@ export default function Swipe4({ data }) {
                 onSwipedLeft={(index) => onSwiped(index)}
                 onSwipedRight={(index) => onSwipedRight(index)}
                 onSwipedTop={(index) => onSwiped1(index)}
-                onSwipedBottom={(index) => onSwiped1(index)}
+                onSwipedBottom={(index) => onSwiped2(index)}
                 overlayLabels={{
                     right: {
                         element: (
@@ -523,7 +544,7 @@ export default function Swipe4({ data }) {
                             <View className="flex absolute z-[50] top-[2.5%] h-[94%] w-[94%]  ml-[3%] flex-col space-y-2 bg-black/90  ">
 
 
-                                <View className="flex flex-col mt-[52%] items-center space-y-6 ml-2 p-2">
+                                <View className="flex flex-col mt-[47%] items-center space-y-6 ml-2 p-2">
                                     <Text className="text-lg text-white font-semibold text-center">This content may contain explicit material. Viewer discretion is advised. Click below to proceed.</Text>
                                     <TouchableOpacity onPress={() => forceUpdateCard()} className="p-4 text-md  rounded-full bg-white/30"><Text className="text-white font-semibold">View Content</Text></TouchableOpacity>
                                 </View>
@@ -1379,6 +1400,77 @@ export default function Swipe4({ data }) {
 
 
                 </Modal>}
+
+
+
+
+
+
+            {chatModal &&
+                <Modal animationInTiming={400} onBackdropPress={toggleChatModal} animationOutTiming={400} className="w-[100%] ml-[0] mt-[42%] rounded-t-[40%]" animationIn="slideInUp" animationOut="slideOutDown" isVisible={chatModal}>
+                    <View className="w-full h-[100%] ">
+                        <BlurView
+                            className=" h-[100%] p-2 relative "
+                            tint="dark"
+                            intensity={65}
+                        >
+                            {/* <View className="h-[1.2%] w-[14%] bg-white/40 ml-[42%] rounded-full">
+
+                            </View> */}
+
+                            <View className="flex flex-col">
+                                <View className="flex flex-row justify-between items-center px-4 pt-2">
+                                    <TouchableOpacity className="pt-1" onPress={() => toggleChatModal()}>
+                                        <Text className="text-[18%] font-semibold text-white opacity-60">Cancel</Text>
+                                    </TouchableOpacity>
+
+
+                                    <TouchableOpacity className="bg-cyan-600/60 px-4 py-3 rounded-full ">
+                                        <Text className="text-[16%] font-semibold text-white opacity-70">Respond</Text>
+                                    </TouchableOpacity>
+                                </View>
+
+                                <View className="h-[1.2%] w-[99%] bg-white/20 ml-[0.3%] mt-[5%] rounded-full">
+
+                                </View>
+
+
+                                <View className="flex flex-col">
+
+                                    <View className="flex flex-row justify-between items-center px-3  mt-8">
+                                        <View className="flex flex-row space-x-5 items-center ">
+                                            <View>
+                                                <TouchableOpacity>
+                                                    <Image className="h-12 w-12 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4D03AQELM-tqD-X4-A/profile-displayphoto-shrink_800_800/0/1721061786562?e=1728518400&v=beta&t=kcR4ry6SXqcBgWehIx-FrjVND2FE0LBPmpfY4rBVyBA' }} />
+                                                </TouchableOpacity>
+                                            </View>
+                                            <View>
+                                                <Text className="text-[17%] font-semibold text-white opacity-80">@nc127</Text>
+                                            </View>
+
+
+                                            <TouchableOpacity className="bg-red-600/20 px-4 py-3 rounded-full ">
+                                                <Text className="text-[16%]  text-red-500 opacity-70">EXPLICIT</Text>
+                                            </TouchableOpacity>
+
+
+
+                                        </View>
+                                        <View className="">
+                                            <TouchableOpacity className=" bg-white/20 rounded-full p-3 self-end ">
+                                                <Ionicons size={20} color="white" name="ellipsis-vertical-outline" />
+                                            </TouchableOpacity>
+
+                                        </View>
+                                    </View>
+
+                                </View>
+                            </View>
+                        </BlurView>
+                    </View>
+                </Modal>}
+
+
             {
                 liked &&
 
@@ -1397,6 +1489,9 @@ export default function Swipe4({ data }) {
         </>
     );
 }
+
+
+
 
 const styles = StyleSheet.create({
     cardShadow: {
