@@ -1419,7 +1419,7 @@ export default function Swipe4({ data }) {
                             </View> */}
 
                             <View className="flex flex-col">
-                                <View className="flex flex-row justify-between items-center px-4 pt-2">
+                                <View className="flex flex-row justify-between items-center px-3 pt-2">
                                     <TouchableOpacity className="pt-1" onPress={() => toggleChatModal()}>
                                         <Text className="text-[18%] font-semibold text-white opacity-60">Cancel</Text>
                                     </TouchableOpacity>
@@ -1437,7 +1437,7 @@ export default function Swipe4({ data }) {
 
                                 <View className="flex flex-col">
 
-                                    <View className="flex flex-row justify-between items-center px-3  mt-8">
+                                    <View className="flex flex-row justify-between items-center px-2  mt-8">
                                         <View className="flex flex-row space-x-5 items-center ">
                                             <View>
                                                 <TouchableOpacity>
