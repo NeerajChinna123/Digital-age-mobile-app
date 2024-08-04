@@ -1407,7 +1407,7 @@ export default function Swipe4({ data }) {
 
 
             {chatModal &&
-                <Modal animationInTiming={400} onBackdropPress={toggleChatModal} animationOutTiming={400} className="w-[100%] ml-[0] mt-[42%] rounded-t-[40%]" animationIn="slideInUp" animationOut="slideOutDown" isVisible={chatModal}>
+                <Modal animationInTiming={400} onBackdropPress={toggleChatModal} animationOutTiming={400} className="w-[100%] ml-[0] mt-[34%] rounded-t-[40%]" animationIn="slideInUp" animationOut="slideOutDown" isVisible={chatModal}>
                     <View className="w-full h-[100%] ">
                         <BlurView
                             className=" h-[100%] p-2 relative "
@@ -1430,12 +1430,20 @@ export default function Swipe4({ data }) {
                                     </TouchableOpacity>
                                 </View>
 
-                                <View className="h-[1.2%] w-[99%] bg-white/20 ml-[0.3%] mt-[5%] rounded-full">
+                                <View className="h-[0.4%] w-[100%] bg-white/10 px-1 mt-[5%] rounded-full">
 
                                 </View>
 
 
-                                <View className="flex flex-col">
+                                <View className="flex flex-col relative">
+
+                                    <View className="absolute bg-white/20 z-[100] w-[0.9%] top-[17%] left-[7.5%] h-[68.9%]">
+
+                                    </View>
+
+                                    <View className="absolute border-8 border-l-white/20 border-b-white/20 border-t-0 border-tl-0 border-r-0 border-tl  rounded-bl-full w-[10%] top-[85.7%] left-[7.5%] h-[8%]">
+
+                                    </View>
 
                                     <View className="flex flex-row justify-between items-center px-2  mt-8">
                                         <View className="flex flex-row space-x-5 items-center ">
@@ -1464,7 +1472,44 @@ export default function Swipe4({ data }) {
                                         </View>
                                     </View>
 
+                                    <View className="mt-6 ml-16 h-[230px]">
+                                        <Image className="h-[75%] w-[94%] object-fit rounded-md" source={require('../busy-day.jpeg')} />
+                                    </View>
+
+                                    <View className="ml-[15%] mt-[-11%] px-2">
+                                        <Text className="text-md leading-5 font-semibold text-white">Crime scene investigation underway. Updates to follow. #BreakingNews</Text>
+                                    </View>
+
+
+                                    <View className="ml-[15%] mt-[9%] flex flex-row space-x-4 items-center">
+                                        <TouchableOpacity>
+                                            <Image className="h-16 w-16 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/v2/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1681764031887?e=1728518400&v=beta&t=U0BbE5153coD9n0HWoikSSvTpHbQYOEpr6hnnjzLWYc' }} />
+                                        </TouchableOpacity>
+
+                                        <View className="flex flex-col space-y-4 mt-1">
+                                            <Text className="text-[17%] font-semibold text-white opacity-80">@Pe20</Text>
+                                            <View className="flex flex-row space-x-6">
+                                                <TouchableOpacity >
+                                                    <Ionicons size={23} color="#BEBEBE" name="images" />
+                                                </TouchableOpacity>
+                                                <TouchableOpacity >
+                                                    <Ionicons size={26} color="#BEBEBE" name="camera" />
+                                                </TouchableOpacity>
+
+                                                <TouchableOpacity className="bg-white/70 rounded-md px-2 py-1" >
+                                                    <Text className="text-md  text-black font-semibold">GIF</Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
+
+
+
+                                    </View>
+
+
                                 </View>
+
+
                             </View>
                         </BlurView>
                     </View>
