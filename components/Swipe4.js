@@ -63,6 +63,8 @@ export default function Swipe4({ data }) {
 
     const [chatModal, setChatModal] = useState(false);
 
+    const [chatModal1, setChatModal1] = useState(false);
+
     const [compC, setCompC] = useState(false);
 
     const [swiped, setSwiped] = useState(false);
@@ -311,6 +313,11 @@ export default function Swipe4({ data }) {
         setChatModal(!chatModal);
     }
 
+    function toggleChatModal1() {
+        setChatModal1(!chatModal1);
+    }
+
+
 
     function onSwiped1(index) {
 
@@ -338,7 +345,15 @@ export default function Swipe4({ data }) {
         setExplixit(false);
         setCompC(false);
         opacity.setValue(1);
-        setChatModal(true);
+
+        console.log('asasci', currentIndex)
+
+        if (currentIndex == 1) {
+            setChatModal(true);
+        } else {
+            setChatModal1(true);
+        }
+
 
     }
 
@@ -464,6 +479,41 @@ export default function Swipe4({ data }) {
     }
 
 
+
+    const [responded, setResponded] = useState(false);
+
+    const [chatSent, setChatSent] = useState(false);
+
+    function respondedFun() {
+        setResponded(true);
+
+        setTimeout(() => { setChatSent(true) }, 2000);
+
+        setTimeout(() => { setChatModal(false) }, 5000);
+
+    }
+
+
+
+    const opacity2 = useRef(new Animated.Value(0)).current;
+
+    const opacity3 = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        Animated.timing(opacity2, {
+            toValue: responded ? 1 : 0,
+            duration: 200, // duration of the transition in milliseconds
+            useNativeDriver: true,
+        }).start();
+    }, [responded]);
+
+    useEffect(() => {
+        Animated.timing(opacity3, {
+            toValue: chatSent ? 1 : 0,
+            duration: 200, // duration of the transition in milliseconds
+            useNativeDriver: true,
+        }).start();
+    }, [chatSent]);
 
 
 
@@ -1479,13 +1529,7 @@ export default function Swipe4({ data }) {
                         </BlurView>
                     </View>
 
-
                 </Modal>}
-
-
-
-
-
 
             {chatModal &&
                 <Modal animationInTiming={400} onBackdropPress={toggleChatModal} animationOutTiming={400} className="w-[100%] ml-[0] mt-[23%] rounded-t-[40%]" animationIn="slideInUp" animationOut="slideOutDown" isVisible={chatModal}>
@@ -1500,65 +1544,122 @@ export default function Swipe4({ data }) {
                             tint="dark"
                             intensity={65}
                         >
+                            {
+                                responded ?
 
-
-                            <View className="flex flex-col">
-                                <View className="flex flex-row justify-between items-center px-3 pt-2">
-                                    <TouchableOpacity className="pt-1" onPress={() => toggleChatModal()}>
-                                        <Text className="text-[18%] font-semibold text-white opacity-60">Cancel</Text>
-                                    </TouchableOpacity>
-
-
-                                    <TouchableOpacity className="bg-cyan-600/60 px-4 py-3 rounded-full ">
-                                        <Text className="text-[16%] font-semibold text-white opacity-70">Respond</Text>
-                                    </TouchableOpacity>
-                                </View>
-
-                                <View className="h-[0.4%] w-[100%] bg-white/10 px-1 mt-[5%] rounded-full">
-
-                                </View>
-
-
-                                {/* <ScrollView  className="flex flex-row space-x-7 px-6 mt-4 pr-10"> */}
-
-                                <KeyboardAwareScrollView ref={scrollViewRef} className="flex  h-full flex-col relative">
-
-                                    <View className={selecIm.length > 0 ? "absolute bg-white/20 transition transform duration-200 ease-in-out  z-[100] w-[0.9%] top-[14%] left-[7.5%] h-[67%]" : "absolute bg-white/20 transition transform duration-200 ease-in-out  z-[100] w-[0.9%] top-[16%] left-[7.5%] h-[68.8%]"}>
-
-                                    </View>
-
-                                    <View className={selecIm.length > 0 ? "absolute border-8 transition transform duration-200 ease-in-out border-l-white/20 border-b-white/20 border-t-0 border-tl-0 border-r-0 border-tl   rounded-bl-full w-[10%] top-[80.9%] left-[7.5%] h-[8%]" : "absolute transition transform duration-200 ease-in-out border-8 border-l-white/20 border-b-white/20 border-t-0 border-tl-0 border-r-0 border-tl  rounded-bl-full w-[10%] top-[84.9%] left-[7.5%] h-[8%]"}>
-
-                                    </View>
-
-                                    <View className={selecIm.length > 0 ? "absolute bg-white/20 z-[100] w-[0.9%] top-[86%] left-[7.5%] h-[48.8%] transition transform duration-200 ease-in-out" : "absolute bg-white/20 z-[100] w-[0.9%] top-[90.6%] left-[7.5%] h-[28.3%] transition transform duration-200 ease-in-out"}>
-
-                                    </View>
-
-                                    <Animated.View
+                                    (chatSent ? <Animated.View
                                         style={
                                             {
-                                                opacity:opacity1,
+                                                opacity: opacity3,
 
-                                            }}
-                                        className="bg-red-800/30 h-[56%] w-[85%] left-[13.4%] top-[78%] transition-all transform duration-500 ease-in-out rounded-lg opacity-0  absolute"
+                                            }} className="absolute top-[25%] left-[7%]" >
 
-                                    >
-                                    </Animated.View>
+                                        <LottieView
+                                            source={require('../Chat-Sent.json')} // Replace with your right swipe animation
+                                            autoPlay
+                                            tim
 
 
-                                    < TouchableOpacity className={selecIm.length > 0 ? "absolute top-[134%] items-center flex flex-row space-x-3 left-[2.8%] z-[120] transition transform duration-200 ease-in-out " : "absolute top-[119%] items-center flex flex-row space-x-3 left-[2.8%] z-[120] transition transform duration-200 ease-in-out "}>
-                                        <TouchableOpacity className={text.length > 0 ? "transition transform opacity-100 duration-200 ease-in-out" : "transition opacity-50  transform duration-200 ease-in-out"}>
-                                            <Image className="h-10 w-10 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/v2/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1681764031887?e=1728518400&v=beta&t=U0BbE5153coD9n0HWoikSSvTpHbQYOEpr6hnnjzLWYc' }} />
-                                        </TouchableOpacity>
-                                        <View className={text.length > 0 ? "transition transform opacity-100  duration-200 ease-in-out" : "transition opacity-50  transform duration-200 ease-in-out"}>
+                                            style={styles.lottieAnimation18}
 
-                                            <Text className="text-[14%] text-gray-100">Add Another Response</Text>
+                                        />
+                                    </Animated.View> :
+                                        <Animated.View
+                                            style={
+                                                {
+                                                    opacity: opacity2,
+
+                                                }} className="relative">
+                                            <View className="mt-[22%] flex flex-col items-center">
+                                                <Image className="h-28 w-28 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/0/1681764031887?e=1727308800&v=beta&t=hGVVaP-8KbWFJTt1kVAPq-GvsaYkg-LBh9Xbo1WShdQ' }} />
+                                            </View>
+                                            <View className={"absolute bg-white/20 transition transform duration-200 ease-in-out  z-[100] w-[0.9%] top-[100%] left-[49%] h-[50%]"}>
+
+                                            </View>
+
+                                            <View className="bg-white/10 absolute rounded-full h-28 w-28 top-[150%] left-[35%]">
+
+                                            </View>
+
+                                            <View className="absolute rounded-full h-28 w-28 top-[138%] left-[29%]">
+                                                <LottieView
+                                                    source={require('../chatting.json')} // Replace with your right swipe animation
+                                                    autoPlay
+                                                    tim
+
+
+                                                    style={styles.lottieAnimation15}
+
+                                                />
+                                            </View>
+                                            <View className={"absolute bg-white/20 transition transform duration-200 ease-in-out  z-[100] w-[0.9%] top-[207%] left-[49%] h-[50%]"}>
+
+                                            </View>
+
+                                            <View className="absolute flex top-[257%] left-[35%] flex-col items-center">
+                                                <Image className="h-28 w-28 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4D03AQELM-tqD-X4-A/profile-displayphoto-shrink_800_800/0/1721061786562?e=1728518400&v=beta&t=kcR4ry6SXqcBgWehIx-FrjVND2FE0LBPmpfY4rBVyBA' }} />
+                                            </View>
+
+
+                                        </Animated.View>) :
+
+                                    <View className="flex flex-col">
+                                        <View className="flex flex-row justify-between items-center px-3 pt-2">
+                                            <TouchableOpacity className="pt-1" onPress={() => toggleChatModal()}>
+                                                <Text className="text-[18%] font-semibold text-white opacity-60">Cancel</Text>
+                                            </TouchableOpacity>
+
+
+                                            <TouchableOpacity onPress={() => respondedFun()} className="bg-cyan-600/60 px-4 py-3 rounded-full ">
+                                                <Text className="text-[16%] font-semibold text-white opacity-70">Respond</Text>
+                                            </TouchableOpacity>
                                         </View>
-                                    </TouchableOpacity>
+
+                                        <View className="h-[0.4%] w-[100%] bg-white/10 px-1 mt-[5%] rounded-full">
+
+                                        </View>
 
 
-                                    {/* <View className="absolute top-[118%] right-[1%] space-x-4 rounded-full bg-black/50 p-4 flex flex-row">
+                                        {/* <ScrollView  className="flex flex-row space-x-7 px-6 mt-4 pr-10"> */}
+
+                                        <KeyboardAwareScrollView ref={scrollViewRef} className="flex  h-full flex-col relative">
+
+                                            <View className={selecIm.length > 0 ? "absolute bg-white/20 transition transform duration-200 ease-in-out  z-[100] w-[0.9%] top-[14%] left-[7.5%] h-[67%]" : "absolute bg-white/20 transition transform duration-200 ease-in-out  z-[100] w-[0.9%] top-[16%] left-[7.5%] h-[68.8%]"}>
+
+                                            </View>
+
+                                            <View className={selecIm.length > 0 ? "absolute border-8 transition transform duration-200 ease-in-out border-l-white/20 border-b-white/20 border-t-0 border-tl-0 border-r-0 border-tl   rounded-bl-full w-[10%] top-[80.9%] left-[7.5%] h-[8%]" : "absolute transition transform duration-200 ease-in-out border-8 border-l-white/20 border-b-white/20 border-t-0 border-tl-0 border-r-0 border-tl  rounded-bl-full w-[10%] top-[84.9%] left-[7.5%] h-[8%]"}>
+
+                                            </View>
+
+                                            <View className={selecIm.length > 0 ? "absolute bg-white/20 z-[100] w-[0.9%] top-[86%] left-[7.5%] h-[48.8%] transition transform duration-200 ease-in-out" : "absolute bg-white/20 z-[100] w-[0.9%] top-[90.6%] left-[7.5%] h-[28.3%] transition transform duration-200 ease-in-out"}>
+
+                                            </View>
+
+                                            <Animated.View
+                                                style={
+                                                    {
+                                                        opacity: opacity1,
+
+                                                    }}
+                                                className="bg-red-800/30 h-[56%] w-[85%] left-[13.4%] top-[78%] transition-all transform duration-500 ease-in-out rounded-lg opacity-0  absolute"
+
+                                            >
+                                            </Animated.View>
+
+
+                                            < TouchableOpacity className={selecIm.length > 0 ? "absolute top-[134%] items-center flex flex-row space-x-3 left-[2.8%] z-[120] transition transform duration-200 ease-in-out " : "absolute top-[119%] items-center flex flex-row space-x-3 left-[2.8%] z-[120] transition transform duration-200 ease-in-out "}>
+                                                <TouchableOpacity className={text.length > 0 ? "transition transform opacity-100 duration-200 ease-in-out" : "transition opacity-50  transform duration-200 ease-in-out"}>
+                                                    <Image className="h-10 w-10 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/v2/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1681764031887?e=1728518400&v=beta&t=U0BbE5153coD9n0HWoikSSvTpHbQYOEpr6hnnjzLWYc' }} />
+                                                </TouchableOpacity>
+                                                <View className={text.length > 0 ? "transition transform opacity-100  duration-200 ease-in-out" : "transition opacity-50  transform duration-200 ease-in-out"}>
+
+                                                    <Text className="text-[14%] text-gray-100">Add Another Response</Text>
+                                                </View>
+                                            </TouchableOpacity>
+
+
+                                            {/* <View className="absolute top-[118%] right-[1%] space-x-4 rounded-full bg-black/50 p-4 flex flex-row">
                                         <TouchableOpacity className="flex flex-row items-center opacity-40 space-x-2">
                                             <Ionicons size={22} color="white" name="sync" />
                                             <Text className="font-semibold text-[14%] text-white">Reaction</Text>
@@ -1579,161 +1680,510 @@ export default function Swipe4({ data }) {
                                     </View> */}
 
 
-                                    <View className="flex flex-row justify-between items-center px-2  mt-8">
-                                        <View className="flex flex-row space-x-5 items-center ">
-                                            <View>
-                                                <TouchableOpacity>
-                                                    <Image className="h-12 w-12 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4D03AQELM-tqD-X4-A/profile-displayphoto-shrink_800_800/0/1721061786562?e=1728518400&v=beta&t=kcR4ry6SXqcBgWehIx-FrjVND2FE0LBPmpfY4rBVyBA' }} />
-                                                </TouchableOpacity>
-                                            </View>
-                                            <View>
-                                                <Text className="text-[17%] font-semibold text-white opacity-80">@nc127</Text>
-                                            </View>
+                                            <View className="flex flex-row justify-between items-center px-2  mt-8">
+                                                <View className="flex flex-row space-x-5 items-center ">
+                                                    <View>
+                                                        <TouchableOpacity>
+                                                            <Image className="h-12 w-12 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4D03AQELM-tqD-X4-A/profile-displayphoto-shrink_800_800/0/1721061786562?e=1728518400&v=beta&t=kcR4ry6SXqcBgWehIx-FrjVND2FE0LBPmpfY4rBVyBA' }} />
+                                                        </TouchableOpacity>
+                                                    </View>
+                                                    <View>
+                                                        <Text className="text-[17%] font-semibold text-white opacity-80">@nc127</Text>
+                                                    </View>
 
-                                            <TouchableOpacity className="bg-red-600/20 px-4 py-3 rounded-full ">
-                                                <Text className="text-[16%]  text-red-500 opacity-70">EXPLICIT</Text>
-                                            </TouchableOpacity>
-
-                                        </View>
-                                        <View className="">
-                                            <TouchableOpacity className=" bg-white/20 rounded-full p-3 self-end ">
-                                                <Ionicons size={20} color="white" name="ellipsis-vertical-outline" />
-                                            </TouchableOpacity>
-
-                                        </View>
-                                    </View>
-
-                                    <View className="mt-6 ml-16 h-[230px]">
-                                        <Image className="h-[75%] w-[94%] object-fit rounded-md" source={require('../busy-day.jpeg')} />
-                                    </View>
-
-                                    <View className="ml-[15%] mt-[-11%] px-2">
-                                        <Text className="text-md leading-5 font-semibold text-white">Crime scene investigation underway. Updates to follow. #BreakingNews</Text>
-                                    </View>
-
-
-                                    <View className="ml-[15%] mt-[9%] flex flex-row space-x-4 items-center">
-                                        <TouchableOpacity>
-                                            <Image className="h-16 w-16 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/v2/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1681764031887?e=1728518400&v=beta&t=U0BbE5153coD9n0HWoikSSvTpHbQYOEpr6hnnjzLWYc' }} />
-                                        </TouchableOpacity>
-
-                                        <View className="flex flex-col space-y-4 mt-1 relative">
-                                            <Text className="text-[17%] font-semibold text-white opacity-80">@Pe20</Text>
-                                            <View className="flex flex-row space-x-6">
-                                                <TouchableOpacity onPress={selectImage} >
-                                                    <Ionicons size={23} color="#BEBEBE" name="images" />
-                                                </TouchableOpacity>
-                                                <TouchableOpacity >
-                                                    <Ionicons size={26} color="#BEBEBE" name="camera" />
-                                                </TouchableOpacity>
-
-                                                <TouchableOpacity className="bg-white/70 rounded-md px-2 py-1" >
-                                                    <Text className="text-md  text-black font-semibold">GIF</Text>
-                                                </TouchableOpacity>
-                                            </View>
-
-                                            {selecIm.length &&
-
-                                                (contentSta ?
-                                                    <TouchableOpacity className="bg-red-600/20 px-3 py-2 absolute left-[50%] top-[-36%]  rounded-full ">
-                                                        <Text className="text-[12%]  text-red-500 opacity-70">EXPLICIT</Text>
+                                                    <TouchableOpacity className="bg-red-600/20 px-4 py-3 rounded-full ">
+                                                        <Text className="text-[16%]  text-red-500 opacity-70">EXPLICIT</Text>
                                                     </TouchableOpacity>
 
-                                                    :
+                                                </View>
+                                                <View className="">
+                                                    <TouchableOpacity className=" bg-white/20 rounded-full p-3 self-end ">
+                                                        <Ionicons size={20} color="white" name="ellipsis-vertical-outline" />
+                                                    </TouchableOpacity>
 
-                                                    (
-                                                        load ?
-                                                            <View className="absolute left-[43%] opacity-90 top-[-92%]">
-                                                                <LottieView
-                                                                    source={require('../Analyze.json')} // Replace with your right swipe animation
-                                                                    autoPlay
-                                                                    tim
+                                                </View>
+                                            </View>
+
+                                            <View className="mt-6 ml-16 h-[230px]">
+                                                <Image className="h-[75%] w-[94%] object-fit rounded-md" source={require('../busy-day.jpeg')} />
+                                            </View>
+
+                                            <View className="ml-[15%] mt-[-11%] px-2">
+                                                <Text className="text-md leading-5 font-semibold text-white">Crime scene investigation underway. Updates to follow. #BreakingNews</Text>
+                                            </View>
 
 
-                                                                    style={styles.lottieAnimation14}
+                                            <View className="ml-[15%] mt-[9%] flex flex-row space-x-4 items-center">
+                                                <TouchableOpacity>
+                                                    <Image className="h-16 w-16 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/v2/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1681764031887?e=1728518400&v=beta&t=U0BbE5153coD9n0HWoikSSvTpHbQYOEpr6hnnjzLWYc' }} />
+                                                </TouchableOpacity>
 
-                                                                />
+                                                <View className="flex flex-col space-y-4 mt-1 relative">
+                                                    <Text className="text-[17%] font-semibold text-white opacity-80">@Pe20</Text>
+                                                    <View className="flex flex-row space-x-6">
+                                                        <TouchableOpacity onPress={selectImage} >
+                                                            <Ionicons size={23} color="#BEBEBE" name="images" />
+                                                        </TouchableOpacity>
+                                                        <TouchableOpacity >
+                                                            <Ionicons size={26} color="#BEBEBE" name="camera" />
+                                                        </TouchableOpacity>
 
-                                                            </View>
+                                                        <TouchableOpacity className="bg-white/70 rounded-md px-2 py-1" >
+                                                            <Text className="text-md  text-black font-semibold">GIF</Text>
+                                                        </TouchableOpacity>
+                                                    </View>
+
+                                                    {selecIm.length &&
+
+                                                        (contentSta ?
+                                                            <TouchableOpacity className="bg-red-600/20 px-3 py-2 absolute left-[50%] top-[-36%]  rounded-full ">
+                                                                <Text className="text-[12%]  text-red-500 opacity-70">EXPLICIT</Text>
+                                                            </TouchableOpacity>
 
                                                             :
 
-                                                            <View className="absolute left-[50%] opacity-90 top-[-38%]">
-                                                                <TouchableOpacity onPress={() => loading()} className="flex flex-row space-x-2 p-2 rounded-full bg-white/30">
-                                                                    <Ionicons size={15} color="white" name="analytics" />
-                                                                    <Text className="text-[12%] text-white font-semibold">Analyze</Text>
-                                                                </TouchableOpacity>
-                                                            </View>
-                                                    )
-                                                )
+                                                            (
+                                                                load ?
+                                                                    <View className="absolute left-[43%] opacity-90 top-[-92%]">
+                                                                        <LottieView
+                                                                            source={require('../Analyze.json')} // Replace with your right swipe animation
+                                                                            autoPlay
+                                                                            tim
+
+
+                                                                            style={styles.lottieAnimation14}
+
+                                                                        />
+
+                                                                    </View>
+
+                                                                    :
+
+                                                                    <View className="absolute left-[50%] opacity-90 top-[-38%]">
+                                                                        <TouchableOpacity onPress={() => loading()} className="flex flex-row space-x-2 p-2 rounded-full bg-white/30">
+                                                                            <Ionicons size={15} color="white" name="analytics" />
+                                                                            <Text className="text-[12%] text-white font-semibold">Analyze</Text>
+                                                                        </TouchableOpacity>
+                                                                    </View>
+                                                            )
+                                                        )
 
 
 
-                                            }
+                                                    }
+
+                                                    {selecIm.length > 0 &&
+
+                                                        <TouchableOpacity className="absolute left-[150%] opacity-90 top-[-26%]">
+
+                                                            <Ionicons size={20} color="white" name="calendar-clear" />
+
+                                                        </TouchableOpacity>}
+                                                </View>
+                                            </View>
+
+
 
                                             {selecIm.length > 0 &&
-
-                                                <TouchableOpacity className="absolute left-[150%] opacity-90 top-[-26%]">
-
-                                                    <Ionicons size={20} color="white" name="calendar-clear" />
-
-                                                </TouchableOpacity>}
-                                        </View>
-                                    </View>
+                                                <View className="ml-[37%] h-[24%] relative mt-4">
+                                                    <Image source={require('../crime-2.webp')} className=" h-[64%] w-[60%]" />
+                                                    <View className="absolute bg-black/80 p-1 rounded-full top-[3%] right-[42%]">
+                                                        <Ionicons size={15} color="white" name="close-outline" />
+                                                    </View>
+                                                </View>}
 
 
 
-                                    {selecIm.length > 0 &&
-                                        <View className="ml-[37%] h-[24%] relative mt-4">
-                                            <Image source={require('../crime-2.webp')} className=" h-[64%] w-[60%]" />
-                                            <View className="absolute bg-black/80 p-1 rounded-full top-[3%] right-[42%]">
-                                                <Ionicons size={15} color="white" name="close-outline" />
+                                            <View className={selecIm.length > 0 ? "absolute top-[120%] w-[95%] left-[3%]" : "absolute top-[100%] w-[95%] left-[3%]"}>
+                                                <View className={selecIm.length > 0 ? "flex flex-row space-x-2 w-[61%]  ml-[34%] bg-white/20 rounded-full p-3" : "flex flex-row space-x-2 w-[61%] mt-[5%] ml-[34%] bg-white/20 rounded-full p-3"}>
+                                                    <Ionicons size={20} color="#dedede" name="chatbubble" />
+                                                    <TextInput
+                                                        className="text-white font-semibold w-[72%]  opacity-80 text-md"
+                                                        placeholder="Respond to @nc127 .."
+                                                        placeholderTextColor="#a7a7a7"
+                                                        value={text}
+                                                        onChangeText={setText}
+                                                        selectionColor="#dedede"
+                                                    />
+                                                    {
+                                                        text.length > 0 && <Ionicons size={20} color="#b8b8b8" name="close-outline" />
+                                                    }
+                                                </View>
                                             </View>
-                                        </View>}
 
 
+                                        </KeyboardAwareScrollView>
 
-                                    <View className={selecIm.length > 0 ? "absolute top-[120%] w-[95%] left-[3%]" : "absolute top-[100%] w-[95%] left-[3%]"}>
-                                        <View className={selecIm.length > 0 ? "flex flex-row space-x-2 w-[61%]  ml-[34%] bg-white/20 rounded-full p-3" : "flex flex-row space-x-2 w-[61%] mt-[5%] ml-[34%] bg-white/20 rounded-full p-3"}>
-                                            <Ionicons size={20} color="#dedede" name="chatbubble" />
-                                            <TextInput
-                                                className="text-white font-semibold w-[72%]  opacity-80 text-md"
-                                                placeholder="Respond to @nc127 .."
-                                                placeholderTextColor="#a7a7a7"
-                                                value={text}
-                                                onChangeText={setText}
-                                                selectionColor="#dedede"
-                                            />
-                                            {
-                                                text.length > 0 && <Ionicons size={20} color="#b8b8b8" name="close-outline" />
-                                            }
+                                        <View className="absolute top-[81.5%] right-[1%] space-x-4 rounded-full bg-black/80 p-4 flex flex-row">
+                                            <TouchableOpacity className="flex flex-row items-center opacity-40 space-x-2">
+                                                <Ionicons size={22} color="white" name="sync" />
+                                                <Text className="font-semibold text-[14%] text-white">Reaction</Text>
+                                            </TouchableOpacity>
+
+                                            <TouchableOpacity className="flex flex-row relative items-center space-x-2">
+                                                <Ionicons size={22} color="white" name="chatbubbles" />
+                                                <Text className="font-semibold text-[14%] text-white">Response</Text>
+                                            </TouchableOpacity>
+
+                                            <TouchableOpacity className="flex flex-row items-center opacity-40 space-x-2">
+                                                <Ionicons size={22} color="white" name="repeat" />
+                                                <Text className="font-semibold text-[14%] text-white">Repost</Text>
+                                            </TouchableOpacity>
+
                                         </View>
                                     </View>
 
+                            }
 
-                                </KeyboardAwareScrollView>
 
-                                <View className="absolute top-[81.5%] right-[1%] space-x-4 rounded-full bg-black/80 p-4 flex flex-row">
-                                    <TouchableOpacity className="flex flex-row items-center opacity-40 space-x-2">
-                                        <Ionicons size={22} color="white" name="sync" />
-                                        <Text className="font-semibold text-[14%] text-white">Reaction</Text>
-                                    </TouchableOpacity>
-
-                                    <TouchableOpacity className="flex flex-row relative items-center space-x-2">
-                                        <Ionicons size={22} color="white" name="chatbubbles" />
-                                        <Text className="font-semibold text-[14%] text-white">Response</Text>
-                                    </TouchableOpacity>
-
-                                    <TouchableOpacity className="flex flex-row items-center opacity-40 space-x-2">
-                                        <Ionicons size={22} color="white" name="repeat" />
-                                        <Text className="font-semibold text-[14%] text-white">Repost</Text>
-                                    </TouchableOpacity>
-
-                                </View>
-                            </View>
                         </BlurView>
                     </KeyboardAvoidingView>
                 </Modal>}
+
+
+
+
+
+
+
+
+
+
+            {chatModal1 &&
+                <Modal animationInTiming={400} onBackdropPress={toggleChatModal1} animationOutTiming={400} className="w-[100%] ml-[0] mt-[23%] rounded-t-[40%]" animationIn="slideInUp" animationOut="slideOutDown" isVisible={chatModal1}>
+
+                    <KeyboardAvoidingView
+
+                        className="w-full h-[100%] "
+                        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+
+                        <BlurView
+                            className=" h-[100%] p-2 relative "
+                            tint="dark"
+                            intensity={65}
+                        >
+                            {
+                                responded ?
+
+                                    (chatSent ? <Animated.View
+                                        style={
+                                            {
+                                                opacity: opacity3,
+
+                                            }} className="absolute top-[25%] left-[7%]" >
+
+                                        <LottieView
+                                            source={require('../Chat-Sent.json')} // Replace with your right swipe animation
+                                            autoPlay
+                                            tim
+
+
+                                            style={styles.lottieAnimation18}
+
+                                        />
+                                    </Animated.View> :
+                                        <Animated.View
+                                            style={
+                                                {
+                                                    opacity: opacity2,
+
+                                                }} className="relative">
+                                            <View className="mt-[22%] flex flex-col items-center">
+                                                <Image className="h-28 w-28 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/0/1681764031887?e=1727308800&v=beta&t=hGVVaP-8KbWFJTt1kVAPq-GvsaYkg-LBh9Xbo1WShdQ' }} />
+                                            </View>
+                                            <View className={"absolute bg-white/20 transition transform duration-200 ease-in-out  z-[100] w-[0.9%] top-[100%] left-[49%] h-[50%]"}>
+
+                                            </View>
+
+                                            <View className="bg-white/10 absolute rounded-full h-28 w-28 top-[150%] left-[35%]">
+
+                                            </View>
+
+                                            <View className="absolute rounded-full h-28 w-28 top-[138%] left-[29%]">
+                                                <LottieView
+                                                    source={require('../chatting.json')} // Replace with your right swipe animation
+                                                    autoPlay
+                                                    tim
+
+
+                                                    style={styles.lottieAnimation15}
+
+                                                />
+                                            </View>
+                                            <View className={"absolute bg-white/20 transition transform duration-200 ease-in-out  z-[100] w-[0.9%] top-[207%] left-[49%] h-[50%]"}>
+
+                                            </View>
+
+                                            <View className="absolute flex top-[257%] left-[35%] flex-col items-center">
+                                                <Image className="h-28 w-28 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4D03AQELM-tqD-X4-A/profile-displayphoto-shrink_800_800/0/1721061786562?e=1728518400&v=beta&t=kcR4ry6SXqcBgWehIx-FrjVND2FE0LBPmpfY4rBVyBA' }} />
+                                            </View>
+
+
+                                        </Animated.View>) :
+
+                                    <View className="flex flex-col">
+                                        <View className="flex flex-row justify-between items-center px-3 pt-2">
+                                            <TouchableOpacity className="pt-1" onPress={() => toggleChatModal()}>
+                                                <Text className="text-[18%] font-semibold text-white opacity-60">Cancel</Text>
+                                            </TouchableOpacity>
+
+
+                                            <TouchableOpacity onPress={() => respondedFun()} className="bg-cyan-600/60 px-4 py-3 rounded-full ">
+                                                <Text className="text-[16%] font-semibold text-white opacity-70">Respond</Text>
+                                            </TouchableOpacity>
+                                        </View>
+
+                                        <View className="h-[0.4%] w-[100%] bg-white/10 px-1 mt-[5%] rounded-full">
+
+                                        </View>
+
+
+                                        {/* <ScrollView  className="flex flex-row space-x-7 px-6 mt-4 pr-10"> */}
+
+                                        <KeyboardAwareScrollView ref={scrollViewRef} className="flex  h-full flex-col relative">
+
+                                            <View className={selecIm.length > 0 ? "absolute bg-white/20 transition transform duration-200 ease-in-out  z-[100] w-[0.9%] top-[14%] left-[7.5%] h-[67%]" : "absolute bg-white/20 transition transform duration-200 ease-in-out  z-[100] w-[0.9%] top-[16%] left-[7.5%] h-[68.8%]"}>
+
+                                            </View>
+
+                                            <View className={selecIm.length > 0 ? "absolute border-8 transition transform duration-200 ease-in-out border-l-white/20 border-b-white/20 border-t-0 border-tl-0 border-r-0 border-tl   rounded-bl-full w-[10%] top-[80.9%] left-[7.5%] h-[8%]" : "absolute transition transform duration-200 ease-in-out border-8 border-l-white/20 border-b-white/20 border-t-0 border-tl-0 border-r-0 border-tl  rounded-bl-full w-[10%] top-[84.9%] left-[7.5%] h-[8%]"}>
+
+                                            </View>
+
+                                            <View className={selecIm.length > 0 ? "absolute bg-white/20 z-[100] w-[0.9%] top-[86%] left-[7.5%] h-[48.8%] transition transform duration-200 ease-in-out" : "absolute bg-white/20 z-[100] w-[0.9%] top-[90.6%] left-[7.5%] h-[28.3%] transition transform duration-200 ease-in-out"}>
+
+                                            </View>
+
+                                            <Animated.View
+                                                style={
+                                                    {
+                                                        opacity: opacity1,
+
+                                                    }}
+                                                className="bg-red-800/30 h-[56%] w-[85%] left-[13.4%] top-[78%] transition-all transform duration-500 ease-in-out rounded-lg opacity-0  absolute"
+
+                                            >
+                                            </Animated.View>
+
+
+                                            < TouchableOpacity className={selecIm.length > 0 ? "absolute top-[134%] items-center flex flex-row space-x-3 left-[2.8%] z-[120] transition transform duration-200 ease-in-out " : "absolute top-[119%] items-center flex flex-row space-x-3 left-[2.8%] z-[120] transition transform duration-200 ease-in-out "}>
+                                                <TouchableOpacity className={text.length > 0 ? "transition transform opacity-100 duration-200 ease-in-out" : "transition opacity-50  transform duration-200 ease-in-out"}>
+                                                    <Image className="h-10 w-10 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/v2/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1681764031887?e=1728518400&v=beta&t=U0BbE5153coD9n0HWoikSSvTpHbQYOEpr6hnnjzLWYc' }} />
+                                                </TouchableOpacity>
+                                                <View className={text.length > 0 ? "transition transform opacity-100  duration-200 ease-in-out" : "transition opacity-50  transform duration-200 ease-in-out"}>
+
+                                                    <Text className="text-[14%] text-gray-100">Add Another Response</Text>
+                                                </View>
+                                            </TouchableOpacity>
+
+
+                                            {/* <View className="absolute top-[118%] right-[1%] space-x-4 rounded-full bg-black/50 p-4 flex flex-row">
+                                        <TouchableOpacity className="flex flex-row items-center opacity-40 space-x-2">
+                                            <Ionicons size={22} color="white" name="sync" />
+                                            <Text className="font-semibold text-[14%] text-white">Reaction</Text>
+                                        </TouchableOpacity>
+
+                                        <TouchableOpacity className="flex flex-row relative items-center space-x-2">
+                                            <Ionicons size={22} color="white" name="chatbubbles" />
+                                            <Text className="font-semibold text-[14%] text-white">Response</Text>
+
+                                           
+                                        </TouchableOpacity>
+
+                                        <TouchableOpacity className="flex flex-row items-center opacity-40 space-x-2">
+                                            <Ionicons size={22} color="white" name="repeat" />
+                                            <Text className="font-semibold text-[14%] text-white">Repost</Text>
+                                        </TouchableOpacity>
+                                        
+                                    </View> */}
+
+
+                                            <View className="flex flex-row justify-between items-center px-2  mt-8">
+                                                <View className="flex flex-row space-x-5 items-center ">
+                                                    <View>
+                                                        <TouchableOpacity>
+                                                            <Image className="h-12 w-12 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D5603AQFh1MEBbmOVBQ/profile-displayphoto-shrink_800_800/0/1718282646997?e=1728518400&v=beta&t=JnPOwXrDNDf3_vJJKndKgzjEgUUlsv90O0Gcq_WxSnI' }} />
+                                                        </TouchableOpacity>
+                                                    </View>
+                                                    <View>
+                                                        <Text className="text-[17%] font-semibold text-white opacity-80">@jf21</Text>
+                                                    </View>
+
+                                                    <TouchableOpacity className="bg-green-600/20 px-4 py-3 rounded-full ">
+                                                        <Text className="text-[16%]  text-green-500 opacity-70">General</Text>
+                                                    </TouchableOpacity>
+
+                                                </View>
+                                                <View className="">
+                                                    <TouchableOpacity className=" bg-white/20 rounded-full p-3 self-end ">
+                                                        <Ionicons size={20} color="white" name="ellipsis-vertical-outline" />
+                                                    </TouchableOpacity>
+
+                                                </View>
+                                            </View>
+
+                                            <View className="mt-6 ml-16 h-[230px] relative">
+                                                <Image className="h-[75%] w-[94%] object-fit rounded-md" source={require('../Dgi-v.png')} />
+                                                <View className="absolute left-[40%] top-[28%] p-2 bg-black/40 rounded-full">
+                                                <Ionicons size={28} color="#22d3ee" name="play-circle" />
+                                                </View>
+                                            </View>
+
+                                            <View className="ml-[15%] mt-[-11%] px-2">
+                                                <Text className="text-md leading-5 font-semibold text-white">Calling All Creators! An innovative Web3 platform that empowers creators <Text className="opacity-60 font-bold">more ..</Text></Text>
+                                            </View>
+
+
+                                            <View className="ml-[15%] mt-[9%] flex flex-row space-x-4 items-center">
+                                                <TouchableOpacity>
+                                                    <Image className="h-16 w-16 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/v2/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1681764031887?e=1728518400&v=beta&t=U0BbE5153coD9n0HWoikSSvTpHbQYOEpr6hnnjzLWYc' }} />
+                                                </TouchableOpacity>
+
+                                                <View className="flex flex-col space-y-4 mt-1 relative">
+                                                    <Text className="text-[17%] font-semibold text-white opacity-80">@Pe20</Text>
+                                                    <View className="flex flex-row space-x-6">
+                                                        <TouchableOpacity onPress={selectImage} >
+                                                            <Ionicons size={23} color="#BEBEBE" name="images" />
+                                                        </TouchableOpacity>
+                                                        <TouchableOpacity >
+                                                            <Ionicons size={26} color="#BEBEBE" name="camera" />
+                                                        </TouchableOpacity>
+
+                                                        <TouchableOpacity className="bg-white/70 rounded-md px-2 py-1" >
+                                                            <Text className="text-md  text-black font-semibold">GIF</Text>
+                                                        </TouchableOpacity>
+                                                    </View>
+
+                                                    {selecIm.length &&
+
+                                                        (contentSta ?
+                                                            <TouchableOpacity className="bg-red-600/20 px-3 py-2 absolute left-[50%] top-[-36%]  rounded-full ">
+                                                                <Text className="text-[12%]  text-red-500 opacity-70">EXPLICIT</Text>
+                                                            </TouchableOpacity>
+
+                                                            :
+
+                                                            (
+                                                                load ?
+                                                                    <View className="absolute left-[43%] opacity-90 top-[-92%]">
+                                                                        <LottieView
+                                                                            source={require('../Analyze.json')} // Replace with your right swipe animation
+                                                                            autoPlay
+                                                                            tim
+
+
+                                                                            style={styles.lottieAnimation14}
+
+                                                                        />
+
+                                                                    </View>
+
+                                                                    :
+
+                                                                    <View className="absolute left-[50%] opacity-90 top-[-38%]">
+                                                                        <TouchableOpacity onPress={() => loading()} className="flex flex-row space-x-2 p-2 rounded-full bg-white/30">
+                                                                            <Ionicons size={15} color="white" name="analytics" />
+                                                                            <Text className="text-[12%] text-white font-semibold">Analyze</Text>
+                                                                        </TouchableOpacity>
+                                                                    </View>
+                                                            )
+                                                        )
+
+
+
+                                                    }
+
+                                                    {selecIm.length > 0 &&
+
+                                                        <TouchableOpacity className="absolute left-[150%] opacity-90 top-[-26%]">
+
+                                                            <Ionicons size={20} color="white" name="calendar-clear" />
+
+                                                        </TouchableOpacity>}
+                                                </View>
+                                            </View>
+
+
+
+                                            {selecIm.length > 0 &&
+                                                <View className="ml-[37%] h-[24%] relative mt-4">
+                                                    <Image source={require('../crime-2.webp')} className=" h-[64%] w-[60%]" />
+                                                    <View className="absolute bg-black/80 p-1 rounded-full top-[3%] right-[42%]">
+                                                        <Ionicons size={15} color="white" name="close-outline" />
+                                                    </View>
+                                                </View>}
+
+
+
+                                            <View className={selecIm.length > 0 ? "absolute top-[120%] w-[95%] left-[3%]" : "absolute top-[100%] w-[95%] left-[3%]"}>
+                                                <View className={selecIm.length > 0 ? "flex flex-row space-x-2 w-[61%]  ml-[34%] bg-white/20 rounded-full p-3" : "flex flex-row space-x-2 w-[61%] mt-[5%] ml-[34%] bg-white/20 rounded-full p-3"}>
+                                                    <Ionicons size={20} color="#dedede" name="chatbubble" />
+                                                    <TextInput
+                                                        className="text-white font-semibold w-[72%]  opacity-80 text-md"
+                                                        placeholder="Respond to @jf21 .."
+                                                        placeholderTextColor="#a7a7a7"
+                                                        value={text}
+                                                        onChangeText={setText}
+                                                        selectionColor="#dedede"
+                                                    />
+                                                    {
+                                                        text.length > 0 && <Ionicons size={20} color="#b8b8b8" name="close-outline" />
+                                                    }
+                                                </View>
+                                            </View>
+
+
+                                        </KeyboardAwareScrollView>
+
+                                        <View className="absolute top-[81.5%] right-[1%] space-x-4 rounded-full bg-black/80 p-4 flex flex-row">
+                                            <TouchableOpacity className="flex flex-row items-center opacity-40 space-x-2">
+                                                <Ionicons size={22} color="white" name="sync" />
+                                                <Text className="font-semibold text-[14%] text-white">Reaction</Text>
+                                            </TouchableOpacity>
+
+                                            <TouchableOpacity className="flex flex-row relative items-center space-x-2">
+                                                <Ionicons size={22} color="white" name="chatbubbles" />
+                                                <Text className="font-semibold text-[14%] text-white">Response</Text>
+                                            </TouchableOpacity>
+
+                                            <TouchableOpacity className="flex flex-row items-center opacity-40 space-x-2">
+                                                <Ionicons size={22} color="white" name="repeat" />
+                                                <Text className="font-semibold text-[14%] text-white">Repost</Text>
+                                            </TouchableOpacity>
+
+                                        </View>
+                                    </View>
+
+                            }
+
+
+                        </BlurView>
+                    </KeyboardAvoidingView>
+                </Modal>}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             {
@@ -1852,6 +2302,15 @@ const styles = StyleSheet.create({
     lottieAnimation14: {
         height: 90,
         width: 90,
+    },
+
+    lottieAnimation15: {
+        height: 160,
+        width: 160,
+    },
+    lottieAnimation18: {
+        height: 350,
+        width: 350,
     },
 });
 
