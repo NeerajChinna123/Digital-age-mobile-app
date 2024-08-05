@@ -1410,16 +1410,14 @@ export default function Swipe4({ data }) {
 
 
             {chatModal &&
-                <Modal animationInTiming={400} onBackdropPress={toggleChatModal} animationOutTiming={400} className="w-[100%] ml-[0] mt-[34%] rounded-t-[40%]" animationIn="slideInUp" animationOut="slideOutDown" isVisible={chatModal}>
+                <Modal animationInTiming={400} onBackdropPress={toggleChatModal} animationOutTiming={400} className="w-[100%] ml-[0] mt-[23%] rounded-t-[40%]" animationIn="slideInUp" animationOut="slideOutDown" isVisible={chatModal}>
                     <View className="w-full h-[100%] ">
                         <BlurView
                             className=" h-[100%] p-2 relative "
                             tint="dark"
                             intensity={65}
                         >
-                            {/* <View className="h-[1.2%] w-[14%] bg-white/40 ml-[42%] rounded-full">
 
-                            </View> */}
 
                             <View className="flex flex-col">
                                 <View className="flex flex-row justify-between items-center px-3 pt-2">
@@ -1438,7 +1436,9 @@ export default function Swipe4({ data }) {
                                 </View>
 
 
-                                <View className="flex flex-col relative">
+                                {/* <ScrollView  className="flex flex-row space-x-7 px-6 mt-4 pr-10"> */}
+
+                                <ScrollView className="flex  h-full flex-col relative">
 
                                     <View className="absolute bg-white/20 z-[100] w-[0.9%] top-[16%] left-[7.5%] h-[56.9%]">
 
@@ -1447,6 +1447,41 @@ export default function Swipe4({ data }) {
                                     <View className="absolute border-8 border-l-white/20 border-b-white/20 border-t-0 border-tl-0 border-r-0 border-tl  rounded-bl-full w-[10%] top-[72.9%] left-[7.5%] h-[8%]">
 
                                     </View>
+
+                                    <View className="absolute bg-white/20 z-[100] w-[0.9%] top-[77.6%] left-[7.5%] h-[26.8%]">
+
+                                    </View>
+
+                                    <View className="absolute top-[105%] items-center flex flex-row space-x-3 left-[2.8%] z-[120] opacity-40 ">
+                                        <TouchableOpacity>
+                                            <Image className="h-10 w-10 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/v2/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1681764031887?e=1728518400&v=beta&t=U0BbE5153coD9n0HWoikSSvTpHbQYOEpr6hnnjzLWYc' }} />
+                                        </TouchableOpacity>
+
+                                        <Text className="text-[14%] text-gray-100">Add Another Response</Text>
+                                    </View>
+
+
+
+                                    {/* <View className="absolute top-[118%] right-[1%] space-x-4 rounded-full bg-black/50 p-4 flex flex-row">
+                                        <TouchableOpacity className="flex flex-row items-center opacity-40 space-x-2">
+                                            <Ionicons size={22} color="white" name="sync" />
+                                            <Text className="font-semibold text-[14%] text-white">Reaction</Text>
+                                        </TouchableOpacity>
+
+                                        <TouchableOpacity className="flex flex-row relative items-center space-x-2">
+                                            <Ionicons size={22} color="white" name="chatbubbles" />
+                                            <Text className="font-semibold text-[14%] text-white">Response</Text>
+
+                                           
+                                        </TouchableOpacity>
+
+                                        <TouchableOpacity className="flex flex-row items-center opacity-40 space-x-2">
+                                            <Ionicons size={22} color="white" name="repeat" />
+                                            <Text className="font-semibold text-[14%] text-white">Repost</Text>
+                                        </TouchableOpacity>
+                                        
+                                    </View> */}
+
 
                                     <View className="flex flex-row justify-between items-center px-2  mt-8">
                                         <View className="flex flex-row space-x-5 items-center ">
@@ -1459,12 +1494,9 @@ export default function Swipe4({ data }) {
                                                 <Text className="text-[17%] font-semibold text-white opacity-80">@nc127</Text>
                                             </View>
 
-
                                             <TouchableOpacity className="bg-red-600/20 px-4 py-3 rounded-full ">
                                                 <Text className="text-[16%]  text-red-500 opacity-70">EXPLICIT</Text>
                                             </TouchableOpacity>
-
-
 
                                         </View>
                                         <View className="">
@@ -1506,11 +1538,14 @@ export default function Swipe4({ data }) {
 
                                         </View>
                                     </View>
+
+
+
                                     <View>
                                         <View className="flex flex-row space-x-2 w-[61%] mt-[5%] ml-[34%] bg-white/20 rounded-full p-3">
                                             <Ionicons size={20} color="#dedede" name="chatbubble" />
                                             <TextInput
-                                                className="text-white font-semibold opacity-90 text-md"
+                                                className="text-white font-semibold opacity-80 text-md"
                                                 placeholder="Respond to @nc127 .."
                                                 placeholderTextColor="#dedede"
                                                 value={text}
@@ -1518,6 +1553,26 @@ export default function Swipe4({ data }) {
                                             />
                                         </View>
                                     </View>
+                                </ScrollView>
+
+                                <View className="absolute top-[81.5%] right-[1%] space-x-4 rounded-full bg-black/50 p-4 flex flex-row">
+                                    <TouchableOpacity className="flex flex-row items-center opacity-40 space-x-2">
+                                        <Ionicons size={22} color="white" name="sync" />
+                                        <Text className="font-semibold text-[14%] text-white">Reaction</Text>
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity className="flex flex-row relative items-center space-x-2">
+                                        <Ionicons size={22} color="white" name="chatbubbles" />
+                                        <Text className="font-semibold text-[14%] text-white">Response</Text>
+
+
+                                    </TouchableOpacity>
+
+                                    <TouchableOpacity className="flex flex-row items-center opacity-40 space-x-2">
+                                        <Ionicons size={22} color="white" name="repeat" />
+                                        <Text className="font-semibold text-[14%] text-white">Repost</Text>
+                                    </TouchableOpacity>
+
                                 </View>
                             </View>
                         </BlurView>
