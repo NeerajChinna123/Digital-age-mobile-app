@@ -27,6 +27,13 @@ export default function Swipe4({ data }) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isMuted, setIsMuted] = useState(false);
 
+    const [text, setText] = useState('');
+
+    const [text1, setText1] = useState('');
+
+    const [selecIm, setSelecIm] = useState('');
+
+
     const [liked, setLiked] = useState(false);
 
     const toggleMute = () => {
@@ -385,9 +392,9 @@ export default function Swipe4({ data }) {
     }
 
 
-    const [text, setText] = useState('');
 
-    const [text1, setText1] = useState('');
+
+
 
 
     const inputRef = useRef(null);
@@ -397,28 +404,33 @@ export default function Swipe4({ data }) {
     };
 
 
-    const [selectedImage, setSelectedImage] = useState(null);
+
+
+
 
     const selectImage = async () => {
+        // setSelecIm(true);
         // Request permission to access the media library
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== 'granted') {
-            alert('Sorry, we need camera roll permissions to make this work!');
+            Alert.alert('Sorry, we need camera roll permissions to make this work!');
             return;
         }
 
-        // Launch the image library
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [4, 3],
             quality: 1,
-        });
+        })
 
-        if (!result.canceled) {
-            setSelectedImage(result.assets[0].uri);
-        }
+        setSelecIm(result.assets[0].uri);
+
+
+
     };
+
+
 
 
 
@@ -1477,26 +1489,27 @@ export default function Swipe4({ data }) {
 
                                 <KeyboardAwareScrollView className="flex  h-full flex-col relative">
 
-                                    <View className="absolute bg-white/20 z-[100] w-[0.9%] top-[16%] left-[7.5%] h-[56.9%]">
+                                    <View className={selecIm.length > 0 ? "absolute bg-white/20 transition transform duration-200 ease-in-out  z-[100] w-[0.9%] top-[14%] left-[7.5%] h-[67%]" : "absolute bg-white/20 transition transform duration-200 ease-in-out  z-[100] w-[0.9%] top-[16%] left-[7.5%] h-[68.8%]"}>
 
                                     </View>
 
-                                    <View className="absolute border-8 border-l-white/20 border-b-white/20 border-t-0 border-tl-0 border-r-0 border-tl  rounded-bl-full w-[10%] top-[72.9%] left-[7.5%] h-[8%]">
+                                    <View className={selecIm.length > 0 ? "absolute border-8 transition transform duration-200 ease-in-out border-l-white/20 border-b-white/20 border-t-0 border-tl-0 border-r-0 border-tl   rounded-bl-full w-[10%] top-[80.9%] left-[7.5%] h-[8%]" : "absolute transition transform duration-200 ease-in-out border-8 border-l-white/20 border-b-white/20 border-t-0 border-tl-0 border-r-0 border-tl  rounded-bl-full w-[10%] top-[84.9%] left-[7.5%] h-[8%]"}>
 
                                     </View>
 
-                                    <View className="absolute bg-white/20 z-[100] w-[0.9%] top-[77.6%] left-[7.5%] h-[26.8%]">
+                                    <View className={selecIm.length > 0 ? "absolute bg-white/20 z-[100] w-[0.9%] top-[86%] left-[7.5%] h-[48.8%] transition transform duration-200 ease-in-out" : "absolute bg-white/20 z-[100] w-[0.9%] top-[90.6%] left-[7.5%] h-[28.3%] transition transform duration-200 ease-in-out"}>
 
                                     </View>
 
-                                    <TouchableOpacity className={text.length > 0 ? "absolute top-[105%] items-center flex flex-row space-x-3 left-[2.8%] z-[120] transition transform duration-200 ease-in-out " : "absolute top-[105%] items-center flex flex-row space-x-3 left-[2.8%] z-[120] opacity-40 transition transform duration-200 ease-in-out "}>
-                                        <TouchableOpacity>
+                                    <TouchableOpacity className={selecIm.length > 0 ? "absolute top-[134%] items-center flex flex-row space-x-3 left-[2.8%] z-[120] transition transform duration-200 ease-in-out " : "absolute top-[119%] items-center flex flex-row space-x-3 left-[2.8%] z-[120] transition transform duration-200 ease-in-out "}>
+                                        <TouchableOpacity className={text.length > 0 ? "transition transform opacity-100 duration-200 ease-in-out" : "transition opacity-50  transform duration-200 ease-in-out"}>
                                             <Image className="h-10 w-10 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/v2/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1681764031887?e=1728518400&v=beta&t=U0BbE5153coD9n0HWoikSSvTpHbQYOEpr6hnnjzLWYc' }} />
                                         </TouchableOpacity>
+                                        <View className={text.length > 0 ? "transition transform opacity-100  duration-200 ease-in-out" : "transition opacity-50  transform duration-200 ease-in-out"}>
 
-                                        <Text className="text-[14%] text-gray-100">Add Another Response</Text>
+                                            <Text className="text-[14%] text-gray-100">Add Another Response</Text>
+                                        </View>
                                     </TouchableOpacity>
-
 
 
                                     {/* <View className="absolute top-[118%] right-[1%] space-x-4 rounded-full bg-black/50 p-4 flex flex-row">
@@ -1558,7 +1571,7 @@ export default function Swipe4({ data }) {
                                             <Image className="h-16 w-16 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/v2/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1681764031887?e=1728518400&v=beta&t=U0BbE5153coD9n0HWoikSSvTpHbQYOEpr6hnnjzLWYc' }} />
                                         </TouchableOpacity>
 
-                                        <View className="flex flex-col space-y-4 mt-1">
+                                        <View className="flex flex-col space-y-4 mt-1 relative">
                                             <Text className="text-[17%] font-semibold text-white opacity-80">@Pe20</Text>
                                             <View className="flex flex-row space-x-6">
                                                 <TouchableOpacity onPress={selectImage} >
@@ -1572,23 +1585,45 @@ export default function Swipe4({ data }) {
                                                     <Text className="text-md  text-black font-semibold">GIF</Text>
                                                 </TouchableOpacity>
                                             </View>
+                                            {selecIm.length > 0 &&
 
+                                                <TouchableOpacity className="absolute left-[150%] opacity-90 top-[-26%]">
+
+                                                    <Ionicons size={20} color="white" name="calendar-clear" />
+
+                                                </TouchableOpacity>}
                                         </View>
                                     </View>
 
-                                    <View>
-                                        <View className="flex flex-row space-x-2 w-[61%] mt-[5%] ml-[34%] bg-white/20 rounded-full p-3">
+
+
+                                    {selecIm.length > 0 &&
+                                        <View className="ml-[37%] h-[24%] relative mt-4">
+                                            <Image source={require('../crime-2.webp')} className=" h-[64%] w-[60%]" />
+                                            <View className="absolute bg-black/80 p-1 rounded-full top-[3%] right-[42%]">
+                                                <Ionicons size={15} color="white" name="close-outline" />
+                                            </View>
+                                        </View>}
+
+
+
+                                    <View className={selecIm.length > 0 ? "absolute top-[120%] w-[95%] left-[3%]" : "absolute top-[100%] w-[95%] left-[3%]"}>
+                                        <View className={selecIm.length > 0 ? "flex flex-row space-x-2 w-[61%]  ml-[34%] bg-white/20 rounded-full p-3" : "flex flex-row space-x-2 w-[61%] mt-[5%] ml-[34%] bg-white/20 rounded-full p-3"}>
                                             <Ionicons size={20} color="#dedede" name="chatbubble" />
                                             <TextInput
-                                                className="text-white font-semibold opacity-80 text-md"
+                                                className="text-white font-semibold w-[72%]  opacity-80 text-md"
                                                 placeholder="Respond to @nc127 .."
                                                 placeholderTextColor="#a7a7a7"
                                                 value={text}
                                                 onChangeText={setText}
                                                 selectionColor="#dedede"
                                             />
+                                            {
+                                                text.length > 0 && <Ionicons size={20} color="#b8b8b8" name="close-outline" />
+                                            }
                                         </View>
                                     </View>
+
 
                                 </KeyboardAwareScrollView>
 
