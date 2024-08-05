@@ -1,7 +1,7 @@
 
 
 import React, { useRef, useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, Animated, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, Animated, ScrollView, TextInput } from 'react-native';
 import Swiper from 'react-native-deck-swiper';
 import { Video, Audio } from 'expo-av';
 import { Ionicons } from '@expo/vector-icons';
@@ -13,6 +13,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Modal from "react-native-modal";
 import { BlurView } from 'expo-blur';
 import * as Progress from 'react-native-progress';
+
 
 
 const { width, height } = Dimensions.get('window');
@@ -383,7 +384,9 @@ export default function Swipe4({ data }) {
     }
 
 
+    const [text, setText] = useState('');
 
+    const [text1, setText1] = useState('');
 
 
     return (
@@ -1437,11 +1440,11 @@ export default function Swipe4({ data }) {
 
                                 <View className="flex flex-col relative">
 
-                                    <View className="absolute bg-white/20 z-[100] w-[0.9%] top-[17%] left-[7.5%] h-[68.9%]">
+                                    <View className="absolute bg-white/20 z-[100] w-[0.9%] top-[16%] left-[7.5%] h-[56.9%]">
 
                                     </View>
 
-                                    <View className="absolute border-8 border-l-white/20 border-b-white/20 border-t-0 border-tl-0 border-r-0 border-tl  rounded-bl-full w-[10%] top-[85.7%] left-[7.5%] h-[8%]">
+                                    <View className="absolute border-8 border-l-white/20 border-b-white/20 border-t-0 border-tl-0 border-r-0 border-tl  rounded-bl-full w-[10%] top-[72.9%] left-[7.5%] h-[8%]">
 
                                     </View>
 
@@ -1500,16 +1503,22 @@ export default function Swipe4({ data }) {
                                                     <Text className="text-md  text-black font-semibold">GIF</Text>
                                                 </TouchableOpacity>
                                             </View>
+
                                         </View>
-
-
-
                                     </View>
-
-
+                                    <View>
+                                        <View className="flex flex-row space-x-2 w-[61%] mt-[5%] ml-[34%] bg-white/20 rounded-full p-3">
+                                            <Ionicons size={20} color="#dedede" name="chatbubble" />
+                                            <TextInput
+                                                className="text-white font-semibold opacity-90 text-md"
+                                                placeholder="Respond to @nc127 .."
+                                                placeholderTextColor="#dedede"
+                                                value={text}
+                                                onChangeText={setText}
+                                            />
+                                        </View>
+                                    </View>
                                 </View>
-
-
                             </View>
                         </BlurView>
                     </View>
