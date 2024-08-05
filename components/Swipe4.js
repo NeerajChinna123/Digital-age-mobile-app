@@ -405,8 +405,11 @@ export default function Swipe4({ data }) {
 
 
 
+    const scrollViewRef = useRef(null);
 
-
+    const scrollToView = (viewPosition) => {
+        scrollViewRef.current?.scrollToPosition(0, viewPosition, true);
+    };
 
     const selectImage = async () => {
         // setSelecIm(true);
@@ -425,10 +428,40 @@ export default function Swipe4({ data }) {
         })
 
         setSelecIm(result.assets[0].uri);
-
-
-
+        scrollToView(9400)
     };
+
+
+    const [load, setLoad] = useState(false);
+
+    const [contentSta, setContentSta] = useState(false);
+
+    const [showBgRed, setShowBgRed] = useState(false);
+
+
+    const opacity1 = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        Animated.timing(opacity1, {
+            toValue: showBgRed ? 1 : 0,
+            duration: 200, // duration of the transition in milliseconds
+            useNativeDriver: true,
+        }).start();
+    }, [showBgRed]);
+
+
+    function loading() {
+        setLoad(true);
+
+        setTimeout(() => {
+            setContentSta(true);
+            setShowBgRed(true);
+
+            setTimeout(() => {
+                setShowBgRed(false);
+            }, 1000)
+        }, 3000)
+    }
 
 
 
@@ -1458,6 +1491,7 @@ export default function Swipe4({ data }) {
                 <Modal animationInTiming={400} onBackdropPress={toggleChatModal} animationOutTiming={400} className="w-[100%] ml-[0] mt-[23%] rounded-t-[40%]" animationIn="slideInUp" animationOut="slideOutDown" isVisible={chatModal}>
 
                     <KeyboardAvoidingView
+
                         className="w-full h-[100%] "
                         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
 
@@ -1487,7 +1521,7 @@ export default function Swipe4({ data }) {
 
                                 {/* <ScrollView  className="flex flex-row space-x-7 px-6 mt-4 pr-10"> */}
 
-                                <KeyboardAwareScrollView className="flex  h-full flex-col relative">
+                                <KeyboardAwareScrollView ref={scrollViewRef} className="flex  h-full flex-col relative">
 
                                     <View className={selecIm.length > 0 ? "absolute bg-white/20 transition transform duration-200 ease-in-out  z-[100] w-[0.9%] top-[14%] left-[7.5%] h-[67%]" : "absolute bg-white/20 transition transform duration-200 ease-in-out  z-[100] w-[0.9%] top-[16%] left-[7.5%] h-[68.8%]"}>
 
@@ -1501,7 +1535,19 @@ export default function Swipe4({ data }) {
 
                                     </View>
 
-                                    <TouchableOpacity className={selecIm.length > 0 ? "absolute top-[134%] items-center flex flex-row space-x-3 left-[2.8%] z-[120] transition transform duration-200 ease-in-out " : "absolute top-[119%] items-center flex flex-row space-x-3 left-[2.8%] z-[120] transition transform duration-200 ease-in-out "}>
+                                    <Animated.View
+                                        style={
+                                            {
+                                                opacity:opacity1,
+
+                                            }}
+                                        className="bg-red-800/30 h-[56%] w-[85%] left-[13.4%] top-[78%] transition-all transform duration-500 ease-in-out rounded-lg opacity-0  absolute"
+
+                                    >
+                                    </Animated.View>
+
+
+                                    < TouchableOpacity className={selecIm.length > 0 ? "absolute top-[134%] items-center flex flex-row space-x-3 left-[2.8%] z-[120] transition transform duration-200 ease-in-out " : "absolute top-[119%] items-center flex flex-row space-x-3 left-[2.8%] z-[120] transition transform duration-200 ease-in-out "}>
                                         <TouchableOpacity className={text.length > 0 ? "transition transform opacity-100 duration-200 ease-in-out" : "transition opacity-50  transform duration-200 ease-in-out"}>
                                             <Image className="h-10 w-10 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/v2/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1681764031887?e=1728518400&v=beta&t=U0BbE5153coD9n0HWoikSSvTpHbQYOEpr6hnnjzLWYc' }} />
                                         </TouchableOpacity>
@@ -1585,6 +1631,46 @@ export default function Swipe4({ data }) {
                                                     <Text className="text-md  text-black font-semibold">GIF</Text>
                                                 </TouchableOpacity>
                                             </View>
+
+                                            {selecIm.length &&
+
+                                                (contentSta ?
+                                                    <TouchableOpacity className="bg-red-600/20 px-3 py-2 absolute left-[50%] top-[-36%]  rounded-full ">
+                                                        <Text className="text-[12%]  text-red-500 opacity-70">EXPLICIT</Text>
+                                                    </TouchableOpacity>
+
+                                                    :
+
+                                                    (
+                                                        load ?
+                                                            <View className="absolute left-[43%] opacity-90 top-[-92%]">
+                                                                <LottieView
+                                                                    source={require('../Analyze.json')} // Replace with your right swipe animation
+                                                                    autoPlay
+                                                                    tim
+
+
+                                                                    style={styles.lottieAnimation14}
+
+                                                                />
+
+                                                            </View>
+
+                                                            :
+
+                                                            <View className="absolute left-[50%] opacity-90 top-[-38%]">
+                                                                <TouchableOpacity onPress={() => loading()} className="flex flex-row space-x-2 p-2 rounded-full bg-white/30">
+                                                                    <Ionicons size={15} color="white" name="analytics" />
+                                                                    <Text className="text-[12%] text-white font-semibold">Analyze</Text>
+                                                                </TouchableOpacity>
+                                                            </View>
+                                                    )
+                                                )
+
+
+
+                                            }
+
                                             {selecIm.length > 0 &&
 
                                                 <TouchableOpacity className="absolute left-[150%] opacity-90 top-[-26%]">
@@ -1627,7 +1713,7 @@ export default function Swipe4({ data }) {
 
                                 </KeyboardAwareScrollView>
 
-                                <View className="absolute top-[81.5%] right-[1%] space-x-4 rounded-full bg-black/50 p-4 flex flex-row">
+                                <View className="absolute top-[81.5%] right-[1%] space-x-4 rounded-full bg-black/80 p-4 flex flex-row">
                                     <TouchableOpacity className="flex flex-row items-center opacity-40 space-x-2">
                                         <Ionicons size={22} color="white" name="sync" />
                                         <Text className="font-semibold text-[14%] text-white">Reaction</Text>
@@ -1636,8 +1722,6 @@ export default function Swipe4({ data }) {
                                     <TouchableOpacity className="flex flex-row relative items-center space-x-2">
                                         <Ionicons size={22} color="white" name="chatbubbles" />
                                         <Text className="font-semibold text-[14%] text-white">Response</Text>
-
-
                                     </TouchableOpacity>
 
                                     <TouchableOpacity className="flex flex-row items-center opacity-40 space-x-2">
@@ -1764,6 +1848,10 @@ const styles = StyleSheet.create({
         marginTop: 30
         // Adjust space between items
 
+    },
+    lottieAnimation14: {
+        height: 90,
+        width: 90,
     },
 });
 
