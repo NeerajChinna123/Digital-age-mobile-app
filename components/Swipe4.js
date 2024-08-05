@@ -1,7 +1,7 @@
 
 
 import React, { useRef, useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, Animated, ScrollView, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, Animated, ScrollView, TextInput, KeyboardAvoidingView, Platform, Alert } from 'react-native';
 import Swiper from 'react-native-deck-swiper';
 import { Video, Audio } from 'expo-av';
 import { Ionicons } from '@expo/vector-icons';
@@ -13,7 +13,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import Modal from "react-native-modal";
 import { BlurView } from 'expo-blur';
 import * as Progress from 'react-native-progress';
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import * as ImagePicker from 'expo-image-picker';
 
 
 const { width, height } = Dimensions.get('window');
@@ -387,6 +388,38 @@ export default function Swipe4({ data }) {
     const [text, setText] = useState('');
 
     const [text1, setText1] = useState('');
+
+
+    const inputRef = useRef(null);
+
+    const focusInput = () => {
+        inputRef.current.focus();
+    };
+
+
+    const [selectedImage, setSelectedImage] = useState(null);
+
+    const selectImage = async () => {
+        // Request permission to access the media library
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+            alert('Sorry, we need camera roll permissions to make this work!');
+            return;
+        }
+
+        // Launch the image library
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        if (!result.canceled) {
+            setSelectedImage(result.assets[0].uri);
+        }
+    };
+
 
 
     return (
@@ -1411,7 +1444,11 @@ export default function Swipe4({ data }) {
 
             {chatModal &&
                 <Modal animationInTiming={400} onBackdropPress={toggleChatModal} animationOutTiming={400} className="w-[100%] ml-[0] mt-[23%] rounded-t-[40%]" animationIn="slideInUp" animationOut="slideOutDown" isVisible={chatModal}>
-                    <View className="w-full h-[100%] ">
+
+                    <KeyboardAvoidingView
+                        className="w-full h-[100%] "
+                        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+
                         <BlurView
                             className=" h-[100%] p-2 relative "
                             tint="dark"
@@ -1438,7 +1475,7 @@ export default function Swipe4({ data }) {
 
                                 {/* <ScrollView  className="flex flex-row space-x-7 px-6 mt-4 pr-10"> */}
 
-                                <ScrollView className="flex  h-full flex-col relative">
+                                <KeyboardAwareScrollView className="flex  h-full flex-col relative">
 
                                     <View className="absolute bg-white/20 z-[100] w-[0.9%] top-[16%] left-[7.5%] h-[56.9%]">
 
@@ -1452,13 +1489,13 @@ export default function Swipe4({ data }) {
 
                                     </View>
 
-                                    <View className="absolute top-[105%] items-center flex flex-row space-x-3 left-[2.8%] z-[120] opacity-40 ">
+                                    <TouchableOpacity className={text.length > 0 ? "absolute top-[105%] items-center flex flex-row space-x-3 left-[2.8%] z-[120] transition transform duration-200 ease-in-out " : "absolute top-[105%] items-center flex flex-row space-x-3 left-[2.8%] z-[120] opacity-40 transition transform duration-200 ease-in-out "}>
                                         <TouchableOpacity>
                                             <Image className="h-10 w-10 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/v2/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1681764031887?e=1728518400&v=beta&t=U0BbE5153coD9n0HWoikSSvTpHbQYOEpr6hnnjzLWYc' }} />
                                         </TouchableOpacity>
 
                                         <Text className="text-[14%] text-gray-100">Add Another Response</Text>
-                                    </View>
+                                    </TouchableOpacity>
 
 
 
@@ -1524,7 +1561,7 @@ export default function Swipe4({ data }) {
                                         <View className="flex flex-col space-y-4 mt-1">
                                             <Text className="text-[17%] font-semibold text-white opacity-80">@Pe20</Text>
                                             <View className="flex flex-row space-x-6">
-                                                <TouchableOpacity >
+                                                <TouchableOpacity onPress={selectImage} >
                                                     <Ionicons size={23} color="#BEBEBE" name="images" />
                                                 </TouchableOpacity>
                                                 <TouchableOpacity >
@@ -1539,21 +1576,21 @@ export default function Swipe4({ data }) {
                                         </View>
                                     </View>
 
-
-
                                     <View>
                                         <View className="flex flex-row space-x-2 w-[61%] mt-[5%] ml-[34%] bg-white/20 rounded-full p-3">
                                             <Ionicons size={20} color="#dedede" name="chatbubble" />
                                             <TextInput
                                                 className="text-white font-semibold opacity-80 text-md"
                                                 placeholder="Respond to @nc127 .."
-                                                placeholderTextColor="#dedede"
+                                                placeholderTextColor="#a7a7a7"
                                                 value={text}
                                                 onChangeText={setText}
+                                                selectionColor="#dedede"
                                             />
                                         </View>
                                     </View>
-                                </ScrollView>
+
+                                </KeyboardAwareScrollView>
 
                                 <View className="absolute top-[81.5%] right-[1%] space-x-4 rounded-full bg-black/50 p-4 flex flex-row">
                                     <TouchableOpacity className="flex flex-row items-center opacity-40 space-x-2">
@@ -1576,7 +1613,7 @@ export default function Swipe4({ data }) {
                                 </View>
                             </View>
                         </BlurView>
-                    </View>
+                    </KeyboardAvoidingView>
                 </Modal>}
 
 
