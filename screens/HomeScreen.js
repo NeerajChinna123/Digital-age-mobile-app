@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, SafeAreaView, TouchableOpacity, Image, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, Button, SafeAreaView, TouchableOpacity, Image, ImageBackground, Animated } from 'react-native';
 import { useLayoutEffect, useRef, useState, useEffect } from 'react';
 import Swiper from "react-native-deck-swiper";
 import { Video, Audio } from 'expo-av';
@@ -9,6 +9,7 @@ import Swipe from '../components/Swipe';
 import Swipe2 from '../components/Swipe2';
 import Swipe3 from '../components/Swipe3';
 import Swipe4 from '../components/Swipe4';
+
 
 import { AntDesign, Entypo, Ionicons } from "@expo/vector-icons";
 
@@ -397,35 +398,73 @@ export default function HomeScreen() {
         // setTab("default");
     };
 
+    const [expanded, setExpanded] = useState(false);
+    const heightAnim = useRef(new Animated.Value(0)).current;
+    const widthAnim = useRef(new Animated.Value(0)).current;
+
+    const toggleMenu = () => {
+        const toValue = expanded ? 0 : 1;
+        setExpanded(!expanded);
+
+        Animated.parallel([
+            Animated.timing(heightAnim, {
+                toValue,
+                duration: 400,
+                useNativeDriver: false,
+            }),
+            Animated.timing(widthAnim, {
+                toValue,
+                duration: 400,
+                useNativeDriver: false,
+            })
+        ]).start();
+    };
 
 
+    // Set custom height and width values
+    const heightInterpolate = heightAnim.interpolate({
+        inputRange: [0, 2],
+        outputRange: [0, 140] // Custom height in pixels (collapsed height, expanded height)
+    });
+
+    const widthInterpolate = widthAnim.interpolate({
+        inputRange: [0, 1],
+        outputRange: [50, 180] // Custom width in pixels (collapsed width, expanded width)
+    });
     return (
         <SafeAreaView className="flex-1 relative" >
 
-            <ImageBackground source={require('../bg-8.jpg')} className="flex-1" // Ensure the image file is in the correct path
+            <ImageBackground source={require('../ocean.jpg')} className="flex-1" // Ensure the image file is in the correct path
             >
 
                 <SafeAreaView className="bg-black/50 bg-opacity-10 flex-1 p-2">
+
+
                     <View className="flex flex-row justify-between items-center p-4">
                         <TouchableOpacity >
                             <Image className="h-10 w-10 rounded-full object-cover" source={{ uri: "https://media.licdn.com/dms/image/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/0/1681764031887?e=1726099200&v=beta&t=xj9Lxl6yRL2Wcb5imP_zspIqb1ZpIb5vm6Sbw6DQLow" }} />
                         </TouchableOpacity>
-
-
                         <TouchableOpacity onPress={() => navigation.navigate("Chat")} >
                             <Image className="h-16 w-16" source={require('../d-lo.png')} />
                         </TouchableOpacity>
-
                         {/* <TouchableOpacity className="mt-1 bg-white/20 rounded-xl p-2 ">
                             <Ionicons size={26} color="white" name="funnel" />
                         </TouchableOpacity> */}
 
-                        <TouchableOpacity onPress={toggleModal} className="mt-1 bg-white/20 rounded-xl p-2 ">
-                            <Ionicons size={26} color="white" name="funnel" />
-                        </TouchableOpacity>
 
+
+                        <View className="flex-row items-center relative">
+                            {expanded ?
+
+                                <TouchableOpacity onPress={toggleMenu} className="mt-1 bg-black/40 rounded-full p-2 ">
+                                    <Ionicons size={26} color="white" name="close" />
+                                </TouchableOpacity>
+                                : <TouchableOpacity onPress={toggleMenu} className="mt-1 bg-white/20 rounded-xl p-2 ">
+                                    <Ionicons size={26} color="white" name="menu" />
+                                </TouchableOpacity>
+                            }
+                        </View>
                     </View>
-
 
                     <View className="flex flex-row justify-between px-4">
                         <View>
@@ -464,9 +503,27 @@ export default function HomeScreen() {
                                     Recent
                                 </Text></TouchableOpacity>
                         </View>
-
-
                     </View>
+
+
+                    <Animated.View className=" absolute right-[20]  top-[80]  rounded-md overflow-hidden z-50  ml-2 " style={[{ height: heightInterpolate, width: widthInterpolate }]}>
+                        <BlurView tint="dark"
+                            intensity={80} className="flex flex-row space-x-2 px-2 py-1 items-center ">
+
+                            <TouchableOpacity className="mt-1  rounded-xl p-2">
+                                <Ionicons size={42} color="#06b6d4" name="add-circle" />
+                            </TouchableOpacity>
+
+                            <TouchableOpacity className="mt-1  rounded-xl p-2 ">
+                                <Ionicons size={26} color="white" name="notifications" />
+                            </TouchableOpacity>
+
+                            <TouchableOpacity onPress={toggleModal} className="mt-1 ml-2 rounded-xl p-2 ">
+                                <Ionicons size={26} color="white" name="funnel" />
+                            </TouchableOpacity>
+                        </BlurView>
+
+                    </Animated.View>
 
                     <View className="mt-[-44] ">
                         {currentNav == "FOLLOW" ? <Swipe data={filteredData}  >
