@@ -506,9 +506,9 @@ export default function HomeScreen() {
                     </View>
 
 
-                    <Animated.View className=" absolute right-[20]  top-[80]  rounded-md overflow-hidden z-50  ml-2 " style={[{ height: heightInterpolate, width: widthInterpolate }]}>
+                    <Animated.View className=" absolute right-[20]  top-[75]  rounded-full overflow-hidden z-50  ml-2 " style={[{ height: heightInterpolate, width: widthInterpolate }]}>
                         <BlurView tint="dark"
-                            intensity={80} className="flex flex-row space-x-2 px-2 py-1 items-center ">
+                            intensity={80} className="flex flex-row space-x-1 pl-[6%] py-1 items-center ">
 
                             <TouchableOpacity className="mt-1  rounded-xl p-2">
                                 <Ionicons size={42} color="#06b6d4" name="add-circle" />
@@ -518,11 +518,10 @@ export default function HomeScreen() {
                                 <Ionicons size={26} color="white" name="notifications" />
                             </TouchableOpacity>
 
-                            <TouchableOpacity onPress={toggleModal} className="mt-1 ml-2 rounded-xl p-2 ">
+                            <TouchableOpacity onPress={toggleModal} className="mt-1 pl-3 rounded-xl  ">
                                 <Ionicons size={26} color="white" name="funnel" />
                             </TouchableOpacity>
                         </BlurView>
-
                     </Animated.View>
 
                     <View className="mt-[-44] ">
@@ -536,6 +535,7 @@ export default function HomeScreen() {
 
                         </Swipe4>))}
                     </View>
+
 
                     {/*  */}
 
