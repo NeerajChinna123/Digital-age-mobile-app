@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, SafeAreaView, TouchableOpacity, Image, ImageBackground, Animated } from 'react-native';
+import { StyleSheet, Text, View, Button, SafeAreaView, TouchableOpacity, Image, ImageBackground, Animated, KeyboardAvoidingView, Platform, Alert, ScrollView, TextInput } from 'react-native';
 import { useLayoutEffect, useRef, useState, useEffect } from 'react';
 import Swiper from "react-native-deck-swiper";
 import { Video, Audio } from 'expo-av';
@@ -9,7 +9,7 @@ import Swipe from '../components/Swipe';
 import Swipe2 from '../components/Swipe2';
 import Swipe3 from '../components/Swipe3';
 import Swipe4 from '../components/Swipe4';
-
+import * as ImagePicker from 'expo-image-picker';
 
 import { AntDesign, Entypo, Ionicons } from "@expo/vector-icons";
 
@@ -383,7 +383,7 @@ export default function HomeScreen() {
         setCurrentNav(feed) // Reset index when data is filtered
     };
 
-
+    const [selecIm, setSelecIm] = useState('');
     const videoRef = useRef(null);
 
 
@@ -431,6 +431,55 @@ export default function HomeScreen() {
         inputRange: [0, 1],
         outputRange: [50, 180] // Custom width in pixels (collapsed width, expanded width)
     });
+
+
+    const [postModal, setPostModal] = useState(false);
+
+    function togglePostModal() {
+        setPostModal(!postModal);
+    }
+
+    const scrollViewRef = useRef(null);
+
+    const scrollToView = (viewPosition) => {
+        scrollViewRef.current?.scrollToPosition(0, viewPosition, true);
+    };
+
+    const selectImage = async () => {
+        // setSelecIm(true);
+        // Request permission to access the media library
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+            Alert.alert('Sorry, we need camera roll permissions to make this work!');
+            return;
+        }
+
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 1,
+        })
+
+        setSelecIm(result?.assets[0]?.uri);
+        scrollToView(9400)
+    };
+
+
+    const [load, setLoad] = useState(false);
+
+    const [load1, setLoad1] = useState(false);
+
+    const [contentSta, setContentSta] = useState(false);
+
+    const [contentSta1, setContentSta1] = useState(false);
+
+    const [showBgRed, setShowBgRed] = useState(false);
+
+    const [showBgGreen, setShowBgGreen] = useState(false);
+
+    const [text, setText] = useState("");
+
     return (
         <SafeAreaView className="flex-1 relative" >
 
@@ -442,7 +491,7 @@ export default function HomeScreen() {
 
                     <View className="flex flex-row justify-between items-center p-4">
                         <TouchableOpacity >
-                            <Image className="h-10 w-10 rounded-full object-cover" source={{ uri: "https://media.licdn.com/dms/image/D5603AQFAUcTYDLXqBA/profile-displayphoto-shrink_800_800/0/1681764031887?e=1726099200&v=beta&t=xj9Lxl6yRL2Wcb5imP_zspIqb1ZpIb5vm6Sbw6DQLow" }} />
+                            <Image className="h-10 w-10 rounded-full object-cover" source={require('../Real-human-2.webp')} />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => navigation.navigate("Chat")} >
                             <Image className="h-16 w-16" source={require('../d-lo.png')} />
@@ -510,7 +559,7 @@ export default function HomeScreen() {
                         <BlurView tint="dark"
                             intensity={80} className="flex flex-row space-x-1 pl-[6%] py-1 items-center ">
 
-                            <TouchableOpacity className="mt-1  rounded-xl p-2">
+                            <TouchableOpacity onPress={() => setPostModal(true)} className="mt-1  rounded-xl p-2">
                                 <Ionicons size={42} color="#06b6d4" name="add-circle" />
                             </TouchableOpacity>
 
@@ -535,13 +584,6 @@ export default function HomeScreen() {
 
                         </Swipe4>))}
                     </View>
-
-
-                    {/*  */}
-
-
-
-
                 </SafeAreaView>
 
             </ImageBackground>
@@ -872,6 +914,148 @@ export default function HomeScreen() {
             </Modal>
 
 
+            {postModal &&
+                <Modal animationInTiming={400} onBackdropPress={togglePostModal} animationOutTiming={400} className="w-[100%] ml-[0] mt-[23%] rounded-t-[40%]" animationIn="slideInUp" animationOut="slideOutDown" isVisible={postModal}>
+
+                    <KeyboardAvoidingView
+
+                        className="w-full h-[100%] "
+                        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+
+                        <BlurView
+                            className=" h-[100%] p-2 relative "
+                            tint="dark"
+                            intensity={65}
+                        >
+                            <View className="flex flex-col">
+                                <View className="flex flex-row justify-between items-center px-3 pt-2">
+                                    <TouchableOpacity className="pt-1" onPress={() => togglePostModal()}>
+                                        <Text className="text-[18%] font-semibold text-white opacity-60">Cancel</Text>
+                                    </TouchableOpacity>
+
+
+                                    <TouchableOpacity disabled={!selecIm.length > 0 || text?.length > 0} className={selecIm.length > 0 ? "bg-cyan-600/60 px-4 py-3 transition-all transform duration-300 ease-in-out rounded-full " : "bg-cyan-600/20 transition-all transform duration-300 ease-in-out px-4 py-3 rounded-full "}>
+                                        <Text className="text-[16%] font-semibold text-white opacity-70">Post</Text>
+                                    </TouchableOpacity>
+                                </View>
+
+                                <View className="h-[0.4%] w-[100%] bg-white/10 px-1 mt-[5%] rounded-full">
+
+                                </View>
+                            </View>
+
+                            <ScrollView contentContainerStyle={styles.scrollView}>
+                                <View className="ml-[6%] mt-[9%] flex flex-row space-x-8 items-center">
+                                    <TouchableOpacity>
+                                        <Image className="h-20 w-20 rounded-full object-fit" source={require('../Real-human-2.webp')} />
+                                    </TouchableOpacity>
+
+                                    <View className="flex flex-col space-y-4 mt-[-2] relative">
+                                        <Text className="text-[17%] font-semibold text-white opacity-80">@Mike12</Text>
+                                        <View className="flex flex-row space-x-6">
+                                            <TouchableOpacity onPress={selectImage} >
+                                                <Ionicons size={23} color="#BEBEBE" name="images" />
+                                            </TouchableOpacity>
+                                            <TouchableOpacity >
+                                                <Ionicons size={26} color="#BEBEBE" name="camera" />
+                                            </TouchableOpacity>
+
+                                            <TouchableOpacity className="bg-white/70 rounded-md px-2 py-1" >
+                                                <Text className="text-md  text-black font-semibold">GIF</Text>
+                                            </TouchableOpacity>
+                                        </View>
+
+                                        {selecIm.length &&
+
+                                            (contentSta &&
+                                                <TouchableOpacity className="bg-red-600/20 px-3 py-2 absolute left-[50%] top-[-36%]  rounded-full ">
+                                                    <Text className="text-[12%]  text-red-500 opacity-70">EXPLICIT</Text>
+                                                </TouchableOpacity>
+
+                                                // :
+
+                                                // (
+                                                //     load ?
+                                                //         <View className="absolute left-[43%] opacity-90 top-[-92%]">
+                                                //             <LottieView
+                                                //                 source={require('../Analyze.json')} // Replace with your right swipe animation
+                                                //                 autoPlay
+                                                //                 tim
+
+
+                                                //                 style={styles.lottieAnimation14}
+
+                                                //             />
+
+                                                //         </View>
+
+                                                //         :
+
+                                                //         <View className="absolute left-[60%] opacity-90 top-[-29%]">
+                                                //             <TouchableOpacity onPress={() => loading()} className="flex flex-row space-x-2 p-2 rounded-full bg-white/30">
+                                                //                 <Ionicons size={15} color="white" name="analytics" />
+                                                //                 <Text className="text-[12%] text-white font-semibold">Analyze</Text>
+                                                //             </TouchableOpacity>
+                                                //         </View>
+                                                // )
+                                            )
+
+
+
+                                        }
+                                    </View>
+
+
+                                    <View className={"absolute top-[75%] w-[95%] left-[-14%]"}>
+                                        <View className={selecIm.length > 0 ? "flex flex-row space-x-2 w-[61% mt-[7%]  ml-[37%] bg-white/20 rounded-full p-3" : "flex flex-row space-x-2 w-[64%] mt-[7%] ml-[37%] bg-white/20 rounded-full p-3"}>
+                                            <Ionicons size={20} color="#dedede" name="chatbubble" />
+                                            <TextInput
+                                                className="text-white font-semibold w-[72%]  opacity-80 text-md"
+                                                placeholder="Whats New?"
+                                                placeholderTextColor="#a7a7a7"
+                                                value={text}
+                                                onChangeText={setText}
+                                                selectionColor="#dedede"
+                                            />
+                                            {
+                                                text.length > 0 && <Ionicons size={20} color="#b8b8b8" name="close-outline" />
+                                            }
+                                        </View>
+                                    </View>
+
+                                    {selecIm.length > 0 &&
+
+                                        <View className=" absolute left-[-6%] top-[190%]">
+                                            <Image className="h-68 w-80 rounded-md  object-fit" source={require('../crime-2.webp')} />
+                                        </View>
+
+
+                                    }
+
+                                    
+
+                                    {selecIm.length > 0 &&
+                                        <View className="absolute bg-black/80 p-1 rounded-full top-[208%] right-[10%]">
+                                            <Ionicons size={15} color="white" name="close-outline" />
+                                        </View>
+                                    }
+                                    {/* 
+                                    {selecIm.length > 0 &&
+                                        <View className="  mt-4">
+                                            <Image source={require('../crime-2.webp')} className=" h-[84%] w-[60%]" />
+                                            <View className="absolute bg-black/80 p-1 rounded-full top-[3%] right-[42%]">
+                                                <Ionicons size={15} color="white" name="close-outline" />
+                                            </View>
+                                        </View>} */}
+                                        
+
+                                </View>
+                            </ScrollView>
+
+
+                        </BlurView>
+                    </KeyboardAvoidingView>
+                </Modal>}
 
 
 
@@ -891,6 +1075,16 @@ const styles = StyleSheet.create({
     },
     image: {
         blurRadius: 10, // Adjust the blur radius to your liking
+    },
+    scrollView: {
+        // flexGrow: 0,
+        // flexDirection: 'row',
+        // flexWrap: 'wrap',
+
+        // paddingHorizontal: 20,
+        // marginTop: 30
+        // Adjust space between items
+
     },
     overlay: {
 
