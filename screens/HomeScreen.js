@@ -1,11 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, SafeAreaView, TouchableOpacity, Image, ImageBackground, Animated, KeyboardAvoidingView, Platform, Alert, ScrollView, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, SafeAreaView, Easing, TouchableOpacity, Image, ImageBackground, Animated, KeyboardAvoidingView, Platform, Alert, ScrollView, TextInput } from 'react-native';
 import { useLayoutEffect, useRef, useState, useEffect } from 'react';
 import Swiper from "react-native-deck-swiper";
 import { Video, Audio } from 'expo-av';
 import * as Progress from 'react-native-progress';
 import Swipe from '../components/Swipe';
+import LottieView from 'lottie-react-native';
 import Swipe2 from '../components/Swipe2';
 import Swipe3 from '../components/Swipe3';
 import Swipe4 from '../components/Swipe4';
@@ -480,6 +481,75 @@ export default function HomeScreen() {
 
     const [text, setText] = useState("");
 
+
+    function loading() {
+        setLoad(true);
+
+        setTimeout(() => {
+            setContentSta(true);
+            setShowBgRed(true);
+
+            setTimeout(() => {
+                setShowBgRed(false);
+            }, 1000)
+        }, 3000)
+    }
+
+    // const [showBgRed, setShowBgRed] = useState(false);
+
+    // const [showBgGreen, setShowBgGreen] = useState(false);
+
+
+    const opacity1 = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        Animated.timing(opacity1, {
+            toValue: showBgRed ? 1 : 0,
+            duration: 200, // duration of the transition in milliseconds
+            useNativeDriver: true,
+        }).start();
+    }, [showBgRed]);
+
+    const translateX = useRef(new Animated.Value(0)).current;
+    const glassWidth = useRef(new Animated.Value(10)).current; // Starting width of glass effect
+
+    useEffect(() => {
+        const startAnimation = () => {
+            Animated.sequence([
+                Animated.parallel([
+                    Animated.timing(translateX, {
+                        toValue: 300, // Adjust based on image width
+                        duration: 2000,
+                        easing: Easing.linear,
+                        useNativeDriver: true, // Using native driver for translateX only
+                    }),
+                    Animated.timing(glassWidth, {
+                        toValue: 300, // Maximum width of glass effect
+                        duration: 2000,
+                        easing: Easing.linear,
+                        useNativeDriver: false, // Cannot use native driver for width
+                    }),
+                ]),
+                Animated.parallel([
+                    Animated.timing(translateX, {
+                        toValue: 0,
+                        duration: 2000,
+                        easing: Easing.linear,
+                        useNativeDriver: true, // Using native driver for translateX only
+                    }),
+                    Animated.timing(glassWidth, {
+                        toValue: 10, // Return to initial width
+                        duration: 2000,
+                        easing: Easing.linear,
+                        useNativeDriver: false, // Cannot use native driver for width
+                    }),
+                ]),
+            ]).start(() => startAnimation());
+        };
+
+        startAnimation();
+    }, [translateX, glassWidth]);
+
     return (
         <SafeAreaView className="flex-1 relative" >
 
@@ -934,7 +1004,7 @@ export default function HomeScreen() {
                                     </TouchableOpacity>
 
 
-                                    <TouchableOpacity disabled={!selecIm.length > 0 || text?.length > 0} className={selecIm.length > 0 ? "bg-cyan-600/60 px-4 py-3 transition-all transform duration-300 ease-in-out rounded-full " : "bg-cyan-600/20 transition-all transform duration-300 ease-in-out px-4 py-3 rounded-full "}>
+                                    <TouchableOpacity disabled={(!selecIm.length > 0 || text?.length > 0) && contentSta} className={(!selecIm.length > 0 || text?.length > 0) && contentSta ? "bg-cyan-600/20 transition-all transform duration-300 ease-in-out px-4 py-3 rounded-full " : "bg-cyan-600/60 px-4 py-3 transition-all transform duration-300 ease-in-out rounded-full"}>
                                         <Text className="text-[16%] font-semibold text-white opacity-70">Post</Text>
                                     </TouchableOpacity>
                                 </View>
@@ -946,6 +1016,7 @@ export default function HomeScreen() {
 
                             <ScrollView contentContainerStyle={styles.scrollView}>
                                 <View className="ml-[6%] mt-[9%] flex flex-row space-x-8 items-center">
+
                                     <TouchableOpacity>
                                         <Image className="h-20 w-20 rounded-full object-fit" source={require('../Real-human-2.webp')} />
                                     </TouchableOpacity>
@@ -967,47 +1038,40 @@ export default function HomeScreen() {
 
                                         {selecIm.length &&
 
-                                            (contentSta &&
-                                                <TouchableOpacity className="bg-red-600/20 px-3 py-2 absolute left-[50%] top-[-36%]  rounded-full ">
+                                            (contentSta ?
+                                                <TouchableOpacity className="bg-red-600/20 px-3 py-2 absolute left-[60%] top-[-27%]  rounded-full ">
                                                     <Text className="text-[12%]  text-red-500 opacity-70">EXPLICIT</Text>
                                                 </TouchableOpacity>
 
-                                                // :
+                                                :
 
-                                                // (
-                                                //     load ?
-                                                //         <View className="absolute left-[43%] opacity-90 top-[-92%]">
-                                                //             <LottieView
-                                                //                 source={require('../Analyze.json')} // Replace with your right swipe animation
-                                                //                 autoPlay
-                                                //                 tim
+                                                (
+                                                    load ?
+                                                        <View className="absolute left-[53%] opacity-90 top-[-69%]">
+                                                            <LottieView
+                                                                source={require('../Analyze.json')} // Replace with your right swipe animation
+                                                                autoPlay
+                                                                tim
+                                                                style={styles.lottieAnimation14}
+                                                            />
+                                                        </View>
+
+                                                        :
+
+                                                        <View className="absolute left-[60%] opacity-90 top-[-29%]">
+                                                            <TouchableOpacity onPress={() => loading()} className="flex flex-row space-x-2 p-2 rounded-full bg-white/30">
+                                                                <Ionicons size={15} color="white" name="analytics" />
+                                                                <Text className="text-[12%] text-white font-semibold">Analyze</Text>
+                                                            </TouchableOpacity>
+                                                        </View>
 
 
-                                                //                 style={styles.lottieAnimation14}
-
-                                                //             />
-
-                                                //         </View>
-
-                                                //         :
-
-                                                //         <View className="absolute left-[60%] opacity-90 top-[-29%]">
-                                                //             <TouchableOpacity onPress={() => loading()} className="flex flex-row space-x-2 p-2 rounded-full bg-white/30">
-                                                //                 <Ionicons size={15} color="white" name="analytics" />
-                                                //                 <Text className="text-[12%] text-white font-semibold">Analyze</Text>
-                                                //             </TouchableOpacity>
-                                                //         </View>
-                                                // )
+                                                )
                                             )
-
-
-
                                         }
                                     </View>
-
-
                                     <View className={"absolute top-[75%] w-[95%] left-[-14%]"}>
-                                        <View className={selecIm.length > 0 ? "flex flex-row space-x-2 w-[61% mt-[7%]  ml-[37%] bg-white/20 rounded-full p-3" : "flex flex-row space-x-2 w-[64%] mt-[7%] ml-[37%] bg-white/20 rounded-full p-3"}>
+                                        <View className={selecIm.length > 0 ? "flex flex-row space-x-2 w-[64%] mt-[7%]  ml-[37%] bg-white/20 rounded-full p-3" : "flex flex-row space-x-2 w-[64%] mt-[7%] ml-[37%] bg-white/20 rounded-full p-3"}>
                                             <Ionicons size={20} color="#dedede" name="chatbubble" />
                                             <TextInput
                                                 className="text-white font-semibold w-[72%]  opacity-80 text-md"
@@ -1022,23 +1086,53 @@ export default function HomeScreen() {
                                             }
                                         </View>
                                     </View>
-
                                     {selecIm.length > 0 &&
-
                                         <View className=" absolute left-[-6%] top-[190%]">
                                             <Image className="h-68 w-80 rounded-md  object-fit" source={require('../crime-2.webp')} />
                                         </View>
-
-
                                     }
-
-                                    
 
                                     {selecIm.length > 0 &&
                                         <View className="absolute bg-black/80 p-1 rounded-full top-[208%] right-[10%]">
                                             <Ionicons size={15} color="white" name="close-outline" />
                                         </View>
                                     }
+
+
+                                    {(contentSta ?
+                                        <View></View>
+
+                                        :
+
+                                        (
+                                            load ?
+                                                <View className="absolute left-[-8%] rotate-90 opacity-90 top-[216%]">
+                                                    <LottieView
+                                                        source={require('../Scan.json')} // Replace with your right swipe animation
+                                                        autoPlay
+                                                        duration={4000}
+                                                        style={styles.lottieAnimation15}
+                                                    />
+                                                </View>
+
+                                                :
+
+                                                <View className="absolute left-[60%] opacity-90 top-[-29%]">
+
+                                                </View>
+
+
+                                        )
+                                    )}
+
+
+
+
+
+
+
+
+
                                     {/* 
                                     {selecIm.length > 0 &&
                                         <View className="  mt-4">
@@ -1047,9 +1141,23 @@ export default function HomeScreen() {
                                                 <Ionicons size={15} color="white" name="close-outline" />
                                             </View>
                                         </View>} */}
-                                        
+
 
                                 </View>
+
+
+                                <Animated.View
+                                    style={
+                                        {
+                                            opacity: opacity1,
+
+                                        }}
+                                    className="bg-red-800/30 h-[470%] w-[97.5%] left-[1.4%] top-[12%] transition-all transform duration-500 ease-in-out z-[-10] rounded-lg opacity-0  absolute"
+
+                                >
+                                </Animated.View>
+
+
                             </ScrollView>
 
 
@@ -1090,5 +1198,14 @@ const styles = StyleSheet.create({
 
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
 
+    },
+    lottieAnimation14: {
+        height: 90,
+        width: 90,
+    },
+
+    lottieAnimation15: {
+        height: 290,
+        width: 330,
     }
 });
