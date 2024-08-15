@@ -352,7 +352,7 @@ export default function Swipe4({ data }) {
             setChatModal1(true);
         } else {
             setChatModal(true);
-            
+
         }
 
 
@@ -750,14 +750,11 @@ export default function Swipe4({ data }) {
 
                         {(card?.category == "EXPLICIT" && !explicit) &&
                             <View className="flex absolute z-[50] top-[2.5%] h-[94%] w-[94%]  ml-[3%] flex-col space-y-2 bg-black/90  ">
-
-
                                 <View className="flex flex-col mt-[47%] items-center space-y-6 ml-2 p-2">
                                     <Text className="text-lg text-white font-semibold text-center">This content may contain explicit material. Viewer discretion is advised. Click below to proceed.</Text>
                                     <TouchableOpacity onPress={() => forceUpdateCard()} className="p-4 text-md  rounded-full bg-white/30"><Text className="text-white font-semibold">View Content</Text></TouchableOpacity>
                                 </View>
                             </View>
-
                         }
 
                         {card?.post && (
@@ -2062,7 +2059,7 @@ export default function Swipe4({ data }) {
 
 
 
-                                            <View className={ "absolute top-[12%] w-[100%] left-[-6%]"}>
+                                            <View className={"absolute top-[12%] w-[100%] left-[-6%]"}>
                                                 <View className={"flex flex-row space-x-2 w-[66%] mt-[5%] ml-[34%] bg-white/20 rounded-full p-3"}>
                                                     <Text className="font-semibold absolute text-[54%]  top-[49%]  left-[6%] text-white">‟</Text>
                                                     <TextInput
@@ -2247,15 +2244,15 @@ export default function Swipe4({ data }) {
 
                                             <KeyboardAwareScrollView ref={scrollViewRef} className="flex  h-full flex-col relative">
 
-                                                <View className={ "absolute bg-white/20 transition transform duration-200 ease-in-out  z-[100] w-[0.9%] top-[16%] left-[7.5%] h-[68.8%]"}>
+                                                <View className={"absolute bg-white/20 transition transform duration-200 ease-in-out  z-[100] w-[0.9%] top-[16%] left-[7.5%] h-[68.8%]"}>
 
                                                 </View>
 
-                                                <View className={ "absolute transition transform duration-200 ease-in-out border-8 border-l-white/20 border-b-white/20 border-t-0 border-tl-0 border-r-0 border-tl  rounded-bl-full w-[10%] top-[84.9%] left-[7.5%] h-[8%]"}>
+                                                <View className={"absolute transition transform duration-200 ease-in-out border-8 border-l-white/20 border-b-white/20 border-t-0 border-tl-0 border-r-0 border-tl  rounded-bl-full w-[10%] top-[84.9%] left-[7.5%] h-[8%]"}>
 
                                                 </View>
 
-                                                <View className={ "absolute bg-white/20 z-[100] w-[0.9%] top-[90.6%] left-[7.5%] h-[28.3%] transition transform duration-200 ease-in-out"}>
+                                                <View className={"absolute bg-white/20 z-[100] w-[0.9%] top-[90.6%] left-[7.5%] h-[28.3%] transition transform duration-200 ease-in-out"}>
 
                                                 </View>
 
@@ -2397,7 +2394,7 @@ export default function Swipe4({ data }) {
 
 
                                                         } */}
-{/* 
+                                                        {/* 
                                                         {selecIm.length > 0 &&
 
                                                             <TouchableOpacity className="absolute left-[150%] opacity-90 top-[-26%]">
@@ -2420,8 +2417,8 @@ export default function Swipe4({ data }) {
 
 
 
-                                                <View className={ "absolute top-[100%] w-[95%] left-[3%]"}>
-                                                    <View className={ "flex flex-row space-x-2 w-[61%] mt-[5%] ml-[34%] bg-white/20 rounded-full p-3"}>
+                                                <View className={"absolute top-[100%] w-[95%] left-[3%]"}>
+                                                    <View className={"flex flex-row space-x-2 w-[61%] mt-[5%] ml-[34%] bg-white/20 rounded-full p-3"}>
                                                         <Ionicons size={20} color="#dedede" name="chatbubble" />
                                                         <TextInput
                                                             className="text-white font-semibold w-[72%]  opacity-80 text-md"

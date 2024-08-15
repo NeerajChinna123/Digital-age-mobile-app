@@ -481,6 +481,11 @@ export default function HomeScreen() {
 
     const [text, setText] = useState("");
 
+    const [progress1, setProgress1] = useState(0);
+    const [progress2, setProgress2] = useState(0);
+    const [progress3, setProgress3] = useState(0);
+
+    const [classi, setClassi] = useState(false);
 
     function loading() {
         setLoad(true);
@@ -488,11 +493,23 @@ export default function HomeScreen() {
         setTimeout(() => {
             setContentSta(true);
             setShowBgRed(true);
+            setLoad(false);
+
+
+            setTimeout(() => {
+                setProgress1(0.6);
+                setProgress2(0.55);
+                setProgress3(0.99)
+            }, 3100)
 
             setTimeout(() => {
                 setShowBgRed(false);
             }, 1000)
-        }, 3000)
+
+            setTimeout(() => {
+                setClassi(true);
+            }, 4000)
+        }, 4000)
     }
 
     // const [showBgRed, setShowBgRed] = useState(false);
@@ -512,6 +529,13 @@ export default function HomeScreen() {
 
     const translateX = useRef(new Animated.Value(0)).current;
     const glassWidth = useRef(new Animated.Value(10)).current; // Starting width of glass effect
+
+    const [isModalVisible3, setModalVisible3] = useState(false);
+
+    const toggleModal3 = () => {
+        setModalVisible3(!isModalVisible3);
+    };
+
 
     useEffect(() => {
         const startAnimation = () => {
@@ -549,6 +573,15 @@ export default function HomeScreen() {
 
         startAnimation();
     }, [translateX, glassWidth]);
+
+    const [hide, setHide] = useState(false);
+
+
+    const [ViolenceModal, setViolenceModal] = useState(false);
+    const [HumorModal, setHumorModal] = useState(false);
+    const [PoliticalModal, setPoliticalModal] = useState(false);
+    const [AdultModal, setAdultModal] = useState(false);
+
 
     return (
         <SafeAreaView className="flex-1 relative" >
@@ -1004,7 +1037,7 @@ export default function HomeScreen() {
                                     </TouchableOpacity>
 
 
-                                    <TouchableOpacity disabled={(!selecIm.length > 0 || text?.length > 0) && contentSta} className={(!selecIm.length > 0 || text?.length > 0) && contentSta ? "bg-cyan-600/20 transition-all transform duration-300 ease-in-out px-4 py-3 rounded-full " : "bg-cyan-600/60 px-4 py-3 transition-all transform duration-300 ease-in-out rounded-full"}>
+                                    <TouchableOpacity disabled={(!selecIm.length > 0 || !text?.length > 0) && !contentSta} className={(!selecIm.length > 0 || !text?.length > 0) && !contentSta ? "bg-cyan-600/20 transition-all transform duration-300 ease-in-out px-4 py-3 rounded-full " : "bg-cyan-600/60 px-4 py-3 transition-all transform duration-300 ease-in-out rounded-full"}>
                                         <Text className="text-[16%] font-semibold text-white opacity-70">Post</Text>
                                     </TouchableOpacity>
                                 </View>
@@ -1064,8 +1097,6 @@ export default function HomeScreen() {
                                                                 <Text className="text-[12%] text-white font-semibold">Analyze</Text>
                                                             </TouchableOpacity>
                                                         </View>
-
-
                                                 )
                                             )
                                         }
@@ -1087,20 +1118,25 @@ export default function HomeScreen() {
                                         </View>
                                     </View>
                                     {selecIm.length > 0 &&
-                                        <View className=" absolute left-[-6%] top-[190%]">
-                                            <Image className="h-68 w-80 rounded-md  object-fit" source={require('../crime-2.webp')} />
+                                        <View className={contentSta ? " absolute opacity-100 transition-opacity transform duration-300 ease-in-out left-[-6%] top-[190%]" : load ? " absolute opacity-30 left-[-6%] transition-opacity transform duration-300 ease-in-out top-[190%]" : " absolute opacity-100 transition-opacity transform duration-300 ease-in-out left-[-6%] top-[190%]"}>
+                                            <Image className="h-80 w-80 rounded-md  object-cover" source={require('../GUiEfQJa8AEllO4.jpeg')} />
                                         </View>
                                     }
-
                                     {selecIm.length > 0 &&
-                                        <View className="absolute bg-black/80 p-1 rounded-full top-[208%] right-[10%]">
+                                        <View className="absolute bg-black/80 p-1 rounded-full top-[204%] right-[9%]">
                                             <Ionicons size={15} color="white" name="close-outline" />
                                         </View>
                                     }
+                                    {(contentSta && !hide ?
 
 
-                                    {(contentSta ?
-                                        <View></View>
+                                        <View className="flex absolute z-[50] top-[190%] h-[400%] left-[-22] w-[90.7%] rounded-md   flex-col space-y-2 bg-black/90  ">
+                                            <View className="flex flex-col mt-[22%] items-center space-y-6 ml-2 p-2">
+                                                <Text className="text-lg text-white font-semibold text-center">This content contains explicit material. Reach for this post will be limited due to community guidelines on explicit content.</Text>
+                                                <TouchableOpacity onPress={() => setHide(true)} className="p-4 text-md  rounded-full bg-white/40"><Text className="text-white font-semibold">Hide This</Text></TouchableOpacity>
+                                            </View>
+                                        </View>
+
 
                                         :
 
@@ -1120,17 +1156,18 @@ export default function HomeScreen() {
                                                 <View className="absolute left-[60%] opacity-90 top-[-29%]">
 
                                                 </View>
+                                            //     <View className="absolute left-[-8%] rotate-90 opacity-90 top-[216%]">
+                                            //     <LottieView
+                                            //         source={require('../Scan.json')} // Replace with your right swipe animation
+                                            //         autoPlay
+                                            //         duration={4000}
+                                            //         style={styles.lottieAnimation15}
+                                            //     />
+                                            // </View>
 
 
                                         )
                                     )}
-
-
-
-
-
-
-
 
 
                                     {/* 
@@ -1141,10 +1178,7 @@ export default function HomeScreen() {
                                                 <Ionicons size={15} color="white" name="close-outline" />
                                             </View>
                                         </View>} */}
-
-
                                 </View>
-
 
                                 <Animated.View
                                     style={
@@ -1152,12 +1186,185 @@ export default function HomeScreen() {
                                             opacity: opacity1,
 
                                         }}
-                                    className="bg-red-800/30 h-[470%] w-[97.5%] left-[1.4%] top-[12%] transition-all transform duration-500 ease-in-out z-[-10] rounded-lg opacity-0  absolute"
+                                    className="bg-red-800/30 h-[530px] w-[97.5%] left-[1.4%] top-[1%] transition-all transform duration-500 ease-in-out z-[-10] rounded-lg opacity-0  absolute"
 
                                 >
                                 </Animated.View>
+                                {contentSta ?
+
+                                    classi ?
+                                        <View className="mt-[114%] flex px-2 flex-col space-y-4">
+                                            <View className="h-[0.5%] w-[98%] bg-gray-500 opacity-30 ml-[1%] mt-2 mb-2 rounded-full">
+
+                                            </View>
+                                            <View className="flex flex-col  mt-8 space-y-2 px-2">
+                                                <View className="flex flex-row items-center">
+                                                    <Text className="font-bold text-white text-[20%]">Classified Attributes</Text>
+                                                    <TouchableOpacity className="border border-white rounded-full h-5 w-5 relative ml-2 mt-1 opacity-30">
+
+                                                        <Text className=" text-white italic text-[12%] absolute font-semibold left-[7] top-[2] ">i</Text>
+                                                    </TouchableOpacity>
+
+                                                </View>
+                                            </View>
+
+                                            <View className=" rounded-lg mt-1 flex flex-row  pt-4 pl-1  flex-wrap">
+                                                <TouchableOpacity onPress={() => {
+                                                    toggleModal3();
+                                                    setViolenceModal(true);
+                                                    setHumorModal(false);
+                                                    setPoliticalModal(false);
+                                                    setAdultModal(false)
+                                                }} className="rounded-full p-2 bg-white/20 mr-2 mb-4">
+                                                    <Text className="text-md font-semibold text-white/80">Violence</Text>
+                                                </TouchableOpacity>
+                                                <TouchableOpacity onPress={(() => {
+                                                    toggleModal3(); setHumorModal(true); setViolenceModal(false);
+
+                                                    setPoliticalModal(false);
+                                                    setAdultModal(false)
+                                                })} className="rounded-full p-2 bg-white/20  mr-2 mb-4">
+                                                    <Text className="text-md font-semibold text-white/80">Humor</Text>
+                                                </TouchableOpacity>
+                                                <TouchableOpacity onPress={(() => {
+                                                    toggleModal3(); setViolenceModal(false);
+                                                    setHumorModal(false);
+                                                    setPoliticalModal(true);
+                                                    setAdultModal(false)
+                                                })} className="rounded-full p-2 bg-white/20  mr-2 mb-4">
+                                                    <Text className="text-md font-semibold text-white/80">Political</Text>
+                                                </TouchableOpacity>
+                                                {/* <TouchableOpacity onPress={(() => {
+                                                    toggleModal3(); setAdultModal(true); setViolenceModal(false);
+                                                    setHumorModal(false);
+                                                    setPoliticalModal(true)
+
+                                                })} className="rounded-full p-2 bg-white/20  mr-2 mb-4">
+                                                    <Text className="text-md font-semibold text-white/80">Adult</Text>
+                                                </TouchableOpacity> */}
+                                            </View>
 
 
+
+                                            <View className="h-[0.5%] w-[98%] bg-gray-500 opacity-30 ml-[1%] mt-3 rounded-full">
+
+                                            </View>
+
+                                            <View className="flex flex-col  mt-5 space-y-2 px-2">
+                                                <View className="flex flex-row items-center">
+                                                    <Text className="font-bold text-white text-[20%]">Identified Elements</Text>
+                                                    <View className="border border-white rounded-full h-5 w-5 relative ml-2 mt-1 opacity-30">
+                                                        <Text className=" text-white italic text-[12%] absolute font-semibold left-[7] top-[2] ">i</Text>
+                                                    </View>
+
+                                                </View>
+
+                                                <View className=" pt-4 flex flex-col space-y-2 ">
+
+                                                    <View>
+                                                        <Text className="font-bold text-white text-[16%] opacity-80">Blood</Text>
+                                                    </View>
+
+                                                    <View className="flex flex-row space-x-4 items-center">
+                                                        <Progress.Bar className="border-0 bg-gray-500/80 opacity-70 mt-1 " duration={2400} progress={progress1} width={308} height={10} animated={true} color='#22d3ee' />
+                                                        <View>
+                                                            <Text className="font-bold text-white text-[15%] opacity-80">60%</Text>
+                                                        </View>
+                                                    </View>
+
+                                                </View>
+
+
+                                                <View className=" pt-4 flex flex-col space-y-2 ">
+
+                                                    <View>
+                                                        <Text className="font-bold text-white text-[16%] opacity-80">Weapons</Text>
+                                                    </View>
+
+                                                    <View className="flex flex-row space-x-4 items-center">
+                                                        <Progress.Bar className="border-0 bg-gray-500/80 opacity-70 mt-1 " progress={progress2} duration={2800} width={308} height={10} animated={true} color='#22d3ee' />
+                                                        <View>
+                                                            <Text className="font-bold text-white text-[15%] opacity-80">55%</Text>
+                                                        </View>
+                                                    </View>
+
+                                                </View>
+
+
+                                                <View className=" pt-4 flex flex-col space-y-2 ">
+
+                                                    <View>
+                                                        <Text className="font-bold text-white text-[16%] opacity-80">Crime</Text>
+                                                    </View>
+
+                                                    <View className="flex flex-row space-x-4 items-center">
+                                                        <Progress.Bar className="border-0 bg-gray-500/80 opacity-70 mt-1 " progress={progress3} duration={3200} width={308} height={10} animated={true} color='#22d3ee' />
+                                                        <View>
+                                                            <Text className="font-bold text-white text-[15%] opacity-80">99%</Text>
+                                                        </View>
+                                                    </View>
+
+                                                </View>
+
+
+                                            </View>
+
+                                        </View>
+
+
+                                        : <View className="opacity-60 mt-[290] ml-[-18%]">
+
+                                            <LottieView
+                                                source={require('../shimmer.json')} // Replace with your right swipe animation
+                                                autoPlay
+                                                tim
+                                                style={styles.lottieAnimation16}
+                                            />
+                                        </View>
+
+                                    : <View></View>
+
+                                }
+
+                                <Modal
+                                    isVisible={isModalVisible3}
+                                    onBackdropPress={toggleModal3}
+                                    animationIn="fadeIn"
+                                    animationOut="fadeOut"
+                                    backdropOpacity={0.8}
+                                >
+
+                                    <BlurView
+                                        className=" h-[24%] rounded-3xl relative"
+                                        tint="dark"
+                                        intensity={60}
+
+                                    >
+
+                                        <TouchableOpacity onPress={toggleModal3} className="p-2 absolute bg-white/20 right-4 top-4 rounded-full">
+                                            <Ionicons size={20} color="#ffffff" name="close-outline" />
+                                        </TouchableOpacity>
+
+                                        <View className="flex flex-row justify-center mt-[18%] px-4">
+                                            {
+
+                                                ViolenceModal ?
+
+                                                    <Text className="text-center text-white text-[18%] font-semibold opacity-60 leading-6">The image is categorized under "violence" due to its use of ketchup to mimic blood, symbolically referencing violence in a humorous context.</Text> :
+
+                                                    HumorModal ? <Text className="text-center text-white text-[18%] font-semibold opacity-60 leading-6"> It uses a visual pun—the substitution of a gun with a ketchup bottle—to humorously comment on the absence of guns in Britain.</Text> :
+
+                                                        PoliticalModal ? <Text className="text-center text-white text-[18%] font-semibold opacity-60 leading-6"> This image provides a satirical take on gun control policies in Britain, sparking discussion on cultural and legal differences in firearm regulation.</Text> :
+
+                                                            <Text className="text-center text-white text-[18%] font-semibold opacity-60 leading-6">The image does not contain adult content; it employs a playful and non-serious depiction of ketchup as blood for comedic effect.</Text>
+
+                                            }
+                                        </View>
+
+
+
+                                    </BlurView>
+                                </Modal>
                             </ScrollView>
 
 
@@ -1205,7 +1412,12 @@ const styles = StyleSheet.create({
     },
 
     lottieAnimation15: {
-        height: 290,
-        width: 330,
+        height: 280,
+        width: 320,
+    },
+
+    lottieAnimation16: {
+        height: 590,
+        width: 500,
     }
 });
