@@ -1037,7 +1037,7 @@ export default function HomeScreen() {
                                     </TouchableOpacity>
 
 
-                                    <TouchableOpacity disabled={(!selecIm.length > 0 || !text?.length > 0) && !contentSta} className={(!selecIm.length > 0 || !text?.length > 0) && !contentSta ? "bg-cyan-600/20 transition-all transform duration-300 ease-in-out px-4 py-3 rounded-full " : "bg-cyan-600/60 px-4 py-3 transition-all transform duration-300 ease-in-out rounded-full"}>
+                                    <TouchableOpacity disabled={(!selecIm.length > 0 || !text?.length > 0) && !contentSta} className={(!selecIm.length > 0 || !text?.length > 0) && !contentSta ? "bg-cyan-600/20 transition-all transform duration-300 ease-in-out px-4 py-3 rounded-full " : "bg-cyan-600/80 px-4 py-3 transition-all transform duration-300 ease-in-out rounded-full"}>
                                         <Text className="text-[16%] font-semibold text-white opacity-70">Post</Text>
                                     </TouchableOpacity>
                                 </View>
@@ -1049,7 +1049,6 @@ export default function HomeScreen() {
 
                             <ScrollView contentContainerStyle={styles.scrollView}>
                                 <View className="ml-[6%] mt-[9%] flex flex-row space-x-8 items-center">
-
                                     <TouchableOpacity>
                                         <Image className="h-20 w-20 rounded-full object-fit" source={require('../Real-human-2.webp')} />
                                     </TouchableOpacity>
@@ -1193,7 +1192,7 @@ export default function HomeScreen() {
                                 {contentSta ?
 
                                     classi ?
-                                        <View className="mt-[114%] flex px-2 flex-col space-y-4">
+                                        <View className="mt-[114%] mb-[60] flex px-2 flex-col space-y-4">
                                             <View className="h-[0.5%] w-[98%] bg-gray-500 opacity-30 ml-[1%] mt-2 mb-2 rounded-full">
 
                                             </View>
@@ -1250,7 +1249,7 @@ export default function HomeScreen() {
 
                                             </View>
 
-                                            <View className="flex flex-col  mt-5 space-y-2 px-2">
+                                            <View className="flex flex-col  mt-5 mb-3 space-y-2 px-2">
                                                 <View className="flex flex-row items-center">
                                                     <Text className="font-bold text-white text-[20%]">Identified Elements</Text>
                                                     <View className="border border-white rounded-full h-5 w-5 relative ml-2 mt-1 opacity-30">
@@ -1266,7 +1265,7 @@ export default function HomeScreen() {
                                                     </View>
 
                                                     <View className="flex flex-row space-x-4 items-center">
-                                                        <Progress.Bar className="border-0 bg-gray-500/80 opacity-70 mt-1 " duration={2400} progress={progress1} width={308} height={10} animated={true} color='#22d3ee' />
+                                                        <Progress.Bar className="border-0 bg-gray-500/80 opacity-70 mt-1 " duration={2400} progress={progress1} width={297} height={10} animated={true} color='#22d3ee' />
                                                         <View>
                                                             <Text className="font-bold text-white text-[15%] opacity-80">60%</Text>
                                                         </View>
@@ -1282,7 +1281,7 @@ export default function HomeScreen() {
                                                     </View>
 
                                                     <View className="flex flex-row space-x-4 items-center">
-                                                        <Progress.Bar className="border-0 bg-gray-500/80 opacity-70 mt-1 " progress={progress2} duration={2800} width={308} height={10} animated={true} color='#22d3ee' />
+                                                        <Progress.Bar className="border-0 bg-gray-500/80 opacity-70 mt-1 " progress={progress2} duration={2800} width={297} height={10} animated={true} color='#22d3ee' />
                                                         <View>
                                                             <Text className="font-bold text-white text-[15%] opacity-80">55%</Text>
                                                         </View>
@@ -1298,7 +1297,7 @@ export default function HomeScreen() {
                                                     </View>
 
                                                     <View className="flex flex-row space-x-4 items-center">
-                                                        <Progress.Bar className="border-0 bg-gray-500/80 opacity-70 mt-1 " progress={progress3} duration={3200} width={308} height={10} animated={true} color='#22d3ee' />
+                                                        <Progress.Bar className="border-0 bg-gray-500/80 opacity-70 mt-1 " progress={progress3} duration={3200} width={297} height={10} animated={true} color='#22d3ee' />
                                                         <View>
                                                             <Text className="font-bold text-white text-[15%] opacity-80">99%</Text>
                                                         </View>
@@ -1307,6 +1306,150 @@ export default function HomeScreen() {
                                                 </View>
 
 
+                                            </View>
+
+                                            <View className="h-[0.5%] w-[98%] bg-gray-500 opacity-30 ml-[1%] mt-[8%] rounded-full">
+
+                                            </View>
+
+                                            <View className="flex flex-row items-center px-2">
+                                                <Text className="font-bold text-white text-[20%]">Settings</Text>
+                                                <View className="border border-white rounded-full h-5 w-5 relative ml-2 mt-1 opacity-30">
+                                                    <Text className=" text-white italic text-[12%] absolute font-semibold left-[7] top-[2] ">i</Text>
+                                                </View>
+
+                                            </View>
+
+                                            <View className="flex flex-col space-y-2 px-1 pt-2">
+
+                                                <View>
+                                                    <View className="flex flex-row justify-between items-center">
+
+
+                                                        <View className="flex flex-row space-x-3 items-center opacity-90">
+                                                            <Ionicons size={20} color="#ffffff" name="musical-notes" />
+                                                            <Text className="font-bold text-white text-[18%] ">Choose Music</Text>
+                                                        </View>
+
+                                                        <Ionicons size={24} color="#ffffff" name="chevron-forward" />
+
+                                                    </View>
+                                                    <View className="h-[1%] w-[98%] bg-gray-500 opacity-30 ml-[1%] mt-[4%] rounded-full">
+
+                                                    </View>
+
+                                                </View>
+
+                                                <View>
+                                                    <View className="flex flex-row justify-between items-center">
+
+
+                                                        <View className="flex flex-row space-x-3 items-center opacity-90">
+                                                            <Ionicons size={20} color="#ffffff" name="pricetags" />
+                                                            <Text className="font-bold text-white text-[18%] ">Tag People</Text>
+                                                        </View>
+
+                                                        <Ionicons size={24} color="#ffffff" name="chevron-forward" />
+
+                                                    </View>
+                                                    <View className="h-[1%] w-[98%] bg-gray-500 opacity-30 ml-[1%] mt-[4%] rounded-full">
+
+                                                    </View>
+
+                                                </View>
+
+                                                <View>
+                                                    <View className="flex flex-row justify-between items-center">
+
+
+                                                        <View className="flex flex-row space-x-3 items-center opacity-90">
+                                                            <Ionicons size={20} color="#ffffff" name="calendar" />
+                                                            <Text className="font-bold text-white text-[18%] ">Schedule</Text>
+                                                        </View>
+
+                                                        <Ionicons size={24} color="#ffffff" name="chevron-forward" />
+
+                                                    </View>
+                                                    <View className="h-[1%] w-[98%] bg-gray-500 opacity-30 ml-[1%] mt-[4%] rounded-full">
+
+                                                    </View>
+
+                                                </View>
+
+                                                <View>
+                                                    <View className="flex flex-row justify-between items-center">
+
+
+
+                                                        <View className="flex flex-row space-x-3 items-center opacity-90">
+                                                            <Ionicons size={20} color="#ffffff" name="location" />
+                                                            <Text className="font-bold text-white text-[18%] ">Add Location</Text>
+                                                        </View>
+
+                                                        <Ionicons size={24} color="#ffffff" name="chevron-forward" />
+
+                                                    </View>
+                                                    <View className="h-[1%] w-[98%] bg-gray-500 opacity-30 ml-[1%] mt-[4%] rounded-full">
+
+                                                    </View>
+
+                                                </View>
+
+                                                <View>
+                                                    <View className="flex flex-row justify-between items-center">
+
+
+                                                        <View className="flex flex-row space-x-3 items-center opacity-90">
+                                                            <Ionicons size={20} color="#ffffff" name="people" />
+                                                            <Text className="font-bold text-white text-[18%] ">Manage Audience</Text>
+                                                        </View>
+
+                                                        <Ionicons size={24} color="#ffffff" name="chevron-forward" />
+
+                                                    </View>
+                                                    <View className="h-[1%] w-[98%] bg-gray-500 opacity-30 ml-[1%] mt-[4%] rounded-full">
+
+                                                    </View>
+
+                                                </View>
+
+                                                <View>
+                                                    <View className="flex flex-row justify-between items-center">
+
+
+                                                        <View className="flex flex-row space-x-3 items-center opacity-90">
+                                                            <Ionicons size={20} color="#ffffff" name="settings" />
+                                                            <Text className="font-bold text-white text-[18%] ">Advanced Settings</Text>
+                                                        </View>
+
+                                                        <Ionicons size={24} color="#ffffff" name="chevron-forward" />
+
+                                                    </View>
+
+
+                                                </View>
+
+
+
+
+
+
+
+
+
+
+
+
+                                                {/* <View className="flex flex-row justify-between items-center">
+
+
+                                                    <View className="flex flex-row space-x-3 items-center opacity-90">
+                                                        <Ionicons size={20} color="#ffffff" name="musical-notes" />
+                                                        <Text className="font-bold text-white text-[18%] ">Choose Music</Text>
+                                                    </View>
+
+                                                    <Ionicons size={24} color="#ffffff" name="chevron-forward" />
+                                                </View> */}
                                             </View>
 
                                         </View>
@@ -1325,6 +1468,9 @@ export default function HomeScreen() {
                                     : <View></View>
 
                                 }
+
+
+
 
                                 <Modal
                                     isVisible={isModalVisible3}
@@ -1361,10 +1507,11 @@ export default function HomeScreen() {
                                             }
                                         </View>
 
-
-
                                     </BlurView>
                                 </Modal>
+
+
+
                             </ScrollView>
 
 
