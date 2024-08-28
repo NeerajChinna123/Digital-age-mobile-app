@@ -752,6 +752,7 @@ export default function Swipe4({ data }) {
                             <View className="flex absolute z-[50] top-[2.5%] h-[94%] w-[94%]  ml-[3%] flex-col space-y-2 bg-black/90  ">
                                 <View className="flex flex-col mt-[47%] items-center space-y-6 ml-2 p-2">
                                     <Text className="text-lg text-white font-semibold text-center">This content may contain explicit material. Viewer discretion is advised. Click below to proceed.</Text>
+
                                     <TouchableOpacity onPress={() => forceUpdateCard()} className="p-4 text-md  rounded-full bg-white/30"><Text className="text-white font-semibold">View Content</Text></TouchableOpacity>
                                 </View>
                             </View>
@@ -835,7 +836,7 @@ export default function Swipe4({ data }) {
                     </TouchableOpacity>
                 </View>
                 <View>
-
+                  
                 </View>
             </View>
 

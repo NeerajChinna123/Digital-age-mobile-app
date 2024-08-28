@@ -141,23 +141,23 @@ export default function HomeScreen() {
 
     {
         id: 9,
-        name: "User 6",
-        userName: "@user6",
+        name: "Neeraj",
+        userName: "@nc127",
         category: "GENERAL",
         feed: "FOLLOW",
-        photoUrl: "https://thispersondoesnotexist.com",
-        video: require("../d3.mp4"),
+        photoUrl: "https://media.licdn.com/dms/image/v2/D4D03AQELM-tqD-X4-A/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1721061786562?e=1729123200&v=beta&t=7FFAEOFW6GV7MtHOHrI4kQNbpzh6bBroDY1Z7Fa6btg",
+        video: require("../neeraj-bowling.mp4"),
         post: "",
     },
     {
         id: 10,
-        name: "User 9",
-        userName: "@user9",
+        name: "Ava",
+        userName: "@Ava42",
         category: "GENERAL",
         feed: "FOLLOW",
-        photoUrl: "https://thispersondoesnotexist.com",
-        video: "",
-        post: require('../d-p-p.png'),
+        photoUrl: "https://i.ibb.co/dkSTwR7/girl-2.webp",
+        video: require('../game.mp4'),
+        post: "",
     },
     {
         id: 11,
@@ -195,8 +195,8 @@ export default function HomeScreen() {
     },
     {
         id: 14,
-        name: "User 6",
-        userName: "@user6",
+        name: "Neeraj",
+        userName: "@nc127",
         category: "GENERAL",
         feed: "FOLLOW",
         photoUrl: "https://thispersondoesnotexist.com",
@@ -433,7 +433,6 @@ export default function HomeScreen() {
         outputRange: [50, 180] // Custom width in pixels (collapsed width, expanded width)
     });
 
-
     const [postModal, setPostModal] = useState(false);
 
     function togglePostModal() {
@@ -447,7 +446,23 @@ export default function HomeScreen() {
     };
 
     const selectImage = async () => {
-        // setSelecIm(true);
+        // // setSelecIm(true);
+        // // Request permission to access the media library
+        // const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        // if (status !== 'granted') {
+        //     Alert.alert('Sorry, we need camera roll permissions to make this work!');
+        //     return;
+        // }
+
+        // const result = await ImagePicker.launchImageLibraryAsync({
+        //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        //     allowsEditing: true,
+        //     aspect: [4, 3],
+        //     quality: 1,
+        // })
+
+        // setSelecIm(result?.assets[0]?.uri);
+        // scrollToView(9400)
         // Request permission to access the media library
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== 'granted') {
@@ -455,15 +470,18 @@ export default function HomeScreen() {
             return;
         }
 
+        // Launch the image library with the option to select both images and videos
         const result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            mediaTypes: ImagePicker.MediaTypeOptions.All, // Allows both images and videos
             allowsEditing: true,
             aspect: [4, 3],
             quality: 1,
-        })
+        });
 
-        setSelecIm(result?.assets[0]?.uri);
-        scrollToView(9400)
+        if (!result.canceled) {
+            setSelecIm(result?.assets[0]?.uri);
+            scrollToView(9400);
+        }
     };
 
 
@@ -497,8 +515,8 @@ export default function HomeScreen() {
 
 
             setTimeout(() => {
-                setProgress1(0.6);
-                setProgress2(0.55);
+                setProgress1(0.98);
+                setProgress2(0.92);
                 setProgress3(0.99)
             }, 3100)
 
@@ -590,17 +608,20 @@ export default function HomeScreen() {
     function postFun() {
         setPosting(true);
 
-        setTimeout(() => { setPostSent(true) }, 222000);
+        setTimeout(() => { setPostSent(true) }, 3000);
 
-        setTimeout(() => { setPostModal(false) }, 555000);
+        setTimeout(() => { setPostModal(false); toggleMenu() }, 6000);
 
     }
+
+    const videoRef1 = useRef(null);
+    const [isMuted, setIsMuted] = useState(false);
 
 
     return (
         <SafeAreaView className="flex-1 relative" >
 
-            <ImageBackground source={require('../ocean.jpg')} className="flex-1" // Ensure the image file is in the correct path
+            <ImageBackground source={require('../ch.webp')} className="flex-1" // Ensure the image file is in the correct path
             >
 
                 <SafeAreaView className="bg-black/50 bg-opacity-10 flex-1 p-2">
@@ -608,7 +629,7 @@ export default function HomeScreen() {
 
                     <View className="flex flex-row justify-between items-center p-4">
                         <TouchableOpacity >
-                            <Image className="h-10 w-10 rounded-full object-cover" source={require('../Real-human-2.webp')} />
+                            <Image className="h-10 w-10 rounded-full object-cover" source={require('../Real-hum-3.webp')} />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => navigation.navigate("Chat")} >
                             <Image className="h-16 w-16" source={require('../d-lo.png')} />
@@ -616,8 +637,6 @@ export default function HomeScreen() {
                         {/* <TouchableOpacity className="mt-1 bg-white/20 rounded-xl p-2 ">
                             <Ionicons size={26} color="white" name="funnel" />
                         </TouchableOpacity> */}
-
-
 
                         <View className="flex-row items-center relative">
                             {expanded ?
@@ -680,8 +699,9 @@ export default function HomeScreen() {
                                 <Ionicons size={42} color="#06b6d4" name="add-circle" />
                             </TouchableOpacity>
 
-                            <TouchableOpacity className="mt-1  rounded-xl p-2 ">
+                            <TouchableOpacity className="mt-1  rounded-xl p-2  relative">
                                 <Ionicons size={26} color="white" name="notifications" />
+                                <View className="bg-red-500 absolute rounded-full right-[-2] top-[-6] p-1 px-2"><Text className="text-white text-[14%] font-semibold">1</Text></View>
                             </TouchableOpacity>
 
                             <TouchableOpacity onPress={toggleModal} className="mt-1 pl-3 rounded-xl  ">
@@ -1019,21 +1039,14 @@ export default function HomeScreen() {
                                 <Text className="text-md font-semibold text-white/80">Add +</Text>
                             </View>
                         </View>
-
-
-
                         <TouchableOpacity onPress={toggleModal2} className="p-4 bg-white/25 w-[40%] mt-5 ml-[29%] rounded-md flex flex-row justify-center">
-
                             <Text className="text-white text-[16%] font-bold">Save</Text>
                         </TouchableOpacity>
                     </BlurView>
                 </Modal>
             </Modal>
-
-
             {postModal &&
                 <Modal animationInTiming={400} onBackdropPress={togglePostModal} animationOutTiming={400} className="w-[100%] ml-[0] mt-[23%] rounded-t-[40%]" animationIn="slideInUp" animationOut="slideOutDown" isVisible={postModal}>
-
                     <KeyboardAvoidingView
 
                         className="w-full h-[100%] "
@@ -1044,13 +1057,8 @@ export default function HomeScreen() {
                             tint="dark"
                             intensity={65}
                         >
-
                             {
-
                                 posting ?
-
-
-
                                     (postSent ? <Animated.View
                                         style={
                                             {
@@ -1075,7 +1083,7 @@ export default function HomeScreen() {
 
                                                 }} className="relative">
                                             <View className="mt-[22%] flex flex-col items-center">
-                                                <Image className="h-28 w-28 rounded-full object-fit" source={require('../Real-human-2.webp')} />
+                                                <Image className="h-28 w-28 rounded-full object-fit" source={require('../Real-hum-3.webp')} />
 
                                             </View>
                                             <View className={"absolute bg-white/20 transition transform duration-200 ease-in-out  z-[100] w-[0.9%] top-[100%] left-[49%] h-[50%]"}>
@@ -1086,7 +1094,7 @@ export default function HomeScreen() {
 
                                             </View>
 
-                                            <View className="absolute rounded-full h-28 w-28 top-[138%] left-[29%]">
+                                            <View className="absolute rounded-full h-28 w-28 top-[138%] left-[36%]">
                                                 <LottieView
                                                     source={require('../posting.json')} // Replace with your right swipe animation
                                                     autoPlay
@@ -1101,10 +1109,16 @@ export default function HomeScreen() {
 
                                             </View>
 
-                                            <View className="absolute flex top-[257%] left-[35%] flex-col items-center">
-                                                <Image className="h-28 w-28 rounded-full object-fit" source={{ uri: 'https://media.licdn.com/dms/image/D4D03AQELM-tqD-X4-A/profile-displayphoto-shrink_800_800/0/1721061786562?e=1728518400&v=beta&t=kcR4ry6SXqcBgWehIx-FrjVND2FE0LBPmpfY4rBVyBA' }} />
+                                            <View className="absolute flex top-[257%] left-[35%] flex-col items-center ">
+                                                <Image className="h-28 w-28 rounded-full object-fit" source={require('../monkey-warrior.png')} />
+
                                             </View>
 
+                                            <View className="absolute flex top-[282%] z-[100] left-[48%] flex-col items-center ">
+                                                <Ionicons size={23} color="#BEBEBE" className="absolute " name="play-circle" />
+                                            </View>
+
+                                            {/* <Image className="h-80 w-80 rounded-md  object-cover" source={require('../GUiEfQJa8AEllO4.jpeg')} /> */}
 
                                         </Animated.View>) :
 
@@ -1130,11 +1144,11 @@ export default function HomeScreen() {
                                         <ScrollView contentContainerStyle={styles.scrollView}>
                                             <View className="ml-[6%] mt-[9%] flex flex-row space-x-8 items-center">
                                                 <TouchableOpacity>
-                                                    <Image className="h-20 w-20 rounded-full object-fit" source={require('../Real-human-2.webp')} />
+                                                    <Image className="h-20 w-20 rounded-full object-fit" source={require('../girl-2.webp')} />
                                                 </TouchableOpacity>
 
                                                 <View className="flex flex-col space-y-4 mt-[-2] relative">
-                                                    <Text className="text-[17%] font-semibold text-white opacity-80">@Mike12</Text>
+                                                    <Text className="text-[17%] font-semibold text-white opacity-80">@Ava</Text>
                                                     <View className="flex flex-row space-x-6">
                                                         <TouchableOpacity onPress={selectImage} >
                                                             <Ionicons size={23} color="#BEBEBE" name="images" />
@@ -1151,15 +1165,15 @@ export default function HomeScreen() {
                                                     {selecIm.length &&
 
                                                         (contentSta ?
-                                                            <TouchableOpacity className="bg-red-600/20 px-3 py-2 absolute left-[60%] top-[-27%]  rounded-full ">
-                                                                <Text className="text-[12%]  text-red-500 opacity-70">EXPLICIT</Text>
+                                                            <TouchableOpacity className="bg-green-600/20 px-3 py-2 absolute left-[42%] top-[-27%]  rounded-full ">
+                                                                <Text className="text-[12%]  text-green-500 opacity-70">General</Text>
                                                             </TouchableOpacity>
 
                                                             :
 
                                                             (
                                                                 load ?
-                                                                    <View className="absolute left-[53%] opacity-90 top-[-69%]">
+                                                                    <View className="absolute left-[37%] opacity-90 top-[-69%]">
                                                                         <LottieView
                                                                             source={require('../Analyze.json')} // Replace with your right swipe animation
                                                                             autoPlay
@@ -1170,7 +1184,7 @@ export default function HomeScreen() {
 
                                                                     :
 
-                                                                    <View className="absolute left-[60%] opacity-90 top-[-29%]">
+                                                                    <View className="absolute left-[42%] opacity-90 top-[-29%]">
                                                                         <TouchableOpacity onPress={() => loading()} className="flex flex-row space-x-2 p-2 rounded-full bg-white/30">
                                                                             <Ionicons size={15} color="white" name="analytics" />
                                                                             <Text className="text-[12%] text-white font-semibold">Analyze</Text>
@@ -1198,7 +1212,19 @@ export default function HomeScreen() {
                                                 </View>
                                                 {selecIm.length > 0 &&
                                                     <View className={contentSta ? " absolute opacity-100 transition-opacity transform duration-300 ease-in-out left-[-6%] top-[190%]" : load ? " absolute opacity-30 left-[-6%] transition-opacity transform duration-300 ease-in-out top-[190%]" : " absolute opacity-100 transition-opacity transform duration-300 ease-in-out left-[-6%] top-[190%]"}>
-                                                        <Image className="h-80 w-80 rounded-md  object-cover" source={require('../GUiEfQJa8AEllO4.jpeg')} />
+                                                        {/* <Image className="h-80 w-80 rounded-md  object-cover" source={require('../GUiEfQJa8AEllO4.jpeg')} /> */}
+                                                        <Video
+                                                            ref={videoRef1}
+                                                            source={require('../game.mp4')}
+                                                            className="h-80 w-80 absolute top-[2.5%] rounded-md object-cover"
+                                                            shouldPlay
+                                                            resizeMode="contain"
+                                                            isMuted={isMuted}
+                                                            volume={1.0} // Ensure the volume is set to a reasonable level
+                                                            isLooping={true}
+                                                            useNativeControls
+                                                        // onPlaybackStatusUpdate={(status) => ('Playback Staconsole.logtus:', status)}
+                                                        />
                                                     </View>
                                                 }
                                                 {selecIm.length > 0 &&
@@ -1209,11 +1235,11 @@ export default function HomeScreen() {
                                                 {(contentSta && !hide ?
 
 
-                                                    <View className="flex absolute z-[50] top-[190%] h-[400%] left-[-22] w-[90.7%] rounded-md   flex-col space-y-2 bg-black/90  ">
-                                                        <View className="flex flex-col mt-[22%] items-center space-y-6 ml-2 p-2">
+                                                    <View className="flex absolute z-[50] top-[190%] h-[400%] left-[-22] w-[90.7%] rounded-md   flex-col space-y-2   ">
+                                                        {/* <View className="flex flex-col mt-[18.5%] items-center space-y-6 ml-2 p-3">
                                                             <Text className="text-lg text-white font-semibold text-center">This content contains explicit material. Reach for this post will be limited due to community guidelines on explicit content.</Text>
                                                             <TouchableOpacity onPress={() => setHide(true)} className="p-4 text-md  rounded-full bg-white/40"><Text className="text-white font-semibold">Hide This</Text></TouchableOpacity>
-                                                        </View>
+                                                        </View> */}
                                                     </View>
 
 
@@ -1235,7 +1261,7 @@ export default function HomeScreen() {
                                                             <View className="absolute left-[60%] opacity-90 top-[-29%]">
 
                                                             </View>
-                                                        //     <View className="absolute left-[-8%] rotate-90 opacity-90 top-[216%]">
+                                                        // <View className="absolute left-[-8%] rotate-90 opacity-90 top-[216%]">
                                                         //     <LottieView
                                                         //         source={require('../Scan.json')} // Replace with your right swipe animation
                                                         //         autoPlay
@@ -1265,7 +1291,7 @@ export default function HomeScreen() {
                                                         opacity: opacity1,
 
                                                     }}
-                                                className="bg-red-800/30 h-[530px] w-[97.5%] left-[1.4%] top-[1%] transition-all transform duration-500 ease-in-out z-[-10] rounded-lg opacity-0  absolute"
+                                                className="bg-green-800/30 h-[520px] w-[97.5%] left-[1.4%] top-[1%] transition-all transform duration-500 ease-in-out z-[-10] rounded-lg opacity-0  absolute"
 
                                             >
                                             </Animated.View>
@@ -1280,7 +1306,6 @@ export default function HomeScreen() {
                                                             <View className="flex flex-row items-center">
                                                                 <Text className="font-bold text-white text-[20%]">Classified Attributes</Text>
                                                                 <TouchableOpacity className="border border-white rounded-full h-5 w-5 relative ml-2 mt-1 opacity-30">
-
                                                                     <Text className=" text-white italic text-[12%] absolute font-semibold left-[7] top-[2] ">i</Text>
                                                                 </TouchableOpacity>
 
@@ -1295,7 +1320,7 @@ export default function HomeScreen() {
                                                                 setPoliticalModal(false);
                                                                 setAdultModal(false)
                                                             }} className="rounded-full p-2 bg-white/20 mr-2 mb-4">
-                                                                <Text className="text-md font-semibold text-white/80">Violence</Text>
+                                                                <Text className="text-md font-semibold text-white/80">Game</Text>
                                                             </TouchableOpacity>
                                                             <TouchableOpacity onPress={(() => {
                                                                 toggleModal3(); setHumorModal(true); setViolenceModal(false);
@@ -1303,7 +1328,7 @@ export default function HomeScreen() {
                                                                 setPoliticalModal(false);
                                                                 setAdultModal(false)
                                                             })} className="rounded-full p-2 bg-white/20  mr-2 mb-4">
-                                                                <Text className="text-md font-semibold text-white/80">Humor</Text>
+                                                                <Text className="text-md font-semibold text-white/80">Fantasy</Text>
                                                             </TouchableOpacity>
                                                             <TouchableOpacity onPress={(() => {
                                                                 toggleModal3(); setViolenceModal(false);
@@ -1311,7 +1336,7 @@ export default function HomeScreen() {
                                                                 setPoliticalModal(true);
                                                                 setAdultModal(false)
                                                             })} className="rounded-full p-2 bg-white/20  mr-2 mb-4">
-                                                                <Text className="text-md font-semibold text-white/80">Political</Text>
+                                                                <Text className="text-md font-semibold text-white/80">Action</Text>
                                                             </TouchableOpacity>
                                                             {/* <TouchableOpacity onPress={(() => {
                                                     toggleModal3(); setAdultModal(true); setViolenceModal(false);
@@ -1321,6 +1346,15 @@ export default function HomeScreen() {
                                                 })} className="rounded-full p-2 bg-white/20  mr-2 mb-4">
                                                     <Text className="text-md font-semibold text-white/80">Adult</Text>
                                                 </TouchableOpacity> */}
+
+                                                            <TouchableOpacity onPress={(() => {
+                                                                toggleModal5(); setViolenceModal(false);
+                                                                setHumorModal(false);
+                                                                setPoliticalModal(true);
+                                                                // setAdultModal(false)
+                                                            })} className="rounded-full p-2  right-[12] top-[26.8%] absolute border border-cyan-500 bg-cyan-500/20  ml-[15%] mb-4">
+                                                                <Text className="text-md font-semibold text-cyan-500/90">Dispute</Text>
+                                                            </TouchableOpacity>
                                                         </View>
 
 
@@ -1341,13 +1375,13 @@ export default function HomeScreen() {
                                                             <View className=" pt-4 flex flex-col space-y-2 ">
 
                                                                 <View>
-                                                                    <Text className="font-bold text-white text-[16%] opacity-80">Blood</Text>
+                                                                    <Text className="font-bold text-white text-[16%] opacity-80">Monkey Warrior</Text>
                                                                 </View>
 
                                                                 <View className="flex flex-row space-x-4 items-center">
                                                                     <Progress.Bar className="border-0 bg-gray-500/80 opacity-70 mt-1 " duration={2400} progress={progress1} width={297} height={10} animated={true} color='#22d3ee' />
                                                                     <View>
-                                                                        <Text className="font-bold text-white text-[15%] opacity-80">60%</Text>
+                                                                        <Text className="font-bold text-white text-[15%] opacity-80">98%</Text>
                                                                     </View>
                                                                 </View>
 
@@ -1357,13 +1391,13 @@ export default function HomeScreen() {
                                                             <View className=" pt-4 flex flex-col space-y-2 ">
 
                                                                 <View>
-                                                                    <Text className="font-bold text-white text-[16%] opacity-80">Weapons</Text>
+                                                                    <Text className="font-bold text-white text-[16%] opacity-80">Battle</Text>
                                                                 </View>
 
                                                                 <View className="flex flex-row space-x-4 items-center">
                                                                     <Progress.Bar className="border-0 bg-gray-500/80 opacity-70 mt-1 " progress={progress2} duration={2800} width={297} height={10} animated={true} color='#22d3ee' />
                                                                     <View>
-                                                                        <Text className="font-bold text-white text-[15%] opacity-80">55%</Text>
+                                                                        <Text className="font-bold text-white text-[15%] opacity-80">92%</Text>
                                                                     </View>
                                                                 </View>
 
@@ -1373,7 +1407,7 @@ export default function HomeScreen() {
                                                             <View className=" pt-4 flex flex-col space-y-2 ">
 
                                                                 <View>
-                                                                    <Text className="font-bold text-white text-[16%] opacity-80">Crime</Text>
+                                                                    <Text className="font-bold text-white text-[16%] opacity-80">Release Date</Text>
                                                                 </View>
 
                                                                 <View className="flex flex-row space-x-4 items-center">
@@ -1545,7 +1579,7 @@ export default function HomeScreen() {
                                             >
 
                                                 <BlurView
-                                                    className=" h-[24%] rounded-3xl relative"
+                                                    className=" h-auto pb-7 rounded-3xl relative"
                                                     tint="dark"
                                                     intensity={60}
 
@@ -1560,11 +1594,11 @@ export default function HomeScreen() {
 
                                                             ViolenceModal ?
 
-                                                                <Text className="text-center text-white text-[18%] font-semibold opacity-60 leading-6">The image is categorized under "violence" due to its use of ketchup to mimic blood, symbolically referencing violence in a humorous context.</Text> :
+                                                                <Text className="text-center text-white text-[18%] font-semibold opacity-60 leading-6">The media is tagged with 'Game' because it represents a promotional trailer for a video game, showcasing cinematic action sequences typical of the gaming genre. The content is designed to engage viewers with intense visuals and dynamic scenes that are characteristic of high-quality video game trailers.</Text> :
 
-                                                                HumorModal ? <Text className="text-center text-white text-[18%] font-semibold opacity-60 leading-6"> It uses a visual pun—the substitution of a gun with a ketchup bottle—to humorously comment on the absence of guns in Britain.</Text> :
+                                                                HumorModal ? <Text className="text-center text-white text-[18%] font-semibold opacity-60 leading-6"> The media is tagged with 'Fantasy' due to its portrayal of mythical creatures, supernatural abilities, and fantastical settings that are beyond reality. The presence of legendary figures and enchanted environments aligns with the hallmarks of the fantasy genre.</Text> :
 
-                                                                    PoliticalModal ? <Text className="text-center text-white text-[18%] font-semibold opacity-60 leading-6"> This image provides a satirical take on gun control policies in Britain, sparking discussion on cultural and legal differences in firearm regulation.</Text> :
+                                                                    PoliticalModal ? <Text className="text-center text-white text-[18%] font-semibold opacity-60 leading-6"> The media is tagged with 'Action' because it includes high-energy scenes of combat and physical conflict. The intense battles, fast-paced movements, and use of weapons underscore the action-packed nature of the content, typical of action-oriented media.</Text> :
 
                                                                         <Text className="text-center text-white text-[18%] font-semibold opacity-60 leading-6">The image does not contain adult content; it employs a playful and non-serious depiction of ketchup as blood for comedic effect.</Text>
 
@@ -1680,8 +1714,8 @@ const styles = StyleSheet.create({
     },
 
     lottieAnimation15: {
-        height: 220,
-        width: 300,
+        height: 280,
+        width: 320,
     },
 
     lottieAnimation16: {
@@ -1694,8 +1728,8 @@ const styles = StyleSheet.create({
     },
 
     lottieAnimation19: {
-        height: 280,
-        width: 320,
+        height: 150,
+        width: 100,
     },
 
 });
