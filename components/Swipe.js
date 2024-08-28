@@ -9,12 +9,13 @@ import { useNavigation } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { FontAwesome } from '@expo/vector-icons';
-import LinearGradient from 'react-native-linear-gradient';
+// import LinearGradient from 'react-native-linear-gradient';
 import Modal from "react-native-modal";
 import { BlurView } from 'expo-blur';
 import * as Progress from 'react-native-progress';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import * as ImagePicker from 'expo-image-picker';
+import { LinearGradient } from 'expo-linear-gradient';
 
 
 const { width, height } = Dimensions.get('window');
@@ -71,6 +72,8 @@ export default function Swipe4({ data }) {
 
 
     const opacity = useState(new Animated.Value(1))[0];
+
+    const opacityAd = useState(new Animated.Value(1))[0];
 
 
     function fadeInSec() {
@@ -611,10 +614,10 @@ export default function Swipe4({ data }) {
     const widthAnim = useRef(new Animated.Value(0)).current;
 
     const toggleMenu = () => {
-
+        // setShowAd(true);
         setShowOptions(!showOptions);
         const toValue = showOptions ? 0 : 1;
-        
+
 
         Animated.parallel([
             Animated.timing(heightAnim, {
@@ -628,7 +631,53 @@ export default function Swipe4({ data }) {
                 useNativeDriver: false,
             })
         ]).start();
+
+
+        if (opacityAd.__getValue() === 0) {
+
+            Animated.timing(opacityAd, {
+                toValue: 1, duration: 700, useNativeDriver: true
+            }).start()
+        } else {
+            Animated.timing(opacityAd, {
+                toValue: 0, duration: 700, useNativeDriver: true
+            }).start()
+        }
     };
+
+    const toggleAd = () => {
+        setShowAd(true);
+        setShowOptions(!showOptions);
+        const toValue = showOptions ? 0 : 1;
+
+
+        Animated.parallel([
+            Animated.timing(heightAnim, {
+                toValue,
+                duration: 140,
+                useNativeDriver: false,
+            }),
+            Animated.timing(widthAnim, {
+                toValue,
+                duration: 140,
+                useNativeDriver: false,
+            })
+        ]).start();
+
+
+        if (opacityAd.__getValue() === 0) {
+
+            Animated.timing(opacityAd, {
+                toValue: 1, duration: 700, useNativeDriver: true
+            }).start()
+        } else {
+            Animated.timing(opacityAd, {
+                toValue: 0, duration: 700, useNativeDriver: true
+            }).start()
+        }
+    };
+
+
 
 
     // Set custom height and width values
@@ -641,6 +690,44 @@ export default function Swipe4({ data }) {
         inputRange: [0, 1],
         outputRange: [50, 180] // Custom width in pixels (collapsed width, expanded width)
     });
+
+
+    const [showAd, setShowAd] = useState(false);
+
+
+
+
+
+    const scrollX = useRef(new Animated.Value(0)).current;
+    const textAd = ["This", "is", "the", "scrolling", "text!", "This", "is", "the", "scrolling", "text!", "This", "is", "the", "scrolling", "text!", "This", "is", "the", "scrolling", "text!", "This", "is", "the", "scrolling", "text!"];
+
+    useEffect(() => {
+        const animation = Animated.loop(
+            Animated.timing(scrollX, {
+                toValue: 1,
+                duration: 10000, // Adjust the duration to control the speed
+                useNativeDriver: true,
+            })
+        );
+
+        animation.start();
+
+        return () => animation.stop();
+    }, [scrollX]);
+
+
+    const [stopPlay, setStopPlay] = useState(false);
+
+
+    const animationRef = useRef(null);
+
+    useEffect(() => {
+        if (stopPlay) {
+            animationRef?.current?.pause();
+        } else {
+            animationRef?.current?.play();
+        }
+    }, [stopPlay]);
 
     return (
         <>
@@ -1020,7 +1107,7 @@ export default function Swipe4({ data }) {
                             </View>
 
 
-                            <TouchableOpacity onPress={()=>toggleMenu()} className="flex flex-row space-x-3 pl-2 items-center">
+                            <TouchableOpacity onPress={() => toggleAd()} className="flex flex-row space-x-3 pl-2 items-center">
                                 <Ionicons size={28} color="#ffffff" name="ear" />
                                 <Text className="text-white font-semibold text-[17%] tracking-wide">Audio Guide</Text>
                             </TouchableOpacity>
@@ -1048,6 +1135,113 @@ export default function Swipe4({ data }) {
                             </View>
                         </BlurView>
                     </Animated.View >
+                </Animated.View>
+            }
+
+
+
+
+            {showAd &&
+
+
+                <Animated.View
+                    style={[{ opacity: opacityAd }]}
+
+                    className="rounded-full overflow-hidden absolute top-[440] left-[45]"
+                >
+
+                    <BlurView tint="light"
+                        intensity={40} className=" p-2 pb-3 flex flex-row space-x-2 w-[310px]  ">
+                        <Animated.View className="relative py-6 px-2" >
+                            <LottieView
+                                source={require('../visual.json')} // Replace with your right swipe animation
+                                autoPlay
+                                duration={12000}
+                                loop={true}
+                                ref={animationRef}
+                                className="absolute top-[-4]"
+                                style={styles.lottieAnimation19}
+
+                            />
+                        </Animated.View>
+
+                        <View>
+                            <View className="absolute w-[179px] left-[36] top-[10] ">
+                                <LinearGradient
+                                    colors={['transparent', 'transparent', 'transparent', 'transparent']}
+                                    style={styles.gradient}
+                                    start={{ x: 0, y: 0 }}
+                                    end={{ x: 1, y: 0 }}
+                                >
+                                    <Animated.View
+                                        style={{
+                                            flexDirection: 'row',
+                                            transform: [
+                                                {
+                                                    translateX: scrollX.interpolate({
+                                                        inputRange: [0, 1],
+                                                        outputRange: [0, -200], // Adjust based on the text length
+                                                    }),
+                                                },
+                                            ],
+                                        }}
+                                    >
+                                        {textAd.map((word, index) => {
+                                            const isMiddleWord = index === Math.floor(text.length / 2);
+                                            return (
+                                                <Animated.Text
+                                                    key={index}
+                                                    className="text-lg font-semibold text-white"
+                                                    style={[
+
+                                                        {
+                                                            opacity: 1, // Full opacity for the middle word
+                                                        },
+                                                    ]}
+                                                >
+                                                    {word + ' '}
+                                                </Animated.Text>
+                                            );
+                                        })}
+                                    </Animated.View>
+                                </LinearGradient>
+
+                                <LinearGradient
+                                    colors={['transparent', 'black', 'black', 'transparent']}
+                                    style={styles.gradient}
+                                    start={{ x: 0, y: 0 }}
+                                    end={{ x: 1, y: 0 }}
+                                    className="h-[70px] w-[160px] absolute top-[-17] left-[-86] opacity-40"
+                                >
+
+                                </LinearGradient>
+
+
+                                <LinearGradient
+                                    colors={['transparent', 'black', 'black', 'transparent']}
+                                    style={styles.gradient}
+                                    start={{ x: 0, y: 0 }}
+                                    end={{ x: 1, y: 0 }}
+                                    className="h-[72px] w-[160px] absolute top-[-22] left-[120] opacity-40"
+                                >
+
+                                </LinearGradient>
+                                {stopPlay ? <TouchableOpacity onPress={() => setStopPlay(!stopPlay)} className="absolute opacity-40 right-[-48] z-[120] top-[-2%] ">
+                                    <Ionicons size={32} color="#ffffff" name="play" />
+                                </TouchableOpacity> :
+
+                                    <TouchableOpacity onPress={() => setStopPlay(!stopPlay)} className="absolute right-[-44] z-[120] top-[2%] flex flex-row justify-center items-center p-2 rounded-full bg-white opacity-30 h-7 w-7">
+                                        <View className="rounded-sm h-3 w-3 bg-gray-700 opacity-80">
+
+                                        </View>
+                                    </TouchableOpacity>
+                                }
+
+
+                            </View>
+                        </View>
+                    </BlurView>
+
                 </Animated.View>
             }
 
@@ -2721,31 +2915,6 @@ export default function Swipe4({ data }) {
                     }
                 </Modal>}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             {
                 liked &&
 
@@ -2872,6 +3041,26 @@ const styles = StyleSheet.create({
         height: 350,
         width: 350,
     },
+
+    lottieAnimation19: {
+        height: 60,
+        width: 60,
+    },
+
+    container: {
+        width: 250, // Fixed width of the container
+        overflow: 'hidden', // Ensure text doesn't overflow the container
+        // backgroundColor: '#fff',
+        padding: 10,
+    },
+    gradient: {
+        flex: 1,
+        flexDirection: 'row',
+    },
+    //   textAd: {
+    //     fontSize: 18,
+    //     whiteSpace: 'nowrap', // Prevent text from wrapping
+    //   },
 });
 
 
