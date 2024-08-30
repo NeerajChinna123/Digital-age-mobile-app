@@ -1,7 +1,7 @@
 
 
 import React, { useRef, useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, Animated, ScrollView, TextInput, KeyboardAvoidingView, Platform, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions, Animated, ScrollView, FlatList, TextInput, KeyboardAvoidingView, Platform, Alert } from 'react-native';
 import Swiper from 'react-native-deck-swiper';
 import { Video, Audio } from 'expo-av';
 import { Ionicons } from '@expo/vector-icons';
@@ -16,6 +16,7 @@ import * as Progress from 'react-native-progress';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import * as ImagePicker from 'expo-image-picker';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useSharedValue, useAnimatedStyle, withTiming, interpolate } from 'react-native-reanimated';
 
 
 const { width, height } = Dimensions.get('window');
@@ -695,25 +696,74 @@ export default function Swipe4({ data }) {
     const [showAd, setShowAd] = useState(false);
 
 
-
+    const [currentValue, setCurrentValue] = useState(0);
 
 
     const scrollX = useRef(new Animated.Value(0)).current;
-    const textAd = ["This", "is", "the", "scrolling", "text!", "This", "is", "the", "scrolling", "text!", "This", "is", "the", "scrolling", "text!", "This", "is", "the", "scrolling", "text!", "This", "is", "the", "scrolling", "text!"];
+    const textAd = ["This", "is", "the", "scrolling", "text!", "This", "is", "the", "scrolling", "text!", "This", "is", "the", "scrolling", "text!", "This", "is", "the", "scrolling", "text!", "This", "is", "the", "scrolling", "text!", "This", "is", "the", "scrolling", "text!", "This", "is", "the", "scrolling", "text!"];
+
+    // useEffect(() => {
+    //     const animation = Animated.loop(
+    //         Animated.timing(scrollX, {
+    //             toValue: 1,
+    //             duration: 10000, // Adjust the duration to control the speed
+    //             useNativeDriver: true,
+    //         })
+    //     );
+
+    //     animation.start();
+
+    //     return () => animation.stop();
+    // }, [scrollX]);
+
+    const animationRef2 = useRef(null);
 
     useEffect(() => {
-        const animation = Animated.loop(
+        startAnimation();
+
+        // Listen to the scrollX value and update currentValue state
+        // scrollX.addListener(({ value }) => {
+        //     setCurrentValue(value);
+        // });
+
+        return () => {
+            if (animationRef2.current) {
+                animationRef2.current?.stop(); // Stop the animation when the component unmounts
+            }
+            scrollX.removeAllListeners(); // Clean up listeners
+        };
+    }, [scrollX]);
+
+    const startAnimation = () => {
+        animationRef2.current = Animated.loop(
             Animated.timing(scrollX, {
                 toValue: 1,
                 duration: 10000, // Adjust the duration to control the speed
                 useNativeDriver: true,
             })
         );
+        animationRef2.current?.start();
+    };
 
-        animation.start();
+    const pauseAnimation = () => {
+        if (animationRef2.current) {
+            setStopPlay(true);
+            animationRef2.current?.stop(); // Pause the animation
 
-        return () => animation.stop();
-    }, [scrollX]);
+        }
+    };
+
+    const resumeAnimation = () => {
+        if (stopPlay) {
+            setStopPlay(false);
+            Animated.timing(scrollX, {
+                toValue: 1,
+                duration: 9000, // Resume from the current position
+                useNativeDriver: true,
+            }).start(() => startAnimation());
+
+        }
+    };
 
 
     const [stopPlay, setStopPlay] = useState(false);
@@ -728,6 +778,138 @@ export default function Swipe4({ data }) {
             animationRef?.current?.play();
         }
     }, [stopPlay]);
+
+
+    // const autoScrollRef = useRef(null);
+    // const scrollY = useRef(new Animated.Value(0)).current;
+    // // const tailwind = useTailwind();
+
+    // const subtitles = [
+    //     'First sentence of the subtitle',
+    //     'Second sentence of the subtitle',
+    //     'Third sentence of the subtitle',
+    //     'Fourth sentence of the subtitle',
+    //     '6 sentence of the subtitle',
+    //     '7 sentence of the subtitle',
+    //     '8 sentence of the subtitle',
+    //     '9 sentence of the subtitle',
+    //     '10 sentence of the subtitle',
+    // ];
+
+    // useEffect(() => {
+    //     const contentHeight = subtitles.length * 80; // Assuming each item has a height of 60
+
+    //     const animateScroll = () => {
+    //         scrollY.setValue(0);
+    //         Animated.timing(scrollY, {
+    //             toValue: contentHeight,
+    //             duration: subtitles.length * 4000, // Adjust the duration as needed
+    //             useNativeDriver: true,
+    //         }).start(() => {
+    //             animateScroll(); // Loop the animation
+    //         });
+    //     };
+
+    //     animateScroll();
+    // }, [scrollY]);
+
+    // useEffect(() => {
+    //     scrollY.addListener(({ value }) => {
+    //         autoScrollRef.current?.scrollTo({ y: value, animated: false });
+    //     });
+
+    //     return () => {
+    //         scrollY.removeAllListeners();
+    //     };
+    // }, [scrollY]);
+
+
+    const autoScrollRef = useRef(null);
+    const scrollY = useRef(new Animated.Value(0)).current;
+
+    const subtitles = [
+        'First sentence of the subtitle',
+        'Second sentence of the subtitle',
+        'Third sentence of the subtitle',
+        'Fourth sentence of the subtitle',
+        '6 sentence of the subtitle',
+        '7 sentence of the subtitle',
+        '8 sentence of the subtitle',
+        '9 sentence of the subtitle',
+        '10 sentence of the subtitle',
+    ];
+
+    const itemHeight = 60; // Each item has a height of 60
+    const viewHeight = itemHeight * 2; // Showing three sentences at a time
+
+    useEffect(() => {
+        const contentHeight = subtitles.length * itemHeight;
+
+        const animateScroll = () => {
+            scrollY.setValue(0);
+            Animated.timing(scrollY, {
+                toValue: contentHeight - viewHeight,
+                duration: subtitles.length * 3000, // Adjust the duration as needed
+                useNativeDriver: true,
+            }).start(() => {
+                animateScroll(); // Loop the animation
+            });
+        };
+
+        animateScroll();
+    }, [scrollY]);
+
+    useEffect(() => {
+        scrollY.addListener(({ value }) => {
+            autoScrollRef.current?.scrollTo({ y: value, animated: false });
+        });
+
+        return () => {
+            scrollY.removeAllListeners();
+        };
+    }, [scrollY]);
+
+    const renderItem = (item, index) => {
+        const rotateX = scrollY.interpolate({
+            inputRange: [
+                (index - 1) * itemHeight,
+                index * itemHeight,
+                (index + 1) * itemHeight,
+            ],
+            outputRange: ['-75deg', '0deg', '-90deg'], // Increased curve at the top
+            extrapolate: 'clamp',
+        });
+
+        const opacity = scrollY.interpolate({
+            inputRange: [
+                (index - 1) * itemHeight,
+                index * itemHeight,
+                (index + 1) * itemHeight,
+            ],
+            outputRange: [0.3, 1, 0.3],
+            extrapolate: 'clamp',
+        });
+
+        const transform = [
+            { perspective: 1000 },
+            { rotateX },
+        ];
+
+        return (
+            <Animated.View
+                key={index}
+                style={{
+                    height: itemHeight,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    opacity,
+                    transform,
+                }}
+            >
+                <Text className="text-white text-[18%]">{item}</Text>
+            </Animated.View>
+        );
+    };
 
     return (
         <>
@@ -1139,7 +1321,13 @@ export default function Swipe4({ data }) {
             }
 
 
-
+            {showAd &&
+                <Animated.View style={[{ opacity: opacityAd }]}>
+                    <TouchableOpacity onPress={() => setShowAd(false)} className="p-1 absolute  bg-white/20 z-[200]  top-[408] left-[328] rounded-full">
+                        <Ionicons size={15} color="#ffffff" className="opacity-50" name="close-outline" />
+                    </TouchableOpacity>
+                </Animated.View>
+            }
 
             {showAd &&
 
@@ -1147,11 +1335,12 @@ export default function Swipe4({ data }) {
                 <Animated.View
                     style={[{ opacity: opacityAd }]}
 
-                    className="rounded-full overflow-hidden absolute top-[440] left-[45]"
+                    className="rounded-full overflow-hidden absolute top-[430] left-[45]"
                 >
 
+
                     <BlurView tint="light"
-                        intensity={40} className=" p-2 pb-3 flex flex-row space-x-2 w-[310px]  ">
+                        intensity={10} className=" p-2 pb-3 py-2 flex flex-row space-x-2 w-[310px]  ">
                         <Animated.View className="relative py-6 px-2" >
                             <LottieView
                                 source={require('../visual.json')} // Replace with your right swipe animation
@@ -1159,65 +1348,62 @@ export default function Swipe4({ data }) {
                                 duration={12000}
                                 loop={true}
                                 ref={animationRef}
-                                className="absolute top-[-4]"
+                                className="absolute top-[-2] left-[-10]"
                                 style={styles.lottieAnimation19}
 
                             />
                         </Animated.View>
 
-                        <View>
-                            <View className="absolute w-[179px] left-[36] top-[10] ">
-                                <LinearGradient
-                                    colors={['transparent', 'transparent', 'transparent', 'transparent']}
-                                    style={styles.gradient}
-                                    start={{ x: 0, y: 0 }}
-                                    end={{ x: 1, y: 0 }}
-                                >
-                                    <Animated.View
-                                        style={{
-                                            flexDirection: 'row',
-                                            transform: [
-                                                {
-                                                    translateX: scrollX.interpolate({
-                                                        inputRange: [0, 1],
-                                                        outputRange: [0, -200], // Adjust based on the text length
-                                                    }),
-                                                },
-                                            ],
-                                        }}
-                                    >
-                                        {textAd.map((word, index) => {
-                                            const isMiddleWord = index === Math.floor(text.length / 2);
-                                            return (
-                                                <Animated.Text
-                                                    key={index}
-                                                    className="text-lg font-semibold text-white"
-                                                    style={[
 
-                                                        {
-                                                            opacity: 1, // Full opacity for the middle word
-                                                        },
-                                                    ]}
-                                                >
-                                                    {word + ' '}
-                                                </Animated.Text>
-                                            );
-                                        })}
-                                    </Animated.View>
+
+
+                        <View>
+
+
+                            <View className="absolute w-[240px] left-[20] top-[-10] ">
+                                {/*                                
+                                <View className="px-1" style={{ height: 60, overflow: 'hidden', backgroundColor: '#000' }}>
+                                    <ScrollView ref={autoScrollRef} scrollEnabled={false}>
+                                        {subtitles.map((item, index) => (
+                                            <View key={index} className="h-20 items-center justify-center">
+                                                <Text className="text-white text-[18%]">{item}</Text>
+                                            </View>
+                                        ))}
+                                    </ScrollView>
+                                </View> */}
+
+                                <View className="px-1 " style={{ height: viewHeight, overflow: 'hidden', backgroundColor: '#000' }}>
+                                    <ScrollView ref={autoScrollRef} scrollEnabled={false}>
+                                        {subtitles.map((item, index) => renderItem(item, index))}
+                                    </ScrollView>
+                                </View>
+
+
+
+                                {/* </LinearGradient> */}
+
+                                 <LinearGradient
+                                    colors={['transparent', 'black', 'black', 'transparent']}
+                                    style={styles.gradient}
+                                    start={{ x: 0, y: 0 }} // Start at the top
+                                    end={{ x: 0, y: 1 }} 
+                                    className="h-[70px] w-[320px] absolute top-[-48] left-[-86] opacity-40"
+                                >
+
                                 </LinearGradient>
 
                                 <LinearGradient
                                     colors={['transparent', 'black', 'black', 'transparent']}
                                     style={styles.gradient}
-                                    start={{ x: 0, y: 0 }}
-                                    end={{ x: 1, y: 0 }}
-                                    className="h-[70px] w-[160px] absolute top-[-17] left-[-86] opacity-40"
+                                    start={{ x: 0, y: 0 }} // Start at the top
+                                    end={{ x: 0, y: 1 }} 
+                                    className="h-[70px] w-[320px] absolute top-[36] left-[-86] opacity-40"
                                 >
 
                                 </LinearGradient>
 
 
-                                <LinearGradient
+                                {/* <LinearGradient
                                     colors={['transparent', 'black', 'black', 'transparent']}
                                     style={styles.gradient}
                                     start={{ x: 0, y: 0 }}
@@ -1225,21 +1411,27 @@ export default function Swipe4({ data }) {
                                     className="h-[72px] w-[160px] absolute top-[-22] left-[120] opacity-40"
                                 >
 
-                                </LinearGradient>
-                                {stopPlay ? <TouchableOpacity onPress={() => setStopPlay(!stopPlay)} className="absolute opacity-40 right-[-48] z-[120] top-[-2%] ">
+                                </LinearGradient>  */}
+                                {/* {stopPlay ? <TouchableOpacity onPress={() => resumeAnimation()} className="absolute opacity-40 right-[-48] z-[120] top-[-2%] ">
                                     <Ionicons size={32} color="#ffffff" name="play" />
                                 </TouchableOpacity> :
 
-                                    <TouchableOpacity onPress={() => setStopPlay(!stopPlay)} className="absolute right-[-44] z-[120] top-[2%] flex flex-row justify-center items-center p-2 rounded-full bg-white opacity-30 h-7 w-7">
+                                    <TouchableOpacity onPress={() => pauseAnimation()} className="absolute right-[-44] z-[120] top-[2%] flex flex-row justify-center items-center p-2 rounded-full bg-white opacity-30 h-7 w-7">
                                         <View className="rounded-sm h-3 w-3 bg-gray-700 opacity-80">
 
                                         </View>
                                     </TouchableOpacity>
-                                }
+                                } */}
 
 
                             </View>
+
+
                         </View>
+
+
+
+
                     </BlurView>
 
                 </Animated.View>
