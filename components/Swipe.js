@@ -780,67 +780,179 @@ export default function Swipe4({ data }) {
     }, [stopPlay]);
 
 
-    // const autoScrollRef = useRef(null);
-    // const scrollY = useRef(new Animated.Value(0)).current;
-    // // const tailwind = useTailwind();
-
-    // const subtitles = [
-    //     'First sentence of the subtitle',
-    //     'Second sentence of the subtitle',
-    //     'Third sentence of the subtitle',
-    //     'Fourth sentence of the subtitle',
-    //     '6 sentence of the subtitle',
-    //     '7 sentence of the subtitle',
-    //     '8 sentence of the subtitle',
-    //     '9 sentence of the subtitle',
-    //     '10 sentence of the subtitle',
-    // ];
-
-    // useEffect(() => {
-    //     const contentHeight = subtitles.length * 80; // Assuming each item has a height of 60
-
-    //     const animateScroll = () => {
-    //         scrollY.setValue(0);
-    //         Animated.timing(scrollY, {
-    //             toValue: contentHeight,
-    //             duration: subtitles.length * 4000, // Adjust the duration as needed
-    //             useNativeDriver: true,
-    //         }).start(() => {
-    //             animateScroll(); // Loop the animation
-    //         });
-    //     };
-
-    //     animateScroll();
-    // }, [scrollY]);
-
-    // useEffect(() => {
-    //     scrollY.addListener(({ value }) => {
-    //         autoScrollRef.current?.scrollTo({ y: value, animated: false });
-    //     });
-
-    //     return () => {
-    //         scrollY.removeAllListeners();
-    //     };
-    // }, [scrollY]);
 
 
     const autoScrollRef = useRef(null);
     const scrollY = useRef(new Animated.Value(0)).current;
 
     const subtitles = [
-        'First sentence of the subtitle',
-        'Second sentence of the subtitle',
-        'Third sentence of the subtitle',
-        'Fourth sentence of the subtitle',
-        '6 sentence of the subtitle',
-        '7 sentence of the subtitle',
-        '8 sentence of the subtitle',
-        '9 sentence of the subtitle',
-        '10 sentence of the subtitle',
+        'A black screen appears with the text "GAME SCIENCE"',
+        'Written in white capital letters in the center.',
+        'To the right of the text, there is a small',
+        'Solid white silhouette of a tooth.',
+        'The scene opens with a view of wet, rocky terrain.',
+        'A pair of bare, large feet adorned with intricate,',
+        'Gold-colored anklets quickly steps into the frame,',
+        'Landing firmly on the wet rocks. Detailed engravings on the anklets',
+        'Can be seen close up as the foot remains in place,',
+        'With the droplets around it slightly shifting',
+        'Finally, the foot begins to lift,',
+        'Creating a subtle splash in the puddle',
+        'Beneath it as it moves away.',
+        'The scene seems serene,',
+        'Focusing on the ground and the movement of the feet.',
+        'The scene opens with close-up shots of a',
+        'Gauntleted hand resting on an intricately designed, metal-clad waist.',
+        'The armor is detailed with ornate patterns and includes a leather belt',
+        'With small pouches attached.',
+        'The perspective shifts slightly several times,',
+        'Showing different angles of the waist and hand,',
+        'Emphasizing the craftsmanship of the armor.',
+        'The camera pans higher,',
+        "Revealing more of the figure's upper body,",
+        'Now focusing on the chest armor adorned with',
+        "Elaborate decorations and tied with red cords.",
+        "The hand moves, grasping one of the cords on the",
+        "Shoulder, Tightening or adjusting it.",
+        "The sequence continues to showcase the figure's",
+        "Methodical tightening of the armor cords,",
+        "Highlighting the rich details and ornate design work",
+        "On the chest and shoulder pieces.",
+        "The setting appears natural, with a slightly",
+        "Blurred background of trees or vegetation under a cloudy sky.",
+        "A dense, misty forest scene is depicted with tall,",
+        "Twisted evergreen trees scattered",
+        "Across a rocky landscape",
+        "Covered in fog. In the background, a large waterfall",
+        "Cascades down a mountain, Adding a majestic",
+        "And serene quality to the setting.",
+        "The mist creates an ethereal atmosphere,",
+        "While the sound of the waterfall,",
+        "Provides a soothing ambiance.",
+        "A fierce battle scene unfolds in a desolate, dusty environment.",
+        "A large, heavily armored warrior with a shield charges forward,",
+        "Creating billowing clouds of dust.",
+        "As the dust engulfs the scene, visibility drops dramatically,",
+        "Making it difficult to discern specific details.",
+        "Amidst the thick dust, bright sparks appear,",
+        "Hinting at heavy impacts and intense combat.",
+        "The large warrior is seen again wading through the dust,",
+        "Emphasizing the chaotic and brutal nature of the fight.",
+        "The sparks continue to light up the murky surroundings,",
+        "Underscoring the ferocity and intensity of the ongoing battle.",
+        "In a misty, rugged landscape, a heavily armored figure,",
+        "Adorned with long, curved horns or antlers on their helmet,",
+        "Strides forward on a rocky path.",
+        "The scene captures the figure's back, ",
+        "Showing their determined walk through an eerie, fog-laden forest.",
+        "Tall, ancient trees with sparse leaves surround the path,",
+        "Contributing to the mysterious, almost mystical atmosphere.",
+        "The figure's presence evokes a sense of power and purpose",
+        "As they continue their journey deeper into the ominous woodland.",
+        "A large creature is on the ground amidst a burning, fiery landscape.",
+        "The creature rises from the ground, wreathed in flames.",
+        "The fire intensifies, engulfing the scene in bright, destructive light.",
+        "In the following moment, the scene shifts to an outdoor environment",
+        "Filled with dust and debris as the creature,",
+        "Now revealed to be clad in armor and wielding a weapon,",
+        "Slams into the earth, causing a massive dust cloud. As it stomps forward,",
+        "Details of its form are visible amidst the swirling debris.",
+        "The scene darkens momentarily but soon brightens again,",
+        "Showing the armored creature in clearer",
+        "Daylight as it continues its aggressive advance,",
+        "The environment around it becoming more chaotic",
+        "With flying debris and shaking ground.",
+        "A person dressed in intricate, ornamental armor is standing",
+        "With their back to the viewer. ",
+        "The armor is adorned with elaborate designs and decorations,",
+        "Including gold accents and intricate patterns.",
+        "The scene takes place in a misty,",
+        "Forested area with trees and foliage visible in the background.",
+        "The person’s hair is pulled up, possibly into a topknot",
+        "Or a similar hairstyle, and appears to have",
+        "Some kind of ornament or decoration in it.",
+        "The atmosphere is tense and somber, with a cloudy sky overhead.",
+        "In a dense and shadowy forest, a formidable figure clad in rugged attire",
+        "Stands with a powerful stance, holding a massive sword.",
+        "The figure thrusts the sword into the ground,",
+        "Causing an intense explosion of dirt and debris.",
+        "The force of the impact sends a shockwave",
+        "That scatters leaves and twigs into the air,",
+        "Obscuring the scene with a whirlwind of chaotic motion.",
+        "Amidst the flying debris, the figure's silhouette is barely visible,",
+        "Shrouded in a swirling cloud of earth and nature.",
+        "As the commotion subsides,",
+        "The view shifts back to the stillness of the forest,",
+        "Showing a large, ancient tree with golden leaves,",
+        "Standing tall and unaffected by the recent turmoil.",
+        "A warrior, heavily armored and carrying a spear,",
+        "Is seen riding on the back of a massive",
+        "Dragon through a stormy, snowy environment.",
+        "The scene is chaotic with swirling winds and white flurries.",
+        "Suddenly, bolts of lightning strike across the sky,",
+        "Illuminating the dragon and the warrior.",
+        "The dragon writhes through the air,",
+        "Its movements becoming increasingly erratic as the lightning intensifies.",
+        "The scene culminates in a blinding explosion of light as the",
+        "Lightning strikes the dragon head-on,",
+        "Causing a violent flash that temporarily obscures everything.",
+        "After the flash subsides, the dragon savagely twists and turns,",
+        "Wracked by the electric impact, before finally",
+        "Plunging downwards through the stormy sky.",
+        "The aftermath shows the dragon and the warrior,",
+        "Still struck by residual lightning,",
+        "Spiraling downward amidst the flurry of snow.",
+        "A white screen gradually fades to reveal a scene of a",
+        "Humanoid creature with simian features and golden armor.",
+        "The creature's face becomes clear as it stares",
+        "Intently forward with furrowed brows, showcasing an intense expression.",
+        "The cloudy sky forms a bleak backdrop,",
+        "Adding to the creature's stern demeanor.",
+        "Wearing intricately detailed armor with gold accents,",
+        "It raises one hand and gestures in the air, summoning a long, ornate staff.",
+        "The staff appears out of thin air,",
+        "And the creature grips it firmly, holding it aloft.",
+        "Throughout the sequence, the creature remains poised and powerful,",
+        "Showcasing deliberate movements as it twirls the staff,",
+        "Readying itself for action.",
+        "In a misty, ethereal landscape, a warrior dressed in ornate,",
+        "Ancient armor stands prominently on a rocky outcrop.",
+        "Surrounding the warrior in the background, massive, mythical constructs,",
+        "Resembling titan-like figures, loom through the fog,",
+        "Exuding a mix of both awe and menace. ",
+        "The warrior remains steady, clutching a long staff, ",
+        "And turns slightly to the left,",
+        "As if assessing both the constructs and the terrain.",
+        "Trees, sparse and sporadic, frame the scene and add to the mystique.",
+        "The atmosphere is tense, hinting at an impending ",
+        "Confrontation or significant event.",
+        "In a misty, mountainous landscape,",
+        "A lone warrior stands on a rocky outcrop with a long staff.",
+        "Behind the warrior, immense statues of mythical figures loom in the distance,",
+        "Partially obscured by swirling fog.",
+        "The warrior, clad in ornate armor, gazes towards the statues, ",
+        "Possibly contemplating the journey ahead. On the towering figures,",
+        "Intricate details become evident as the mist shifts,",
+        "Revealing their majestic and powerful forms.",
+        "The atmosphere is both eerie and awe-inspiring,",
+        "With muted tones and an air of ancient myth.",
+        "Words, 'Black Myth: Wukong,' appear suspended in the mist above the scene,",
+        "Suggesting a title or introduction to an epic tale.",
+        "The scene begins with a cloudy,",
+        "Dark backdrop showing",
+        "The text: 'Black Myth: Wukong, Confront Destiny, August 20, 2024,'",
+        "Followed by, 'Pre-order now.' Below, there are platform logos",
+        "For PlayStation 5, Steam, Xbox, and GeForce with their respective icons",
+        "Lining the bottom.",
+        "The visual then transitions to a black screen with the same text and layout,",
+        "Maintaining the release date, pre-order prompt, and platform information,",
+        "But without the cloudy background and with",
+        "Clearer visibility of the text and platform icons.",
+        "Clearer visibility of the text and platform icons."
     ];
 
     const itemHeight = 60; // Each item has a height of 60
-    const viewHeight = itemHeight * 2; // Showing three sentences at a time
+    const viewHeight = itemHeight * 2; // Showing two sentences at a time
 
     useEffect(() => {
         const contentHeight = subtitles.length * itemHeight;
@@ -849,15 +961,21 @@ export default function Swipe4({ data }) {
             scrollY.setValue(0);
             Animated.timing(scrollY, {
                 toValue: contentHeight - viewHeight,
-                duration: subtitles.length * 3000, // Adjust the duration as needed
+                duration: subtitles.length * 1300, // Adjust the duration as needed
                 useNativeDriver: true,
             }).start(() => {
                 animateScroll(); // Loop the animation
             });
         };
+        if (showAd) {
+            setTimeout(() => animateScroll(), 1000);
 
-        animateScroll();
-    }, [scrollY]);
+        }
+
+
+    }, [scrollY, showAd]);
+
+
 
     useEffect(() => {
         scrollY.addListener(({ value }) => {
@@ -869,6 +987,12 @@ export default function Swipe4({ data }) {
         };
     }, [scrollY]);
 
+
+
+
+
+
+
     const renderItem = (item, index) => {
         const rotateX = scrollY.interpolate({
             inputRange: [
@@ -876,7 +1000,7 @@ export default function Swipe4({ data }) {
                 index * itemHeight,
                 (index + 1) * itemHeight,
             ],
-            outputRange: ['-75deg', '0deg', '-90deg'], // Increased curve at the top
+            outputRange: ['-75deg', '0deg', '75deg'], // Increased curve at the top
             extrapolate: 'clamp',
         });
 
@@ -906,10 +1030,77 @@ export default function Swipe4({ data }) {
                     transform,
                 }}
             >
-                <Text className="text-white text-[18%]">{item}</Text>
+                <Text className="text-white text-[16%]">{item}</Text>
             </Animated.View>
         );
     };
+
+
+    if (showAd) {
+        if (videoRef.current) {
+            setTimeout(() => {
+                videoRef.current.pauseAsync();
+            }, 3000)
+
+            setTimeout(() => {
+                videoRef.current.playAsync();
+            }, 18000)
+
+            setTimeout(() => {
+                videoRef.current.pauseAsync();
+            }, 22000)
+
+            setTimeout(() => {
+                videoRef.current.playAsync();
+            }, 28000)
+
+            setTimeout(() => {
+                videoRef.current.pauseAsync();
+            }, 29600)
+
+            setTimeout(() => {
+                videoRef.current.playAsync();
+            }, 38000)
+
+            setTimeout(() => {
+                videoRef.current.pauseAsync();
+            }, 42000)
+
+            setTimeout(() => {
+                videoRef.current.playAsync();
+            }, 46000)
+
+            setTimeout(() => {
+                videoRef.current.pauseAsync();
+            }, 54000)
+
+            setTimeout(() => {
+                videoRef.current.playAsync();
+            }, 62000)
+
+            setTimeout(() => {
+                videoRef.current.pauseAsync();
+            }, 70000)
+
+            // setTimeout(() => {
+            //     videoRef.current.playAsync();
+            // }, 73000)
+
+            // setTimeout(() => {
+            //     videoRef.current.pauseAsync();
+            // }, 74800)
+
+
+
+            // setTimeout(() => {
+            //     videoRef.current.pauseAsync();
+            // }, 28000)
+
+
+
+        }
+    }
+
 
     return (
         <>
@@ -1323,8 +1514,8 @@ export default function Swipe4({ data }) {
 
             {showAd &&
                 <Animated.View style={[{ opacity: opacityAd }]}>
-                    <TouchableOpacity onPress={() => setShowAd(false)} className="p-1 absolute  bg-white/20 z-[200]  top-[408] left-[328] rounded-full">
-                        <Ionicons size={15} color="#ffffff" className="opacity-50" name="close-outline" />
+                    <TouchableOpacity onPress={() => setShowAd(false)} className="p-1 absolute  bg-white/20 z-[200]  top-[402] left-[328] rounded-full">
+                        <Ionicons size={12} color="#ffffff" className="opacity-50" name="close-outline" />
                     </TouchableOpacity>
                 </Animated.View>
             }
@@ -1335,12 +1526,12 @@ export default function Swipe4({ data }) {
                 <Animated.View
                     style={[{ opacity: opacityAd }]}
 
-                    className="rounded-full overflow-hidden absolute top-[430] left-[45]"
+                    className=" overflow-hidden absolute top-[430] left-[45]"
                 >
 
 
-                    <BlurView tint="light"
-                        intensity={10} className=" p-2 pb-3 py-2 flex flex-row space-x-2 w-[310px]  ">
+                    <BlurView tint="dark"
+                        intensity={10} className=" pl-3 pb-3 py-2 flex flex-row space-x-2 w-[310px] bg-black ">
                         <Animated.View className="relative py-6 px-2" >
                             <LottieView
                                 source={require('../visual.json')} // Replace with your right swipe animation
@@ -1348,32 +1539,30 @@ export default function Swipe4({ data }) {
                                 duration={12000}
                                 loop={true}
                                 ref={animationRef}
-                                className="absolute top-[-2] left-[-10]"
+                                className="absolute top-[-2] left-[-15]"
                                 style={styles.lottieAnimation19}
 
                             />
                         </Animated.View>
 
-
-
-
                         <View>
+                            <View className="absolute w-[240px] left-[20] top-[-8] ">
 
 
-                            <View className="absolute w-[240px] left-[20] top-[-10] ">
-                                {/*                                
-                                <View className="px-1" style={{ height: 60, overflow: 'hidden', backgroundColor: '#000' }}>
+                                {/* <View className="px-1 " style={{ height: viewHeight, overflow: 'hidden', backgroundColor: '#000' }}>
                                     <ScrollView ref={autoScrollRef} scrollEnabled={false}>
-                                        {subtitles.map((item, index) => (
-                                            <View key={index} className="h-20 items-center justify-center">
-                                                <Text className="text-white text-[18%]">{item}</Text>
-                                            </View>
-                                        ))}
+                                        {subtitles.map((item, index) => renderItem(item, index))}
                                     </ScrollView>
                                 </View> */}
 
-                                <View className="px-1 " style={{ height: viewHeight, overflow: 'hidden', backgroundColor: '#000' }}>
-                                    <ScrollView ref={autoScrollRef} scrollEnabled={false}>
+                                <View className="px-1" style={{ height: viewHeight, overflow: 'hidden', backgroundColor: '' }}>
+                                    <ScrollView
+                                        ref={autoScrollRef}
+                                        scrollEnabled={false}
+                                        snapToInterval={itemHeight} // Snaps to each item height
+                                        decelerationRate="fast" // Faster deceleration for a snappier feel
+                                        showsVerticalScrollIndicator={false}
+                                    >
                                         {subtitles.map((item, index) => renderItem(item, index))}
                                     </ScrollView>
                                 </View>
@@ -1382,12 +1571,12 @@ export default function Swipe4({ data }) {
 
                                 {/* </LinearGradient> */}
 
-                                 <LinearGradient
+                                <LinearGradient
                                     colors={['transparent', 'black', 'black', 'transparent']}
                                     style={styles.gradient}
                                     start={{ x: 0, y: 0 }} // Start at the top
-                                    end={{ x: 0, y: 1 }} 
-                                    className="h-[70px] w-[320px] absolute top-[-48] left-[-86] opacity-40"
+                                    end={{ x: 0, y: 1 }}
+                                    className="h-[70px] w-[250px] absolute top-[-48] left-[-6] opacity-40"
                                 >
 
                                 </LinearGradient>
@@ -1396,8 +1585,8 @@ export default function Swipe4({ data }) {
                                     colors={['transparent', 'black', 'black', 'transparent']}
                                     style={styles.gradient}
                                     start={{ x: 0, y: 0 }} // Start at the top
-                                    end={{ x: 0, y: 1 }} 
-                                    className="h-[70px] w-[320px] absolute top-[36] left-[-86] opacity-40"
+                                    end={{ x: 0, y: 1 }}
+                                    className="h-[70px] w-[250px] absolute top-[36] left-[-6] opacity-40"
                                 >
 
                                 </LinearGradient>
@@ -3109,7 +3298,6 @@ export default function Swipe4({ data }) {
 
             {
                 liked &&
-
                 <Animated.View className=" ml-[-19%]  mt-[70%]" >
                     <LottieView
                         source={require('../Love-anim.json')} // Replace with your right swipe animation
@@ -3118,7 +3306,6 @@ export default function Swipe4({ data }) {
                         duration={1200}
                         loop={false}
                         style={styles.lottieAnimation9}
-
                     />
                 </Animated.View>
             }
