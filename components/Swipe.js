@@ -1140,6 +1140,39 @@ export default function Swipe4({ data }) {
                 videoRef.current.pauseAsync();
             }, 105200)
 
+             // Scene 9
+
+            setTimeout(() => {
+                videoRef.current.playAsync();
+            }, 111200)
+
+            setTimeout(() => {
+                videoRef.current.pauseAsync();
+            }, 113000)
+
+              // Scene 10
+
+            setTimeout(() => {
+                videoRef.current.playAsync();
+            }, 111200)
+
+            setTimeout(() => {
+                videoRef.current.pauseAsync();
+            }, 112700)
+
+
+            // Scene 11
+
+            setTimeout(() => {
+                videoRef.current.playAsync();
+            }, 115000)
+
+
+            setTimeout(() => {
+                videoRef.current.pauseAsync();
+            }, 117000)
+
+
 
             // setTimeout(() => {
             //     videoRef.current.playAsync();
