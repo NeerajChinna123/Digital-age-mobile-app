@@ -1072,30 +1072,85 @@ export default function Swipe4({ data }) {
 
             setTimeout(() => {
                 videoRef.current.pauseAsync();
-            }, 54000)
+            }, 50000)
 
             setTimeout(() => {
                 videoRef.current.playAsync();
-            }, 62000)
+            }, 54000)
 
             setTimeout(() => {
                 videoRef.current.pauseAsync();
-            }, 70000)
+            }, 56200)
+
+            setTimeout(() => {
+                videoRef.current.playAsync();
+            }, 61000)
+
+            setTimeout(() => {
+                videoRef.current.pauseAsync();
+            }, 65000)
+
+
+            // Scene 5
+
+            setTimeout(() => {
+                videoRef.current.playAsync();
+            }, 71200)
+
+            setTimeout(() => {
+                videoRef.current.pauseAsync();
+            }, 74300)
+
+            // Scene 6
+
+            setTimeout(() => {
+                videoRef.current.playAsync();
+            }, 84000)
+
+
+            setTimeout(() => {
+                videoRef.current.pauseAsync();
+            }, 86200)
+
+            setTimeout(() => {
+                videoRef.current.playAsync();
+            }, 92000)
+
+            // Scene 7
+
+            setTimeout(() => {
+                videoRef.current.pauseAsync();
+            }, 93500)
+
+            setTimeout(() => {
+                videoRef.current.playAsync();
+            }, 95000)
+
+            setTimeout(() => {
+                videoRef.current.pauseAsync();
+            }, 96000)
+
+            // Scene 8
+
+            setTimeout(() => {
+                videoRef.current.playAsync();
+            }, 103000)
+
+            setTimeout(() => {
+                videoRef.current.pauseAsync();
+            }, 105200)
+
 
             // setTimeout(() => {
             //     videoRef.current.playAsync();
-            // }, 73000)
+            // }, 67300)
 
             // setTimeout(() => {
             //     videoRef.current.pauseAsync();
-            // }, 74800)
+            // }, 68000)
 
 
-
-            // setTimeout(() => {
-            //     videoRef.current.pauseAsync();
-            // }, 28000)
-
+           
 
 
         }
